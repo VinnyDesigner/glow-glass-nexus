@@ -52,11 +52,11 @@ export default function AboutSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
 
       <div ref={ref} className="container mx-auto relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className={`transition-all duration-700 ${isVisible ? "animate-slide-in-left" : "opacity-0"}`}>
             <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 gradient-text-dark">{about.heading}</h2>
-            <p className="mt-6 text-muted-foreground text-lg leading-relaxed">{about.description1}</p>
-            <p className="mt-4 text-muted-foreground leading-relaxed">{about.description2}</p>
+            <p className="mt-4 text-muted-foreground text-lg leading-relaxed">{about.description1}</p>
+            <p className="mt-3 text-muted-foreground leading-relaxed">{about.description2}</p>
           </div>
 
           <div className={`grid grid-cols-2 gap-6 transition-all duration-700 ${isVisible ? "animate-slide-in-right" : "opacity-0"}`}>
