@@ -167,6 +167,7 @@ export default function HeroEditor() {
       <Button onClick={handleSave} className="gap-2" size="lg">
         <Save size={18} /> Update Hero Section
       </Button>
+      </div>
     </div>
   );
 }
