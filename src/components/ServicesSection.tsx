@@ -49,7 +49,7 @@ export default function ServicesSection() {
       <div ref={ref} className="container mx-auto relative z-10">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? "animate-fade-up" : "opacity-0"}`}>
           <span className="text-primary text-sm font-semibold tracking-widest uppercase">Services</span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 gradient-text-white">What BSDI Provides</h2>
+          <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 gradient-text-dark">What BSDI Provides</h2>
           <p className="max-w-2xl mx-auto mt-6 text-muted-foreground text-lg">
             Comprehensive spatial intelligence solutions for modern government operations
           </p>
