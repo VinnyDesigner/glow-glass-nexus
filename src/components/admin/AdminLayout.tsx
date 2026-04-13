@@ -91,7 +91,7 @@ export default function AdminLayout() {
           <div className="flex items-center gap-3">
             <Button variant="outline" size="sm" className="gap-2" onClick={() => window.open("/", "_blank")}>
               <ExternalLink size={14} />
-              Preview Site
+              Portal
             </Button>
           </div>
         </header>
