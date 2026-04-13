@@ -3,7 +3,7 @@ import { useContentStore } from "@/stores/contentStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Save, Plus, Trash2, ImagePlus } from "lucide-react";
+import { Save, Plus, Trash2, ImagePlus, Pencil } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -12,6 +12,8 @@ export default function DataServicesEditor() {
   const [draft, setDraft] = useState({ ...dataServices, entities: [...dataServices.entities] });
   const [modalOpen, setModalOpen] = useState(false);
   const [newEntity, setNewEntity] = useState({ name: "", logo: "", link: "" });
+  const [editModal, setEditModal] = useState(false);
+  const [editEntity, setEditEntity] = useState<{ id: string; name: string; logo: string; link: string } | null>(null);
   const { toast } = useToast();
 
   const handleSave = () => {
@@ -23,12 +25,28 @@ export default function DataServicesEditor() {
     setDraft({ ...draft, entities: draft.entities.filter((e) => e.id !== id) });
   };
 
-  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>, target: "new" | "edit") => {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = (ev) => setNewEntity({ ...newEntity, logo: ev.target?.result as string });
+    reader.onload = (ev) => {
+      const result = ev.target?.result as string;
+      if (target === "new") setNewEntity((prev) => ({ ...prev, logo: result }));
+      else if (editEntity) setEditEntity((prev) => prev ? { ...prev, logo: result } : prev);
+    };
     reader.readAsDataURL(file);
+  };
+
+  const openEdit = (entity: typeof editEntity) => {
+    setEditEntity(entity ? { ...entity } : null);
+    setEditModal(true);
+  };
+
+  const handleEditUpdate = () => {
+    if (!editEntity) return;
+    setDraft({ ...draft, entities: draft.entities.map((e) => e.id === editEntity.id ? { ...editEntity } : e) });
+    setEditModal(false);
+    setEditEntity(null);
   };
 
   return (
@@ -57,14 +75,24 @@ export default function DataServicesEditor() {
           {draft.entities.map((entity) => (
             <div key={entity.id} className="relative group neu-card aspect-square flex items-center justify-center p-4">
               <img src={entity.logo} alt={entity.name} className="w-full h-full object-contain" />
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => deleteEntity(entity.id)}
-                className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive h-7 w-7"
-              >
-                <Trash2 size={14} />
-              </Button>
+              <div className="absolute top-1 right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => openEdit(entity)}
+                  className="text-primary hover:text-primary h-7 w-7"
+                >
+                  <Pencil size={14} />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => deleteEntity(entity.id)}
+                  className="text-destructive hover:text-destructive h-7 w-7"
+                >
+                  <Trash2 size={14} />
+                </Button>
+              </div>
             </div>
           ))}
         </div>
@@ -74,6 +102,7 @@ export default function DataServicesEditor() {
         <Save size={18} /> Update Data Services
       </Button>
 
+      {/* Add Logo Modal */}
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
@@ -95,18 +124,13 @@ export default function DataServicesEditor() {
                     <span className="text-sm">Upload logo</span>
                   </div>
                 )}
-                <input type="file" accept="image/*" onChange={handleLogoUpload} className="mt-2 text-sm" />
+                <input type="file" accept="image/*" onChange={(e) => handleLogoUpload(e, "new")} className="mt-2 text-sm" />
               </div>
             </div>
             <div>
               <Label>Link URL</Label>
               <Input value={newEntity.link} onChange={(e) => setNewEntity({ ...newEntity, link: e.target.value })} className="mt-1.5" placeholder="https://..." />
             </div>
-            {newEntity.logo && (
-              <div className="neu-card aspect-square max-w-[120px] mx-auto flex items-center justify-center p-4">
-                <img src={newEntity.logo} alt="" className="w-full h-full object-contain" />
-              </div>
-            )}
             <Button className="w-full" disabled={!newEntity.name || !newEntity.logo} onClick={() => {
               setDraft({ ...draft, entities: [...draft.entities, { ...newEntity, id: `d${Date.now()}` }] });
               setNewEntity({ name: "", logo: "", link: "" });
@@ -115,6 +139,37 @@ export default function DataServicesEditor() {
               Create
             </Button>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Logo Modal */}
+      <Dialog open={editModal} onOpenChange={setEditModal}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="font-display">Edit Logo</DialogTitle>
+          </DialogHeader>
+          {editEntity && (
+            <div className="space-y-4">
+              <div>
+                <Label>Entity Name</Label>
+                <Input value={editEntity.name} onChange={(e) => setEditEntity({ ...editEntity, name: e.target.value })} className="mt-1.5" />
+              </div>
+              <div>
+                <Label>Logo</Label>
+                <div className="mt-1.5 border-2 border-dashed border-border rounded-xl p-4 text-center">
+                  <img src={editEntity.logo} alt="" className="w-20 h-20 mx-auto object-contain" />
+                  <input type="file" accept="image/*" onChange={(e) => handleLogoUpload(e, "edit")} className="mt-2 text-sm" />
+                </div>
+              </div>
+              <div>
+                <Label>Link URL</Label>
+                <Input value={editEntity.link} onChange={(e) => setEditEntity({ ...editEntity, link: e.target.value })} className="mt-1.5" placeholder="https://..." />
+              </div>
+              <Button className="w-full" onClick={handleEditUpdate}>
+                Update
+              </Button>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </div>
