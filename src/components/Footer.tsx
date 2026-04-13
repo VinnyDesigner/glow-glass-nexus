@@ -1,4 +1,5 @@
 import { Instagram, Twitter, Facebook, Linkedin, Youtube } from "lucide-react";
+import bahrain2030 from "@/assets/bahrain-2030.png";
 
 const quickLinks = [
   { label: "Dataset Request", href: "#" },
