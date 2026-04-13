@@ -1,5 +1,6 @@
 import { Instagram, Twitter, Facebook, Linkedin, Youtube } from "lucide-react";
 import bahrain2030 from "@/assets/bahrain-2030.png";
+import igaLogo from "@/assets/iga-logo.png";
 
 const quickLinks = [
   { label: "Dataset Request", href: "#" },
@@ -25,16 +26,8 @@ export default function Footer() {
       <div className="container mx-auto px-4 md:px-8 py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_1fr] gap-10 items-start">
           {/* Logo 1 - iGA */}
-          <div className="flex flex-col items-center gap-3">
-            <img
-              src="https://shush-bubble-84673240.figma.site/_assets/v11/abaadf30c853725a08348b6d391e9ff1a5b88f42.png"
-              alt="Information & eGovernment Authority"
-              className="h-20 object-contain"
-            />
-            <div className="text-center">
-              <p className="text-[10px] font-semibold tracking-wider uppercase text-muted-foreground">Kingdom of Bahrain</p>
-              <p className="text-xs font-semibold text-foreground">Information & eGovernment Authority</p>
-            </div>
+          <div className="flex items-center justify-center">
+            <img src={igaLogo} alt="Kingdom of Bahrain - Information & eGovernment Authority" className="h-24 object-contain" />
           </div>
 
           {/* Logo 2 - Bahrain 2030 */}
