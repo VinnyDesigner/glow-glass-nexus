@@ -24,7 +24,6 @@ export default function Navbar() {
       }`}
     >
       <div className="container mx-auto flex items-center justify-between px-4 md:px-8">
-        {/* Logo */}
         <a href="#" className="flex items-center gap-3 group">
           <img
             src="https://shush-bubble-84673240.figma.site/_assets/v11/abaadf30c853725a08348b6d391e9ff1a5b88f42.png"
@@ -33,7 +32,6 @@ export default function Navbar() {
           />
         </a>
 
-        {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
@@ -46,13 +44,12 @@ export default function Navbar() {
           ))}
           <a
             href="#"
-            className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground transition-all duration-300 hover:shadow-[0_0_25px_hsla(0,78%,55%,0.4)] hover:scale-105"
+            className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground transition-all duration-300 hover:shadow-[0_0_25px_hsla(0,78%,50%,0.25)] hover:scale-105"
           >
             Admin CRM
           </a>
         </div>
 
-        {/* Mobile Toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
           className="md:hidden flex flex-col gap-1.5 p-2"
@@ -64,7 +61,6 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {mobileOpen && (
         <div className="md:hidden glass-strong mt-2 mx-4 rounded-2xl p-6 animate-fade-up">
           {navLinks.map((link) => (
@@ -77,10 +73,7 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
-          <a
-            href="#"
-            className="mt-4 block text-center px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground"
-          >
+          <a href="#" className="mt-4 block text-center px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground">
             Admin CRM
           </a>
         </div>

@@ -7,28 +7,27 @@ export default function HeroSection() {
     <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0">
-        {/* Dark gradient base */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-secondary" />
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary/30 to-background" />
         
         {/* Radial glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-primary/5 blur-[120px] animate-pulse-glow" />
-        <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-primary/8 blur-[80px]" />
-        <div className="absolute bottom-1/4 left-1/4 w-[300px] h-[300px] rounded-full bg-primary/5 blur-[100px]" />
+        <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-primary/5 blur-[80px]" />
+        <div className="absolute bottom-1/4 left-1/4 w-[300px] h-[300px] rounded-full bg-secondary/40 blur-[100px]" />
         
         {/* Grid pattern */}
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.04]"
           style={{
-            backgroundImage: `linear-gradient(hsla(0,0%,100%,0.1) 1px, transparent 1px), linear-gradient(90deg, hsla(0,0%,100%,0.1) 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(hsla(220,20%,50%,0.2) 1px, transparent 1px), linear-gradient(90deg, hsla(220,20%,50%,0.2) 1px, transparent 1px)`,
             backgroundSize: "60px 60px",
           }}
         />
 
         {/* Floating orbs */}
-        <div className="absolute top-20 left-[10%] w-2 h-2 rounded-full bg-primary/40 animate-float" />
-        <div className="absolute top-40 right-[15%] w-3 h-3 rounded-full bg-primary/30 animate-float" style={{ animationDelay: "2s" }} />
-        <div className="absolute bottom-32 left-[20%] w-1.5 h-1.5 rounded-full bg-primary/50 animate-float" style={{ animationDelay: "4s" }} />
-        <div className="absolute top-60 right-[30%] w-2 h-2 rounded-full bg-primary/20 animate-float" style={{ animationDelay: "1s" }} />
+        <div className="absolute top-20 left-[10%] w-2 h-2 rounded-full bg-primary/30 animate-float" />
+        <div className="absolute top-40 right-[15%] w-3 h-3 rounded-full bg-primary/20 animate-float" style={{ animationDelay: "2s" }} />
+        <div className="absolute bottom-32 left-[20%] w-1.5 h-1.5 rounded-full bg-primary/30 animate-float" style={{ animationDelay: "4s" }} />
+        <div className="absolute top-60 right-[30%] w-2 h-2 rounded-full bg-primary/15 animate-float" style={{ animationDelay: "1s" }} />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 text-center">
@@ -43,7 +42,7 @@ export default function HeroSection() {
 
           {/* Headline */}
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.05] mb-6 tracking-tight">
-            <span className="gradient-text-white">National Spatial</span>
+            <span className="gradient-text-dark">National Spatial</span>
             <br />
             <span className="gradient-text">Data Infrastructure</span>
           </h1>
@@ -57,10 +56,10 @@ export default function HeroSection() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a
               href="#about"
-              className="group relative px-8 py-4 rounded-2xl font-semibold text-primary-foreground bg-primary overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_hsla(0,78%,55%,0.4)]"
+              className="group relative px-8 py-4 rounded-2xl font-semibold text-primary-foreground bg-primary overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_hsla(0,78%,50%,0.25)]"
             >
               <span className="relative z-10">Learn More</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-primary to-[hsl(15,80%,55%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-r from-primary to-[hsl(15,80%,50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </a>
             <a
               href="#services"
