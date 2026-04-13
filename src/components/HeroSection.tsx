@@ -1,33 +1,15 @@
 import { useScrollAnimation } from "./useScrollAnimation";
+import heroBg from "@/assets/hero-bg.png";
 
 export default function HeroSection() {
   const { ref, isVisible } = useScrollAnimation(0.1);
 
   return (
     <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated Background */}
+      {/* Background Image */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary/30 to-background" />
-        
-        {/* Radial glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-primary/5 blur-[120px] animate-pulse-glow" />
-        <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-primary/5 blur-[80px]" />
-        <div className="absolute bottom-1/4 left-1/4 w-[300px] h-[300px] rounded-full bg-secondary/40 blur-[100px]" />
-        
-        {/* Grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage: `linear-gradient(hsla(220,20%,50%,0.2) 1px, transparent 1px), linear-gradient(90deg, hsla(220,20%,50%,0.2) 1px, transparent 1px)`,
-            backgroundSize: "60px 60px",
-          }}
-        />
-
-        {/* Floating orbs */}
-        <div className="absolute top-20 left-[10%] w-2 h-2 rounded-full bg-primary/30 animate-float" />
-        <div className="absolute top-40 right-[15%] w-3 h-3 rounded-full bg-primary/20 animate-float" style={{ animationDelay: "2s" }} />
-        <div className="absolute bottom-32 left-[20%] w-1.5 h-1.5 rounded-full bg-primary/30 animate-float" style={{ animationDelay: "4s" }} />
-        <div className="absolute top-60 right-[30%] w-2 h-2 rounded-full bg-primary/15 animate-float" style={{ animationDelay: "1s" }} />
+        <img src={heroBg} alt="" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/30 to-background/80" />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 text-center">
@@ -48,34 +30,9 @@ export default function HeroSection() {
           </h1>
 
           {/* Subtitle */}
-          <p className="max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground leading-relaxed mb-10">
+          <p className="max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground leading-relaxed">
             Unified geospatial platform for secure data sharing, advanced analytics, and intelligent decision-making
           </p>
-
-          {/* CTA */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a
-              href="#about"
-              className="group relative px-8 py-4 rounded-2xl font-semibold text-primary-foreground bg-primary overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_hsla(0,78%,50%,0.25)]"
-            >
-              <span className="relative z-10">Learn More</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-primary to-[hsl(15,80%,50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </a>
-            <a
-              href="#services"
-              className="px-8 py-4 rounded-2xl font-semibold glass text-foreground transition-all duration-300 hover:scale-105 hover:border-primary/30"
-            >
-              Explore Services
-            </a>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60">
-          <span className="text-xs text-muted-foreground tracking-widest uppercase">Scroll</span>
-          <div className="w-5 h-8 rounded-full border border-muted-foreground/30 flex justify-center pt-1.5">
-            <div className="w-1 h-2 rounded-full bg-primary animate-bounce" />
-          </div>
         </div>
       </div>
     </section>
