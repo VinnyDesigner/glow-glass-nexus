@@ -6,16 +6,16 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 220 20% 97%;
     --foreground: 220 20% 12%;
 
-    --card: 220 20% 97%;
+    --card: 0 0% 100%;
     --card-foreground: 220 20% 12%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 220 20% 12%;
 
-    --primary: 0 78% 50%;
+    --primary: 0 100% 59%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 15% 94%;
@@ -32,24 +32,25 @@
 
     --border: 220 15% 90%;
     --input: 220 15% 90%;
-    --ring: 0 78% 50%;
+    --ring: 0 100% 59%;
 
     --radius: 0.75rem;
 
-    --glass-bg: 0 0% 100% / 0.7;
-    --glass-border: 220 20% 80% / 0.5;
-    --glow-primary: 0 78% 50%;
+    --glass-bg: 0 0% 100% / 0.6;
+    --glass-border: 0 0% 100% / 0.3;
+    --glass-strong-bg: 0 0% 100% / 0.9;
+    --glow-primary: 0 100% 59%;
     --surface-elevated: 220 16% 96%;
     --text-secondary: 220 10% 45%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 220 20% 20%;
-    --sidebar-primary: 0 78% 50%;
+    --sidebar-primary: 0 100% 59%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 220 15% 94%;
     --sidebar-accent-foreground: 220 20% 20%;
     --sidebar-border: 220 15% 90%;
-    --sidebar-ring: 0 78% 50%;
+    --sidebar-ring: 0 100% 59%;
   }
 }
 
@@ -69,19 +70,44 @@
 }
 
 @layer components {
+  /* Glass card — premium translucent */
   .glass {
     background: hsla(var(--glass-bg));
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid hsla(var(--glass-border));
+    box-shadow: 0 8px 25px hsla(220, 20%, 50%, 0.08);
   }
 
+  /* Stronger glass for nav / overlays */
   .glass-strong {
-    background: hsla(0, 0%, 100%, 0.9);
+    background: hsla(0, 0%, 100%, 0.92);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
     border: 1px solid hsla(220, 20%, 85%, 0.6);
     box-shadow: 0 4px 20px hsla(220, 20%, 50%, 0.06);
+  }
+
+  /* Neumorphic card */
+  .neu-card {
+    background: hsl(0, 0%, 100%);
+    border-radius: 16px;
+    box-shadow:
+      6px 6px 16px hsla(220, 20%, 80%, 0.25),
+      -4px -4px 12px hsla(0, 0%, 100%, 0.9),
+      0 8px 25px hsla(0, 0%, 0%, 0.06);
+  }
+
+  /* Glass + Neumorphism hybrid */
+  .glass-neu {
+    background: hsla(0, 0%, 100%, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid hsla(0, 0%, 100%, 0.3);
+    border-radius: 16px;
+    box-shadow:
+      0 8px 25px hsla(0, 0%, 0%, 0.08),
+      inset 0 1px 0 hsla(0, 0%, 100%, 0.6);
   }
 
   .neu-button {
@@ -106,7 +132,7 @@
   }
 
   .gradient-text {
-    background: linear-gradient(135deg, hsl(0, 78%, 50%), hsl(0, 90%, 60%), hsl(15, 85%, 55%));
+    background: linear-gradient(135deg, hsl(0, 100%, 59%), hsl(0, 90%, 65%), hsl(15, 85%, 55%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -120,19 +146,21 @@
   }
 
   .glow-red {
-    box-shadow: 0 0 30px hsla(0, 78%, 50%, 0.15), 0 0 60px hsla(0, 78%, 50%, 0.05);
+    box-shadow: 0 0 30px hsla(0, 100%, 59%, 0.15), 0 0 60px hsla(0, 100%, 59%, 0.05);
   }
 
   .glow-red-sm {
-    box-shadow: 0 0 15px hsla(0, 78%, 50%, 0.1), 0 0 30px hsla(0, 78%, 50%, 0.03);
+    box-shadow: 0 0 15px hsla(0, 100%, 59%, 0.1), 0 0 30px hsla(0, 100%, 59%, 0.03);
   }
 
   .card-hover {
-    @apply transition-all duration-500;
+    @apply transition-all duration-300 ease-out;
   }
   .card-hover:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px hsla(220, 20%, 50%, 0.1), 0 0 30px hsla(0, 78%, 50%, 0.05);
+    transform: translateY(-5px);
+    box-shadow:
+      0 20px 40px hsla(220, 20%, 50%, 0.12),
+      0 0 30px hsla(0, 100%, 59%, 0.06);
   }
 
   .noise-bg {
@@ -165,8 +193,8 @@
 }
 
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 20px hsla(0, 78%, 50%, 0.1); }
-  50% { box-shadow: 0 0 40px hsla(0, 78%, 50%, 0.2), 0 0 80px hsla(0, 78%, 50%, 0.05); }
+  0%, 100% { box-shadow: 0 0 20px hsla(0, 100%, 59%, 0.1); }
+  50% { box-shadow: 0 0 40px hsla(0, 100%, 59%, 0.2), 0 0 80px hsla(0, 100%, 59%, 0.05); }
 }
 
 @keyframes gradientShift {
@@ -180,12 +208,12 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: hsl(0, 0%, 97%);
+  background: hsl(220, 20%, 97%);
 }
 ::-webkit-scrollbar-thumb {
   background: hsl(220, 15%, 80%);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(0, 78%, 50%);
+  background: hsl(0, 100%, 59%);
 }

@@ -64,23 +64,27 @@ export default function WhoCanUseSection() {
           {users.map((user, i) => (
             <div
               key={user.title}
-              className={`glass rounded-2xl overflow-hidden card-hover group transition-all duration-700 ${
+              className={`rounded-2xl overflow-hidden card-hover group transition-all duration-700 relative ${
                 isVisible ? "animate-fade-up" : "opacity-0"
               }`}
               style={{ animationDelay: `${i * 80}ms` }}
             >
-              <div className="relative h-36 overflow-hidden">
+              {/* Full image */}
+              <div className="relative h-56 overflow-hidden rounded-2xl">
                 <img
                   src={user.image}
                   alt={user.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/95 to-transparent" />
-              </div>
-              <div className="p-5">
-                <h3 className="font-display text-sm font-semibold text-foreground mb-2">{user.title}</h3>
-                <p className="text-muted-foreground text-xs leading-relaxed">{user.description}</p>
+                {/* Light overlay 20-30% for readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+                
+                {/* Glass content area at bottom */}
+                <div className="absolute bottom-0 left-0 right-0 p-4" style={{ background: 'hsla(0,0%,0%,0.25)', backdropFilter: 'blur(10px)' }}>
+                  <h3 className="font-display text-sm font-semibold text-white mb-1">{user.title}</h3>
+                  <p className="text-white/80 text-xs leading-relaxed line-clamp-2">{user.description}</p>
+                </div>
               </div>
             </div>
           ))}
