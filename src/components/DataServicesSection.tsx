@@ -15,7 +15,7 @@ export default function DataServicesSection() {
           <p className="max-w-2xl mx-auto mt-6 text-muted-foreground text-lg">{dataServices.description}</p>
         </div>
 
-        <div className="flex gap-5 justify-center overflow-x-auto pb-4">
+        <div className="flex gap-5 justify-center overflow-x-auto pb-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
           {dataServices.entities.map((entity, i) => (
             <a
               key={entity.id}
