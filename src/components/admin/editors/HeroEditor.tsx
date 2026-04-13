@@ -117,6 +117,7 @@ export default function HeroEditor() {
         </div>
       </div>
 
+      <div className="space-y-8 mt-8">
       {/* Background Image */}
       <div className="neu-card p-6 space-y-4">
         <h3 className="font-display text-lg font-semibold text-foreground">Background Image</h3>
