@@ -14,14 +14,6 @@ export default function HeroSection() {
 
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className={`transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 glass rounded-full px-5 py-2 mb-8">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-xs font-medium text-muted-foreground tracking-wider uppercase">
-              BSDI Spatial Intelligence Platform
-            </span>
-          </div>
-
           {/* Headline */}
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.05] mb-6 tracking-tight">
             <span className="gradient-text-dark">National Spatial</span>
