@@ -6,6 +6,7 @@ export interface VisionCard {
   title: string;
   description: string;
   image: string;
+  link?: string;
 }
 
 export interface ServiceCard {
@@ -14,6 +15,7 @@ export interface ServiceCard {
   description: string;
   image: string;
   tags: string[];
+  link?: string;
 }
 
 export interface UserCard {
@@ -21,6 +23,7 @@ export interface UserCard {
   title: string;
   description: string;
   image: string;
+  link?: string;
 }
 
 export interface StatCard {

@@ -16,21 +16,26 @@ export default function VisionSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {vision.cards.map((card, i) => (
-            <div
-              key={card.id}
-              className={`glass-neu rounded-2xl overflow-hidden card-hover group transition-all duration-500 ${isVisible ? "animate-fade-up" : "opacity-0"}`}
-              style={{ animationDelay: `${i * 100}ms` }}
-            >
-              <div className="relative h-[200px] overflow-hidden">
-                <img src={card.image} alt={card.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" loading="lazy" />
-              </div>
-              <div className="p-5">
-                <h3 className="font-display text-lg font-semibold text-foreground mb-2">{card.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{card.description}</p>
-              </div>
-            </div>
-          ))}
+          {vision.cards.map((card, i) => {
+            const Wrapper = card.link ? 'a' : 'div';
+            const wrapperProps = card.link ? { href: card.link, target: '_blank', rel: 'noopener noreferrer' } : {};
+            return (
+              <Wrapper
+                key={card.id}
+                {...wrapperProps as any}
+                className={`glass-neu rounded-2xl overflow-hidden card-hover group transition-all duration-500 block ${isVisible ? "animate-fade-up" : "opacity-0"} ${card.link ? "cursor-pointer" : ""}`}
+                style={{ animationDelay: `${i * 100}ms` }}
+              >
+                <div className="relative h-[200px] overflow-hidden">
+                  <img src={card.image} alt={card.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" loading="lazy" />
+                </div>
+                <div className="p-5">
+                  <h3 className="font-display text-lg font-semibold text-foreground mb-2">{card.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{card.description}</p>
+                </div>
+              </Wrapper>
+            );
+          })}
         </div>
       </div>
     </section>
