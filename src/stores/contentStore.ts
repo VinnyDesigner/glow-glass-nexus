@@ -1,0 +1,222 @@
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+export interface VisionCard {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+}
+
+export interface ServiceCard {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  tags: string[];
+}
+
+export interface UserCard {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+}
+
+export interface StatCard {
+  id: string;
+  target: string;
+  suffix: string;
+  label: string;
+}
+
+export interface DataEntity {
+  id: string;
+  name: string;
+  logo: string;
+  link: string;
+}
+
+export interface QuickLink {
+  id: string;
+  label: string;
+  href: string;
+}
+
+export interface SocialLink {
+  platform: string;
+  href: string;
+}
+
+export interface HeroContent {
+  title1: string;
+  title2: string;
+  subtitle: string;
+  overlayOpacity: number;
+}
+
+export interface VisionContent {
+  heading: string;
+  description: string;
+  cards: VisionCard[];
+}
+
+export interface AboutContent {
+  heading: string;
+  description1: string;
+  description2: string;
+  stats: StatCard[];
+}
+
+export interface ServicesContent {
+  heading: string;
+  description: string;
+  cards: ServiceCard[];
+}
+
+export interface UsersContent {
+  heading: string;
+  description: string;
+  cards: UserCard[];
+}
+
+export interface DataServicesContent {
+  heading: string;
+  description: string;
+  entities: DataEntity[];
+}
+
+export interface FooterContent {
+  quickLinks: QuickLink[];
+  externalLinks: QuickLink[];
+  socialLinks: SocialLink[];
+}
+
+interface ContentStore {
+  hero: HeroContent;
+  vision: VisionContent;
+  about: AboutContent;
+  services: ServicesContent;
+  users: UsersContent;
+  dataServices: DataServicesContent;
+  footer: FooterContent;
+  updateHero: (data: Partial<HeroContent>) => void;
+  updateVision: (data: Partial<VisionContent>) => void;
+  updateAbout: (data: Partial<AboutContent>) => void;
+  updateServices: (data: Partial<ServicesContent>) => void;
+  updateUsers: (data: Partial<UsersContent>) => void;
+  updateDataServices: (data: Partial<DataServicesContent>) => void;
+  updateFooter: (data: Partial<FooterContent>) => void;
+}
+
+const defaultHero: HeroContent = {
+  title1: "National Spatial",
+  title2: "Data Infrastructure",
+  subtitle: "Unified geospatial platform for secure data sharing, advanced analytics, and intelligent decision-making",
+  overlayOpacity: 40,
+};
+
+const defaultVision: VisionContent = {
+  heading: "BSDI Vision",
+  description: "Empowering Bahrain through a unified geospatial ecosystem. Creating a secure, scalable, and collaborative national geospatial infrastructure.",
+  cards: [
+    { id: "v1", title: "Digital Transformation", description: "Leveraging cutting-edge technologies to modernize Bahrain's infrastructure and drive innovation across all government sectors.", image: "https://images.unsplash.com/photo-1768224656445-33d078c250b7?w=600&q=80" },
+    { id: "v2", title: "Geospatial Intelligence", description: "Advanced GIS and GeoAI capabilities enable data-driven insights for strategic planning and resource management.", image: "https://images.unsplash.com/photo-1744968777188-3e1b2ef23339?w=600&q=80" },
+    { id: "v3", title: "Smart Cities", description: "Building sustainable, connected urban environments through intelligent spatial planning and 3D visualization.", image: "https://images.unsplash.com/photo-1760553120312-2821bf54e767?w=600&q=80" },
+  ],
+};
+
+const defaultAbout: AboutContent = {
+  heading: "About BSDI",
+  description1: "BSDI (Bahrain Spatial Data Infrastructure) is a unified geospatial platform designed to enable secure data sharing, advanced analytics, and intelligent decision-making across government and enterprise sectors.",
+  description2: "It brings together GIS, GeoAI, BIM, and governance standards into a single digital ecosystem — ensuring data accuracy, security, and national-level interoperability.",
+  stats: [
+    { id: "s1", target: "50", suffix: "+", label: "Government Agencies" },
+    { id: "s2", target: "24", suffix: "/7", label: "Real-Time Access" },
+    { id: "s3", target: "99", suffix: ".9%", label: "Uptime" },
+    { id: "s4", target: "Secure", suffix: "", label: "National Standards" },
+  ],
+};
+
+const defaultServices: ServicesContent = {
+  heading: "What BSDI Provides",
+  description: "Comprehensive spatial intelligence solutions for modern government operations",
+  cards: [
+    { id: "sv1", title: "BSDI Admin Console", description: "To ensure secure, transparent, and efficient management of geospatial services across all government entities.", image: "https://images.unsplash.com/photo-1621421770492-272ae6d7882a?w=600&q=80", tags: ["2D & 3D Maps", "Secure Access"] },
+    { id: "sv2", title: "National GeoCatalog Bahrain", description: "To provide standardized metadata management aligned with SDI best practices and international standards.", image: "https://images.unsplash.com/photo-1620662892011-f5c2d523fae2?w=600&q=80", tags: ["AI-Powered", "Spatial Analysis"] },
+    { id: "sv3", title: "BSDI Smart Map", description: "To provide a user-friendly interface for viewing and analyzing government geospatial datasets.", image: "https://images.unsplash.com/photo-1760801802787-86f7958c439e?w=600&q=80", tags: ["3D Visualization", "Infrastructure"] },
+    { id: "sv4", title: "GeoIntelligence Bahrain", description: "To transform geospatial data into actionable intelligence through spatial modelling.", image: "https://images.unsplash.com/photo-1768839720936-87ce3adf2d08?w=600&q=80", tags: ["Role-Based Access", "Audit Logging"] },
+    { id: "sv5", title: "Data Analytics", description: "Advanced insights through visual dashboards and data-driven decision making.", image: "https://images.unsplash.com/photo-1759661966728-4a02e3c6ed91?w=600&q=80", tags: ["Visual Dashboards", "Data-Driven"] },
+    { id: "sv6", title: "Cloud Infrastructure", description: "Scalable platform with high availability and disaster recovery capabilities.", image: "https://images.unsplash.com/photo-1506399558188-acca6f8cbf41?w=600&q=80", tags: ["High Availability", "Disaster Recovery"] },
+  ],
+};
+
+const defaultUsers: UsersContent = {
+  heading: "Who Can Use BSDI?",
+  description: "BSDI is designed for organizations that rely on accurate spatial data, secure collaboration, and intelligent insights.",
+  cards: [
+    { id: "u1", title: "Government Authorities", description: "Empowering national and local government bodies with comprehensive GIS infrastructure for policy making, urban development, and citizen services.", image: "https://images.unsplash.com/photo-1612165469953-69b4bc7eedbf?w=500&q=80" },
+    { id: "u2", title: "Urban Planning Departments", description: "Strategic tools for city planners to visualize growth, manage land use, and create sustainable urban environments with data-driven insights.", image: "https://images.unsplash.com/photo-1760553120324-d3d2bf53852b?w=500&q=80" },
+    { id: "u3", title: "Infrastructure & Utilities", description: "Manage critical infrastructure networks including water, electricity, telecommunications, and transportation with real-time spatial monitoring.", image: "https://images.unsplash.com/photo-1765028994202-abd7b1649971?w=500&q=80" },
+    { id: "u4", title: "Environmental Agencies", description: "Monitor environmental changes, track natural resources, and implement conservation strategies using advanced geospatial analysis tools.", image: "https://images.unsplash.com/photo-1641392945935-194a6251804a?w=500&q=80" },
+    { id: "u5", title: "Transportation & Smart Cities", description: "Optimize traffic flow, plan public transit routes, and build intelligent city systems with integrated transportation data and analytics.", image: "https://images.unsplash.com/photo-1699602050604-698045645108?w=500&q=80" },
+    { id: "u6", title: "National Security & Emergency Services", description: "Enhance response times and coordination during emergencies with real-time location intelligence and secure communication channels.", image: "https://images.unsplash.com/photo-1763888709576-71022f7b2658?w=500&q=80" },
+    { id: "u7", title: "Developers & Private Enterprises", description: "Build innovative location-based applications and services using our comprehensive APIs and developer-friendly spatial data infrastructure.", image: "https://images.unsplash.com/photo-1514591792873-8862494066d2?w=500&q=80" },
+    { id: "u8", title: "Research & Academia", description: "Access high-quality spatial datasets for academic research, geographic studies, and educational programs in GIS and spatial sciences.", image: "https://images.unsplash.com/photo-1623632306901-e509641e7191?w=500&q=80" },
+  ],
+};
+
+const defaultDataServices: DataServicesContent = {
+  heading: "Data Services Provided by",
+  description: "Find Data Services by their providing entities",
+  entities: [
+    { id: "d1", name: "Information & eGovernment Authority", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/f605a5e591189376365a30f4b95cd45df42b30e8.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
+    { id: "d2", name: "Survey and Land Registration Bureau", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/727daca89e21026342142442add6c9766c555cbb.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
+    { id: "d3", name: "Social Insurance Organization", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/f1c6e9c2249bcaeb1e3018078696afc3cfcf52d0.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
+    { id: "d4", name: "Tender Board", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/01f965fdea88f9f7d0cced4e43fd8e495d4ffef2.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
+    { id: "d5", name: "Ministry of Foreign Affairs", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/f19352d4f262cdb0f5fc7260253177e0bfaae583.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
+    { id: "d6", name: "Ministry of Industry and Commerce", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/d0a3949086d392f40ff1edc155daf8aa8b1bcd3b.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
+    { id: "d7", name: "Ministry of Transportation and Telecommunications", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/d6aa7287fb342a673e97a0e070843e01698abdc2.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
+    { id: "d8", name: "Ministry of Interior", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/8f93324345cc3e00b8122973bbc8251a16de98d9.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
+  ],
+};
+
+const defaultFooter: FooterContent = {
+  quickLinks: [
+    { id: "ql1", label: "Dataset Request", href: "#" },
+    { id: "ql2", label: "Open Data Policy", href: "#" },
+  ],
+  externalLinks: [
+    { id: "el1", label: "GCC Statistical Center", href: "https://gccstat.org" },
+    { id: "el2", label: "SHAREKNA", href: "https://www.sharekna.bh" },
+  ],
+  socialLinks: [
+    { platform: "Instagram", href: "#" },
+    { platform: "Twitter", href: "#" },
+    { platform: "Facebook", href: "#" },
+    { platform: "LinkedIn", href: "#" },
+    { platform: "YouTube", href: "#" },
+  ],
+};
+
+export const useContentStore = create<ContentStore>()(
+  persist(
+    (set) => ({
+      hero: defaultHero,
+      vision: defaultVision,
+      about: defaultAbout,
+      services: defaultServices,
+      users: defaultUsers,
+      dataServices: defaultDataServices,
+      footer: defaultFooter,
+      updateHero: (data) => set((s) => ({ hero: { ...s.hero, ...data } })),
+      updateVision: (data) => set((s) => ({ vision: { ...s.vision, ...data } })),
+      updateAbout: (data) => set((s) => ({ about: { ...s.about, ...data } })),
+      updateServices: (data) => set((s) => ({ services: { ...s.services, ...data } })),
+      updateUsers: (data) => set((s) => ({ users: { ...s.users, ...data } })),
+      updateDataServices: (data) => set((s) => ({ dataServices: { ...s.dataServices, ...data } })),
+      updateFooter: (data) => set((s) => ({ footer: { ...s.footer, ...data } })),
+    }),
+    { name: "bsdi-content" }
+  )
+);
