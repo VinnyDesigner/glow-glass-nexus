@@ -20,9 +20,12 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "glass-strong py-3" : "py-5 bg-transparent"
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-white"
+      style={{
+        boxShadow: scrolled ? '0 2px 10px rgba(0,0,0,0.05)' : 'none',
+        paddingTop: scrolled ? '0.5rem' : '0.75rem',
+        paddingBottom: scrolled ? '0.5rem' : '0.75rem',
+      }}
     >
       <div className="container mx-auto flex items-center justify-between px-4 md:px-8">
         <a href="#" className="flex items-center gap-3 group">
@@ -45,7 +48,7 @@ export default function Navbar() {
           ))}
           <a
             href="#"
-            className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground transition-all duration-300 hover:shadow-[0_0_25px_hsla(0,78%,50%,0.25)] hover:scale-105"
+            className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground transition-all duration-300 hover:shadow-[0_0_25px_hsla(0,100%,59%,0.25)] hover:scale-105"
           >
             Admin CRM
           </a>
@@ -63,7 +66,7 @@ export default function Navbar() {
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden glass-strong mt-2 mx-4 rounded-2xl p-6 animate-fade-up">
+        <div className="md:hidden bg-white mt-2 mx-4 rounded-2xl p-6 animate-fade-up" style={{ boxShadow: '0 8px 25px rgba(0,0,0,0.08)' }}>
           {navLinks.map((link) => (
             <a
               key={link.label}

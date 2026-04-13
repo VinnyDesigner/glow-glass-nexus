@@ -15,7 +15,7 @@ export default function DataServicesSection() {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="contact" className="section-padding relative noise-bg">
+    <section id="contact" className="section-padding relative">
       <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-primary/5 rounded-full blur-[120px]" />
 
       <div ref={ref} className="container mx-auto relative z-10">
@@ -34,22 +34,18 @@ export default function DataServicesSection() {
               href="https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity"
               target="_blank"
               rel="noopener noreferrer"
-              className={`glass rounded-2xl p-6 flex flex-col items-center gap-4 card-hover group text-center transition-all duration-700 ${
+              title={entity.name}
+              className={`neu-card aspect-square flex items-center justify-center p-8 group transition-all duration-300 hover:scale-105 ${
                 isVisible ? "animate-fade-up" : "opacity-0"
               }`}
               style={{ animationDelay: `${i * 80}ms` }}
             >
-              <div className="w-16 h-16 rounded-xl bg-secondary/50 flex items-center justify-center p-2 transition-all duration-300 group-hover:bg-primary/10 group-hover:shadow-[0_0_20px_hsla(0,78%,55%,0.15)]">
-                <img
-                  src={entity.logo}
-                  alt={entity.name}
-                  className="w-full h-full object-contain"
-                  loading="lazy"
-                />
-              </div>
-              <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors leading-tight">
-                {entity.name}
-              </span>
+              <img
+                src={entity.logo}
+                alt={entity.name}
+                className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                loading="lazy"
+              />
             </a>
           ))}
         </div>

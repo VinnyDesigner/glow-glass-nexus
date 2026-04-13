@@ -59,7 +59,7 @@ export default function AboutSection() {
   return (
     <section id="about" className="section-padding relative">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
-      
+
       <div ref={ref} className="container mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Text */}
@@ -77,7 +77,7 @@ export default function AboutSection() {
           {/* Stats Grid */}
           <div className={`grid grid-cols-2 gap-6 transition-all duration-700 ${isVisible ? "animate-slide-in-right" : "opacity-0"}`}>
             {stats.map((stat) => (
-              <div key={stat.label} className="glass rounded-2xl p-6 card-hover text-center">
+              <div key={stat.label} className="glass-neu rounded-2xl p-6 card-hover text-center">
                 <AnimatedCounter target={stat.target} suffix={stat.suffix} label={stat.label} />
               </div>
             ))}
