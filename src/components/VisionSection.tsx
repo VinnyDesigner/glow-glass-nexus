@@ -27,7 +27,7 @@ export default function VisionSection() {
 
       <div ref={ref} className="container mx-auto relative z-10">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? "animate-fade-up" : "opacity-0"}`}>
-          <span className="text-primary text-sm font-semibold tracking-widest uppercase">Our Vision</span>
+          
           <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 gradient-text-dark">BSDI Vision</h2>
           <p className="max-w-3xl mx-auto mt-6 text-muted-foreground text-lg leading-relaxed">
             Empowering Bahrain through a unified geospatial ecosystem. Creating a secure, scalable, and collaborative national geospatial infrastructure.
