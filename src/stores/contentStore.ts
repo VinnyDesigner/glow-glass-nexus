@@ -48,11 +48,22 @@ export interface SocialLink {
   href: string;
 }
 
+export interface HeroTextStyle {
+  fontSize?: number;
+  fontWeight?: string;
+  italic?: boolean;
+  color?: string;
+}
+
 export interface HeroContent {
   title1: string;
   title2: string;
   subtitle: string;
   overlayOpacity: number;
+  backgroundImage?: string;
+  title1Style?: HeroTextStyle;
+  title2Style?: HeroTextStyle;
+  subtitleStyle?: HeroTextStyle;
 }
 
 export interface VisionContent {
