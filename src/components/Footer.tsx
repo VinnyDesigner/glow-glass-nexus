@@ -1,4 +1,5 @@
 import { Instagram, Twitter, Facebook, Linkedin, Youtube } from "lucide-react";
+import bahrain2030 from "@/assets/bahrain-2030.png";
 
 const quickLinks = [
   { label: "Dataset Request", href: "#" },
@@ -38,10 +39,7 @@ export default function Footer() {
 
           {/* Logo 2 - Bahrain 2030 */}
           <div className="flex items-center justify-center">
-            <div className="text-center">
-              <span className="font-display text-4xl font-bold gradient-text italic">2030</span>
-              <p className="text-[10px] text-muted-foreground mt-1 tracking-wider uppercase">Bahrain</p>
-            </div>
+            <img src={bahrain2030} alt="Bahrain 2030" className="h-20 object-contain" />
           </div>
 
           {/* Quick Links */}
