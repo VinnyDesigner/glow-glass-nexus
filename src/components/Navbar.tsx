@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import igaHeaderLogo from "@/assets/iga-header-logo.png";
 
 const navLinks = [
@@ -11,6 +12,7 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -46,12 +48,12 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
-          <a
-            href="#"
+          <button
+            onClick={() => navigate("/admin-crm")}
             className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground transition-all duration-300 hover:shadow-[0_0_25px_hsla(0,100%,59%,0.25)] hover:scale-105"
           >
             Admin CRM
-          </a>
+          </button>
         </div>
 
         <button
@@ -77,9 +79,9 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
-          <a href="#" className="mt-4 block text-center px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground">
+          <button onClick={() => { setMobileOpen(false); navigate("/admin-crm"); }} className="mt-4 block w-full text-center px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground">
             Admin CRM
-          </a>
+          </button>
         </div>
       )}
     </nav>
