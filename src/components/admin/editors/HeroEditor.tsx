@@ -72,101 +72,104 @@ export default function HeroEditor() {
   const bgImage = draft.backgroundImage || heroBgDefault;
 
   return (
-    <div className="max-w-4xl">
-      {/* Sticky Live Preview */}
-      <div className="sticky top-0 z-20 pb-6">
-
-      {/* Live Preview */}
-      <div className="neu-card p-6 space-y-4">
-        <h3 className="font-display text-lg font-semibold text-foreground">Live Preview</h3>
-        <div className="relative rounded-xl overflow-hidden" style={{ height: 320 }}>
-          <img src={bgImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
-          <div className="absolute inset-0" style={{ background: `rgba(0,0,0,${draft.overlayOpacity / 100})` }} />
-          <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 transition-all duration-300">
-            <h1
-              style={{
-                fontSize: `${Math.min(draft.title1Style.fontSize || 72, 48)}px`,
-                fontWeight: draft.title1Style.fontWeight || "bold",
-                fontStyle: draft.title1Style.italic ? "italic" : "normal",
-                color: draft.title1Style.color || "#ffffff",
-              }}
-              className="font-display leading-tight"
-            >
-              {draft.title1}
-            </h1>
-            <h1
-              style={{
-                fontSize: `${Math.min(draft.title2Style.fontSize || 72, 48)}px`,
-                fontWeight: draft.title2Style.fontWeight || "bold",
-                fontStyle: draft.title2Style.italic ? "italic" : "normal",
-                color: draft.title2Style.color || "#FF3B30",
-              }}
-              className="font-display leading-tight"
-            >
-              {draft.title2}
-            </h1>
-            <p
-              className="max-w-md mt-3 leading-relaxed"
-              style={{
-                fontSize: `${Math.min(draft.subtitleStyle.fontSize || 20, 16)}px`,
-                fontWeight: draft.subtitleStyle.fontWeight || "normal",
-                fontStyle: draft.subtitleStyle.italic ? "italic" : "normal",
-                color: draft.subtitleStyle.color || "#ffffffcc",
-              }}
-            >
-              {draft.subtitle}
-            </p>
+    <div className="max-w-6xl">
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* LEFT – Sticky Live Preview */}
+        <div className="w-full lg:w-1/2">
+          <div className="sticky top-5 z-10 transition-shadow duration-300">
+            <div className="neu-card p-6 space-y-4 shadow-lg">
+              <h3 className="font-display text-lg font-semibold text-foreground">Live Preview</h3>
+              <div className="relative rounded-2xl overflow-hidden" style={{ aspectRatio: '16/9', minHeight: 320 }}>
+                <img src={bgImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                <div className="absolute inset-0" style={{ background: `rgba(0,0,0,${draft.overlayOpacity / 100})` }} />
+                <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 transition-all duration-300">
+                  <h1
+                    style={{
+                      fontSize: `${Math.min(draft.title1Style.fontSize || 72, 48)}px`,
+                      fontWeight: draft.title1Style.fontWeight || "bold",
+                      fontStyle: draft.title1Style.italic ? "italic" : "normal",
+                      color: draft.title1Style.color || "#ffffff",
+                    }}
+                    className="font-display leading-tight"
+                  >
+                    {draft.title1}
+                  </h1>
+                  <h1
+                    style={{
+                      fontSize: `${Math.min(draft.title2Style.fontSize || 72, 48)}px`,
+                      fontWeight: draft.title2Style.fontWeight || "bold",
+                      fontStyle: draft.title2Style.italic ? "italic" : "normal",
+                      color: draft.title2Style.color || "#FF3B30",
+                    }}
+                    className="font-display leading-tight"
+                  >
+                    {draft.title2}
+                  </h1>
+                  <p
+                    className="max-w-md mt-3 leading-relaxed"
+                    style={{
+                      fontSize: `${Math.min(draft.subtitleStyle.fontSize || 20, 16)}px`,
+                      fontWeight: draft.subtitleStyle.fontWeight || "normal",
+                      fontStyle: draft.subtitleStyle.italic ? "italic" : "normal",
+                      color: draft.subtitleStyle.color || "#ffffffcc",
+                    }}
+                  >
+                    {draft.subtitle}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      </div>
 
-      <div className="space-y-8 mt-2">
-      {/* Background Image */}
-      <div className="neu-card p-6 space-y-4">
-        <h3 className="font-display text-lg font-semibold text-foreground">Background Image</h3>
-        <div className="border-2 border-dashed border-border rounded-xl p-4 text-center">
-          {bgImage && <img src={bgImage} alt="" className="w-full h-32 object-cover rounded-lg mb-3" />}
-          <label className="inline-flex items-center gap-2 cursor-pointer text-sm text-primary hover:underline">
-            <ImagePlus size={16} />
-            {draft.backgroundImage ? "Replace Image" : "Upload Hero Image"}
-            <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-          </label>
-        </div>
-        <div>
-          <Label>Overlay Opacity: {draft.overlayOpacity}%</Label>
-          <Slider value={[draft.overlayOpacity]} onValueChange={([v]) => setDraft({ ...draft, overlayOpacity: v })} min={0} max={100} step={5} className="mt-3" />
-        </div>
-      </div>
+        {/* RIGHT – Scrollable Controls */}
+        <div className="w-full lg:w-1/2 space-y-6">
+          {/* Background Image */}
+          <div className="neu-card p-6 space-y-4">
+            <h3 className="font-display text-lg font-semibold text-foreground">Background Image</h3>
+            <div className="border-2 border-dashed border-border rounded-xl p-4 text-center">
+              {bgImage && <img src={bgImage} alt="" className="w-full h-32 object-cover rounded-lg mb-3" />}
+              <label className="inline-flex items-center gap-2 cursor-pointer text-sm text-primary hover:underline">
+                <ImagePlus size={16} />
+                {draft.backgroundImage ? "Replace Image" : "Upload Hero Image"}
+                <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+              </label>
+            </div>
+            <div>
+              <Label>Overlay Opacity: {draft.overlayOpacity}%</Label>
+              <Slider value={[draft.overlayOpacity]} onValueChange={([v]) => setDraft({ ...draft, overlayOpacity: v })} min={0} max={100} step={5} className="mt-3" />
+            </div>
+          </div>
 
-      {/* Hero Text */}
-      <div className="neu-card p-6 space-y-4">
-        <h3 className="font-display text-lg font-semibold text-foreground">Hero Text</h3>
-        <div>
-          <Label>Title Line 1</Label>
-          <Input value={draft.title1} onChange={(e) => setDraft({ ...draft, title1: e.target.value })} className="mt-1.5" />
-        </div>
-        <div>
-          <Label>Title Line 2</Label>
-          <Input value={draft.title2} onChange={(e) => setDraft({ ...draft, title2: e.target.value })} className="mt-1.5" />
-        </div>
-        <div>
-          <Label>Subtitle</Label>
-          <Textarea value={draft.subtitle} onChange={(e) => setDraft({ ...draft, subtitle: e.target.value })} className="mt-1.5" rows={3} />
-        </div>
-      </div>
+          {/* Hero Text */}
+          <div className="neu-card p-6 space-y-4">
+            <h3 className="font-display text-lg font-semibold text-foreground">Hero Text</h3>
+            <div>
+              <Label>Title Line 1</Label>
+              <Input value={draft.title1} onChange={(e) => setDraft({ ...draft, title1: e.target.value })} className="mt-1.5" />
+            </div>
+            <div>
+              <Label>Title Line 2</Label>
+              <Input value={draft.title2} onChange={(e) => setDraft({ ...draft, title2: e.target.value })} className="mt-1.5" />
+            </div>
+            <div>
+              <Label>Subtitle</Label>
+              <Textarea value={draft.subtitle} onChange={(e) => setDraft({ ...draft, subtitle: e.target.value })} className="mt-1.5" rows={3} />
+            </div>
+          </div>
 
-      {/* Text Style Controls */}
-      <div className="neu-card p-6 space-y-4">
-        <h3 className="font-display text-lg font-semibold text-foreground">Text Styling</h3>
-        <TextStyleControls label="Title Line 1" style={draft.title1Style} onChange={(s) => setDraft({ ...draft, title1Style: s })} />
-        <TextStyleControls label="Title Line 2" style={draft.title2Style} onChange={(s) => setDraft({ ...draft, title2Style: s })} />
-        <TextStyleControls label="Subtitle" style={draft.subtitleStyle} onChange={(s) => setDraft({ ...draft, subtitleStyle: s })} />
-      </div>
+          {/* Text Style Controls */}
+          <div className="neu-card p-6 space-y-4">
+            <h3 className="font-display text-lg font-semibold text-foreground">Text Styling</h3>
+            <TextStyleControls label="Title Line 1" style={draft.title1Style} onChange={(s) => setDraft({ ...draft, title1Style: s })} />
+            <TextStyleControls label="Title Line 2" style={draft.title2Style} onChange={(s) => setDraft({ ...draft, title2Style: s })} />
+            <TextStyleControls label="Subtitle" style={draft.subtitleStyle} onChange={(s) => setDraft({ ...draft, subtitleStyle: s })} />
+          </div>
 
-      <Button onClick={handleSave} className="gap-2" size="lg">
-        <Save size={18} /> Update Hero Section
-      </Button>
+          <Button onClick={handleSave} className="gap-2" size="lg">
+            <Save size={18} /> Update Hero Section
+          </Button>
+        </div>
       </div>
     </div>
   );
