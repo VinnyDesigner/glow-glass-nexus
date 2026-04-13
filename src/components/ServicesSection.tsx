@@ -24,13 +24,6 @@ export default function ServicesSection() {
             >
               <div className="relative h-[200px] overflow-hidden">
                 <img src={service.image} alt={service.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" loading="lazy" />
-                <div className="absolute bottom-3 left-4 flex gap-2">
-                  {service.tags.map((tag) => (
-                    <span key={tag} className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full border border-primary/40 text-primary" style={{ background: 'hsla(0, 0%, 100%, 0.85)', backdropFilter: 'blur(8px)' }}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
               </div>
               <div className="p-5">
                 <h3 className="font-display text-lg font-semibold text-foreground mb-2">{service.title}</h3>
