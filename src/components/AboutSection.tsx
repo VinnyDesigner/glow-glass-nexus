@@ -64,7 +64,7 @@ export default function AboutSection() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Text */}
           <div className={`transition-all duration-700 ${isVisible ? "animate-slide-in-left" : "opacity-0"}`}>
-            <span className="text-primary text-sm font-semibold tracking-widest uppercase">About</span>
+            
             <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 gradient-text-dark">About BSDI</h2>
             <p className="mt-6 text-muted-foreground text-lg leading-relaxed">
               BSDI (Bahrain Spatial Data Infrastructure) is a unified geospatial platform designed to enable secure data sharing, advanced analytics, and intelligent decision-making across government and enterprise sectors.
