@@ -11,7 +11,7 @@ export default function WhoCanUseSection() {
       <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[120px]" />
 
       <div ref={ref} className="container mx-auto relative z-10">
-        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? "animate-fade-up" : "opacity-0"}`}>
+        <div className={`text-center mb-8 transition-all duration-700 ${isVisible ? "animate-fade-up" : "opacity-0"}`}>
           <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 gradient-text-dark">{users.heading}</h2>
           <p className="max-w-2xl mx-auto mt-6 text-muted-foreground text-lg">{users.description}</p>
         </div>
