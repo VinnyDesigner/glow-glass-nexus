@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import igaHeaderLogo from "@/assets/iga-header-logo.png";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -26,8 +27,8 @@ export default function Navbar() {
       <div className="container mx-auto flex items-center justify-between px-4 md:px-8">
         <a href="#" className="flex items-center gap-3 group">
           <img
-            src="https://shush-bubble-84673240.figma.site/_assets/v11/abaadf30c853725a08348b6d391e9ff1a5b88f42.png"
-            alt="BSDI Logo"
+            src={igaHeaderLogo}
+            alt="Information & eGovernment Authority"
             className="h-10 md:h-12 transition-transform duration-300 group-hover:scale-105"
           />
         </a>
