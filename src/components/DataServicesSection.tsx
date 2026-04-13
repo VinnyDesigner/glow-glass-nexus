@@ -15,7 +15,7 @@ export default function DataServicesSection() {
           <p className="max-w-2xl mx-auto mt-6 text-muted-foreground text-lg">{dataServices.description}</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 auto-rows-auto">
           {dataServices.entities.map((entity, i) => (
             <a
               key={entity.id}
@@ -23,7 +23,7 @@ export default function DataServicesSection() {
               target="_blank"
               rel="noopener noreferrer"
               title={entity.name}
-              className={`neu-card aspect-square flex items-center justify-center p-8 group transition-all duration-300 hover:scale-105 ${isVisible ? "animate-fade-up" : "opacity-0"}`}
+              className={`neu-card aspect-[4/3] flex items-center justify-center p-6 group transition-all duration-300 hover:scale-105 ${isVisible ? "animate-fade-up" : "opacity-0"}`}
               style={{ animationDelay: `${i * 80}ms` }}
             >
               <img src={entity.logo} alt={entity.name} className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105" loading="lazy" />
