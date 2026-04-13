@@ -72,9 +72,9 @@ export default function HeroEditor() {
   const bgImage = draft.backgroundImage || heroBgDefault;
 
   return (
-    <div className="max-w-4xl space-y-8">
-      {/* Live Preview */}
-      <div className="neu-card p-6 space-y-4">
+    <div className="max-w-4xl">
+      {/* Live Preview - Sticky */}
+      <div className="neu-card p-6 space-y-4 sticky top-0 z-20 bg-card shadow-md">
         <h3 className="font-display text-lg font-semibold text-foreground">Live Preview</h3>
         <div className="relative rounded-xl overflow-hidden" style={{ height: 320 }}>
           <img src={bgImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
@@ -117,6 +117,7 @@ export default function HeroEditor() {
         </div>
       </div>
 
+      <div className="space-y-8 mt-8">
       {/* Background Image */}
       <div className="neu-card p-6 space-y-4">
         <h3 className="font-display text-lg font-semibold text-foreground">Background Image</h3>
@@ -162,6 +163,7 @@ export default function HeroEditor() {
       <Button onClick={handleSave} className="gap-2" size="lg">
         <Save size={18} /> Update Hero Section
       </Button>
+      </div>
     </div>
   );
 }
