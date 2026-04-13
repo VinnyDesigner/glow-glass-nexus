@@ -15,7 +15,7 @@ export default function DataServicesSection() {
           <p className="max-w-2xl mx-auto mt-6 text-muted-foreground text-lg">{dataServices.description}</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 auto-rows-auto">
           {dataServices.entities.map((entity, i) => (
             <a
               key={entity.id}
