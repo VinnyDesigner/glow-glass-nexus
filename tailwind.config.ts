@@ -123,6 +123,7 @@ export default {
         "slide-in-left": "slide-in-left 0.7s ease-out forwards",
         "slide-in-right": "slide-in-right 0.7s ease-out forwards",
         "count-up": "count-up 0.5s ease-out forwards",
+        marquee: "marquee 30s linear infinite",
       },
     },
   },
