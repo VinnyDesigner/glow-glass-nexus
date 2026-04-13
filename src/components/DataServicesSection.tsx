@@ -17,17 +17,14 @@ export default function DataServicesSection() {
 
         <div className="flex gap-5 justify-center overflow-x-auto pb-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
           {dataServices.entities.map((entity, i) => (
-            <a
+            <div
               key={entity.id}
-              href={entity.link}
-              target="_blank"
-              rel="noopener noreferrer"
               title={entity.name}
-              className={`neu-card min-w-[190px] h-[150px] flex items-center justify-center p-5 group transition-all duration-300 hover:scale-105 shrink-0 ${isVisible ? "animate-fade-up" : "opacity-0"}`}
+              className={`neu-card min-w-[190px] h-[150px] flex items-center justify-center p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-default shrink-0 ${isVisible ? "animate-fade-up" : "opacity-0"}`}
               style={{ animationDelay: `${i * 80}ms` }}
             >
-              <img src={entity.logo} alt={entity.name} className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105" loading="lazy" />
-            </a>
+              <img src={entity.logo} alt={entity.name} className="w-full h-full object-contain" loading="lazy" />
+            </div>
           ))}
         </div>
       </div>
