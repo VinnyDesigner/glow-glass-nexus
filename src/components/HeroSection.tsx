@@ -16,7 +16,7 @@ export default function HeroSection() {
         <div className={`transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
           {/* Headline */}
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.05] mb-6 tracking-tight">
-            <span className="gradient-text-dark">National Spatial</span>
+            <span className="gradient-text-dark bg-primary-foreground text-primary-foreground">National Spatial</span>
             <br />
             <span className="gradient-text">Data Infrastructure</span>
           </h1>
