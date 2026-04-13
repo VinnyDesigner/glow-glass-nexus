@@ -11,6 +11,7 @@ interface CardData {
   title: string;
   description: string;
   image: string;
+  link?: string;
   tags?: string[];
   fontSize?: number;
   fontWeight?: string;
@@ -98,8 +99,10 @@ export default function CardEditorModal({ open, onClose, onSave, title = "Add Ne
               <Label>Description</Label>
               <Textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="mt-1.5" rows={3} />
             </div>
-
-            {/* Style Controls */}
+            <div>
+              <Label>Link (URL)</Label>
+              <Input value={form.link || ""} onChange={(e) => setForm({ ...form, link: e.target.value })} placeholder="https://example.com" className="mt-1.5" />
+            </div>
             <div className="space-y-3 border-t border-border pt-4">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Style Controls</p>
 
