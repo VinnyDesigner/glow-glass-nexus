@@ -1,6 +1,6 @@
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
-import heroBgDefault from "@/assets/hero-bg.png";
+import heroBgDefault from "@/assets/default-hero-bahrain.jpg";
 
 export default function HeroSection() {
   const { ref, isVisible } = useScrollAnimation(0.1);
