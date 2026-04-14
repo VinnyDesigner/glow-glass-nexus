@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
 import { Save, ImagePlus, Bold, Italic, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import heroBgDefault from "@/assets/default-hero-bahrain.jpg";
+import heroBgDefault from "@/assets/hero-bg.png";
 import ResetConfirmModal from "../ResetConfirmModal";
 
 function TextStyleControls({ label, style, onChange }: { label: string; style: HeroTextStyle; onChange: (s: HeroTextStyle) => void }) {
