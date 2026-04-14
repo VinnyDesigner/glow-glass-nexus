@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { useContentStore, HeroTextStyle } from "@/stores/contentStore";
+import { useContentStore, HeroTextStyle, defaultHero } from "@/stores/contentStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
-import { Save, ImagePlus, Bold, Italic } from "lucide-react";
+import { Save, ImagePlus, Bold, Italic, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import heroBgDefault from "@/assets/hero-bg.png";
+import ResetConfirmModal from "../ResetConfirmModal";
 
 function TextStyleControls({ label, style, onChange }: { label: string; style: HeroTextStyle; onChange: (s: HeroTextStyle) => void }) {
   const weightCycle = () => {
@@ -54,11 +55,24 @@ export default function HeroEditor() {
     title2Style: hero.title2Style || { fontSize: 72, fontWeight: "bold", italic: false, color: "#FF3B30" },
     subtitleStyle: hero.subtitleStyle || { fontSize: 20, fontWeight: "normal", italic: false, color: "#ffffffcc" },
   });
+  const [resetOpen, setResetOpen] = useState(false);
   const { toast } = useToast();
 
   const handleSave = () => {
     updateHero(draft);
     toast({ title: "Hero section updated!", description: "Changes are now live on the landing page." });
+  };
+
+  const handleReset = () => {
+    const resetData = {
+      ...defaultHero,
+      title1Style: { fontSize: 72, fontWeight: "bold", italic: false, color: "#ffffff" },
+      title2Style: { fontSize: 72, fontWeight: "bold", italic: false, color: "#FF3B30" },
+      subtitleStyle: { fontSize: 20, fontWeight: "normal", italic: false, color: "#ffffffcc" },
+    };
+    setDraft(resetData);
+    updateHero(defaultHero);
+    toast({ title: "Page reset to default successfully" });
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,10 +178,17 @@ export default function HeroEditor() {
         <TextStyleControls label="Subtitle" style={draft.subtitleStyle} onChange={(s) => setDraft({ ...draft, subtitleStyle: s })} />
       </div>
 
-      <Button onClick={handleSave} className="gap-2" size="lg">
-        <Save size={18} /> Update Hero Section
-      </Button>
+      <div className="flex items-center gap-3">
+        <Button onClick={handleSave} className="gap-2" size="lg">
+          <Save size={18} /> Update Hero Section
+        </Button>
+        <Button variant="outline" size="lg" className="gap-2 text-muted-foreground hover:text-destructive hover:border-destructive transition-colors" onClick={() => setResetOpen(true)}>
+          <RotateCcw size={18} /> Reset Changes
+        </Button>
       </div>
+      </div>
+
+      <ResetConfirmModal open={resetOpen} onClose={() => setResetOpen(false)} onConfirm={handleReset} />
     </div>
   );
 }

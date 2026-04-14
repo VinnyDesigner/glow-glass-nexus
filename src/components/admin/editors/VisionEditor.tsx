@@ -1,18 +1,20 @@
 import { useState } from "react";
-import { useContentStore } from "@/stores/contentStore";
+import { useContentStore, defaultVision } from "@/stores/contentStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Save, Plus, Trash2, Pencil } from "lucide-react";
+import { Save, Plus, Trash2, Pencil, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import CardEditorModal from "./CardEditorModal";
+import ResetConfirmModal from "../ResetConfirmModal";
 
 export default function VisionEditor() {
   const { vision, updateVision } = useContentStore();
   const [draft, setDraft] = useState({ ...vision, cards: [...vision.cards] });
   const [modalOpen, setModalOpen] = useState(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
+  const [resetOpen, setResetOpen] = useState(false);
   const { toast } = useToast();
 
   const handleSave = () => {
@@ -20,19 +22,19 @@ export default function VisionEditor() {
     toast({ title: "Vision section updated!" });
   };
 
+  const handleReset = () => {
+    const resetData = { ...defaultVision, cards: [...defaultVision.cards] };
+    setDraft(resetData);
+    updateVision(defaultVision);
+    toast({ title: "Page reset to default successfully" });
+  };
+
   const deleteCard = (id: string) => {
     setDraft({ ...draft, cards: draft.cards.filter((c) => c.id !== id) });
   };
 
-  const openEdit = (i: number) => {
-    setEditIndex(i);
-    setModalOpen(true);
-  };
-
-  const openAdd = () => {
-    setEditIndex(null);
-    setModalOpen(true);
-  };
+  const openEdit = (i: number) => { setEditIndex(i); setModalOpen(true); };
+  const openAdd = () => { setEditIndex(null); setModalOpen(true); };
 
   return (
     <div className="max-w-3xl space-y-8">
@@ -75,9 +77,14 @@ export default function VisionEditor() {
         </div>
       </div>
 
-      <Button onClick={handleSave} className="gap-2" size="lg">
-        <Save size={18} /> Update Vision Section
-      </Button>
+      <div className="flex items-center gap-3">
+        <Button onClick={handleSave} className="gap-2" size="lg">
+          <Save size={18} /> Update Vision Section
+        </Button>
+        <Button variant="outline" size="lg" className="gap-2 text-muted-foreground hover:text-destructive hover:border-destructive transition-colors" onClick={() => setResetOpen(true)}>
+          <RotateCcw size={18} /> Reset Changes
+        </Button>
+      </div>
 
       <CardEditorModal
         open={modalOpen}
@@ -94,6 +101,8 @@ export default function VisionEditor() {
           }
         }}
       />
+
+      <ResetConfirmModal open={resetOpen} onClose={() => setResetOpen(false)} onConfirm={handleReset} />
     </div>
   );
 }
