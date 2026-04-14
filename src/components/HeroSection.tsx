@@ -15,6 +15,18 @@ export default function HeroSection() {
       <div className="absolute inset-0">
         <img src={hero.backgroundImage || heroBgDefault} alt="" className="w-full h-full object-cover" />
         <div className="absolute inset-0" style={{ background: `rgba(0,0,0,${hero.overlayOpacity / 100})` }} />
+        {/* Subtle animated grid overlay for GIS feel */}
+        <div className="absolute inset-0 opacity-[0.04]" style={{
+          backgroundImage: 'linear-gradient(hsla(0,0%,100%,0.3) 1px, transparent 1px), linear-gradient(90deg, hsla(0,0%,100%,0.3) 1px, transparent 1px)',
+          backgroundSize: '80px 80px'
+        }} />
+      </div>
+
+      {/* Floating glass elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-[15%] left-[8%] w-20 h-20 rounded-2xl bg-[hsla(0,0%,100%,0.05)] backdrop-blur-sm border border-[hsla(0,0%,100%,0.1)] rotate-12 animate-float" />
+        <div className="absolute bottom-[20%] right-[10%] w-32 h-32 rounded-3xl bg-[hsla(0,0%,100%,0.04)] backdrop-blur-sm border border-[hsla(0,0%,100%,0.08)] -rotate-6 animate-float" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-[35%] right-[20%] w-14 h-14 rounded-xl bg-[hsla(0,100%,59%,0.06)] backdrop-blur-sm border border-[hsla(0,100%,59%,0.1)] rotate-45 animate-float" style={{ animationDelay: '4s' }} />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 text-center">
