@@ -46,7 +46,7 @@ export default function HeroSection() {
             </span>
           </h1>
           <p
-            className="max-w-2xl mx-auto leading-[1.6] tracking-wide"
+            className="max-w-2xl mx-auto leading-[1.6] tracking-wide whitespace-pre-line"
             style={{
               fontSize: sub.fontSize ? `${sub.fontSize}px` : undefined,
               fontWeight: sub.fontWeight || "300",
