@@ -123,14 +123,14 @@ interface ContentStore {
   updateFooter: (data: Partial<FooterContent>) => void;
 }
 
-const defaultHero: HeroContent = {
+export const defaultHero: HeroContent = {
   title1: "National Spatial",
   title2: "Data Infrastructure",
   subtitle: "Unified geospatial platform for secure data sharing, advanced analytics, and intelligent decision-making",
   overlayOpacity: 40,
 };
 
-const defaultVision: VisionContent = {
+export const defaultVision: VisionContent = {
   heading: "BSDI Vision",
   description: "Empowering Bahrain through a unified geospatial ecosystem. Creating a secure, scalable, and collaborative national geospatial infrastructure.",
   cards: [
@@ -140,7 +140,7 @@ const defaultVision: VisionContent = {
   ],
 };
 
-const defaultAbout: AboutContent = {
+export const defaultAbout: AboutContent = {
   heading: "About BSDI",
   description1: "BSDI (Bahrain Spatial Data Infrastructure) is a unified geospatial platform designed to enable secure data sharing, advanced analytics, and intelligent decision-making across government and enterprise sectors.",
   description2: "It brings together GIS, GeoAI, BIM, and governance standards into a single digital ecosystem — ensuring data accuracy, security, and national-level interoperability.",
@@ -152,7 +152,7 @@ const defaultAbout: AboutContent = {
   ],
 };
 
-const defaultServices: ServicesContent = {
+export const defaultServices: ServicesContent = {
   heading: "What BSDI Provides",
   description: "Comprehensive spatial intelligence solutions for modern government operations",
   cards: [
@@ -165,7 +165,7 @@ const defaultServices: ServicesContent = {
   ],
 };
 
-const defaultUsers: UsersContent = {
+export const defaultUsers: UsersContent = {
   heading: "Who Can Use BSDI?",
   description: "BSDI is designed for organizations that rely on accurate spatial data, secure collaboration, and intelligent insights.",
   cards: [
@@ -180,7 +180,7 @@ const defaultUsers: UsersContent = {
   ],
 };
 
-const defaultDataServices: DataServicesContent = {
+export const defaultDataServices: DataServicesContent = {
   heading: "Data Services Provided by",
   description: "Find Data Services by their providing entities",
   entities: [
@@ -195,7 +195,7 @@ const defaultDataServices: DataServicesContent = {
   ],
 };
 
-const defaultFooter: FooterContent = {
+export const defaultFooter: FooterContent = {
   quickLinks: [
     { id: "ql1", label: "Dataset Request", href: "#" },
     { id: "ql2", label: "Open Data Policy", href: "#" },
