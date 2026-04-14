@@ -60,10 +60,10 @@ export default function HeroSection() {
           <p
             className="max-w-2xl mx-auto leading-[1.6] tracking-wide whitespace-pre-line"
             style={{
-              fontSize: sub.fontSize ? `${sub.fontSize}px` : undefined,
+              fontSize: sub.fontSize ? `${sub.fontSize}px` : "22px",
               fontWeight: sub.fontWeight || "300",
               fontStyle: sub.italic ? "italic" : "normal",
-              color: sub.color || "rgba(255,255,255,0.75)",
+              color: sub.color || "#ffffff",
               letterSpacing: "0.01em",
             }}
           >
