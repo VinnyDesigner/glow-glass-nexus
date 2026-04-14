@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { useContentStore } from "@/stores/contentStore";
+import { useContentStore, defaultDataServices } from "@/stores/contentStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Save, Plus, Trash2, ImagePlus, Pencil } from "lucide-react";
+import { Save, Plus, Trash2, ImagePlus, Pencil, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import ResetConfirmModal from "../ResetConfirmModal";
 
 export default function DataServicesEditor() {
   const { dataServices, updateDataServices } = useContentStore();
@@ -14,11 +15,19 @@ export default function DataServicesEditor() {
   const [newEntity, setNewEntity] = useState({ name: "", logo: "", link: "" });
   const [editModal, setEditModal] = useState(false);
   const [editEntity, setEditEntity] = useState<{ id: string; name: string; logo: string; link: string } | null>(null);
+  const [resetOpen, setResetOpen] = useState(false);
   const { toast } = useToast();
 
   const handleSave = () => {
     updateDataServices(draft);
     toast({ title: "Data Services section updated!" });
+  };
+
+  const handleReset = () => {
+    const resetData = { ...defaultDataServices, entities: [...defaultDataServices.entities] };
+    setDraft(resetData);
+    updateDataServices(defaultDataServices);
+    toast({ title: "Page reset to default successfully" });
   };
 
   const deleteEntity = (id: string) => {
@@ -76,20 +85,10 @@ export default function DataServicesEditor() {
             <div key={entity.id} className="relative group neu-card aspect-square flex items-center justify-center p-4">
               <img src={entity.logo} alt={entity.name} className="w-full h-full object-contain" />
               <div className="absolute top-1 right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => openEdit(entity)}
-                  className="text-primary hover:text-primary h-7 w-7"
-                >
+                <Button variant="ghost" size="icon" onClick={() => openEdit(entity)} className="text-primary hover:text-primary h-7 w-7">
                   <Pencil size={14} />
                 </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => deleteEntity(entity.id)}
-                  className="text-destructive hover:text-destructive h-7 w-7"
-                >
+                <Button variant="ghost" size="icon" onClick={() => deleteEntity(entity.id)} className="text-destructive hover:text-destructive h-7 w-7">
                   <Trash2 size={14} />
                 </Button>
               </div>
@@ -98,9 +97,14 @@ export default function DataServicesEditor() {
         </div>
       </div>
 
-      <Button onClick={handleSave} className="gap-2" size="lg">
-        <Save size={18} /> Update Data Services
-      </Button>
+      <div className="flex items-center gap-3">
+        <Button onClick={handleSave} className="gap-2" size="lg">
+          <Save size={18} /> Update Data Services
+        </Button>
+        <Button variant="outline" size="lg" className="gap-2 text-muted-foreground hover:text-destructive hover:border-destructive transition-colors" onClick={() => setResetOpen(true)}>
+          <RotateCcw size={18} /> Reset Changes
+        </Button>
+      </div>
 
       {/* Add Logo Modal */}
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
@@ -172,6 +176,8 @@ export default function DataServicesEditor() {
           )}
         </DialogContent>
       </Dialog>
+
+      <ResetConfirmModal open={resetOpen} onClose={() => setResetOpen(false)} onConfirm={handleReset} />
     </div>
   );
 }

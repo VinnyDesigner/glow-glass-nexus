@@ -1,23 +1,32 @@
 import { useState } from "react";
-import { useContentStore } from "@/stores/contentStore";
+import { useContentStore, defaultServices } from "@/stores/contentStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Save, Plus, Trash2, Pencil } from "lucide-react";
+import { Save, Plus, Trash2, Pencil, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import CardEditorModal from "./CardEditorModal";
+import ResetConfirmModal from "../ResetConfirmModal";
 
 export default function ServicesEditor() {
   const { services, updateServices } = useContentStore();
   const [draft, setDraft] = useState({ ...services, cards: [...services.cards] });
   const [modalOpen, setModalOpen] = useState(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
+  const [resetOpen, setResetOpen] = useState(false);
   const { toast } = useToast();
 
   const handleSave = () => {
     updateServices(draft);
     toast({ title: "Services section updated!" });
+  };
+
+  const handleReset = () => {
+    const resetData = { ...defaultServices, cards: [...defaultServices.cards] };
+    setDraft(resetData);
+    updateServices(defaultServices);
+    toast({ title: "Page reset to default successfully" });
   };
 
   const deleteCard = (id: string) => {
@@ -73,9 +82,14 @@ export default function ServicesEditor() {
         </div>
       </div>
 
-      <Button onClick={handleSave} className="gap-2" size="lg">
-        <Save size={18} /> Update Services Section
-      </Button>
+      <div className="flex items-center gap-3">
+        <Button onClick={handleSave} className="gap-2" size="lg">
+          <Save size={18} /> Update Services Section
+        </Button>
+        <Button variant="outline" size="lg" className="gap-2 text-muted-foreground hover:text-destructive hover:border-destructive transition-colors" onClick={() => setResetOpen(true)}>
+          <RotateCcw size={18} /> Reset Changes
+        </Button>
+      </div>
 
       <CardEditorModal
         open={modalOpen}
@@ -93,6 +107,8 @@ export default function ServicesEditor() {
           }
         }}
       />
+
+      <ResetConfirmModal open={resetOpen} onClose={() => setResetOpen(false)} onConfirm={handleReset} />
     </div>
   );
 }

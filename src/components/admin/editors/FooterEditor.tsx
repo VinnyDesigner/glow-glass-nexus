@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { useContentStore } from "@/stores/contentStore";
+import { useContentStore, defaultFooter } from "@/stores/contentStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Save, Plus, Trash2 } from "lucide-react";
+import { Save, Plus, Trash2, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import ResetConfirmModal from "../ResetConfirmModal";
 
 export default function FooterEditor() {
   const { footer, updateFooter } = useContentStore();
@@ -13,11 +14,23 @@ export default function FooterEditor() {
     externalLinks: [...footer.externalLinks],
     socialLinks: [...footer.socialLinks],
   });
+  const [resetOpen, setResetOpen] = useState(false);
   const { toast } = useToast();
 
   const handleSave = () => {
     updateFooter(draft);
     toast({ title: "Footer updated!" });
+  };
+
+  const handleReset = () => {
+    const resetData = {
+      quickLinks: [...defaultFooter.quickLinks],
+      externalLinks: [...defaultFooter.externalLinks],
+      socialLinks: [...defaultFooter.socialLinks],
+    };
+    setDraft(resetData);
+    updateFooter(defaultFooter);
+    toast({ title: "Page reset to default successfully" });
   };
 
   const addQuickLink = () => {
@@ -91,9 +104,16 @@ export default function FooterEditor() {
         ))}
       </div>
 
-      <Button onClick={handleSave} className="gap-2" size="lg">
-        <Save size={18} /> Update Footer
-      </Button>
+      <div className="flex items-center gap-3">
+        <Button onClick={handleSave} className="gap-2" size="lg">
+          <Save size={18} /> Update Footer
+        </Button>
+        <Button variant="outline" size="lg" className="gap-2 text-muted-foreground hover:text-destructive hover:border-destructive transition-colors" onClick={() => setResetOpen(true)}>
+          <RotateCcw size={18} /> Reset Changes
+        </Button>
+      </div>
+
+      <ResetConfirmModal open={resetOpen} onClose={() => setResetOpen(false)} onConfirm={handleReset} />
     </div>
   );
 }

@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { useContentStore } from "@/stores/contentStore";
+import { useContentStore, defaultAbout } from "@/stores/contentStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
-import { Save, Plus, Trash2, Pencil, Bold, Italic } from "lucide-react";
+import { Save, Plus, Trash2, Pencil, Bold, Italic, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import ResetConfirmModal from "../ResetConfirmModal";
 
 interface StatEdit {
   target: string;
@@ -27,11 +28,19 @@ export default function AboutEditor() {
   const [newStat, setNewStat] = useState({ target: "", suffix: "", label: "" });
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<StatEdit>({ target: "", suffix: "", label: "" });
+  const [resetOpen, setResetOpen] = useState(false);
   const { toast } = useToast();
 
   const handleSave = () => {
     updateAbout(draft);
     toast({ title: "About section updated!" });
+  };
+
+  const handleReset = () => {
+    const resetData = { ...defaultAbout, stats: [...defaultAbout.stats] };
+    setDraft(resetData);
+    updateAbout(defaultAbout);
+    toast({ title: "Page reset to default successfully" });
   };
 
   const deleteStat = (id: string) => {
@@ -113,9 +122,14 @@ export default function AboutEditor() {
         </div>
       </div>
 
-      <Button onClick={handleSave} className="gap-2" size="lg">
-        <Save size={18} /> Update About Section
-      </Button>
+      <div className="flex items-center gap-3">
+        <Button onClick={handleSave} className="gap-2" size="lg">
+          <Save size={18} /> Update About Section
+        </Button>
+        <Button variant="outline" size="lg" className="gap-2 text-muted-foreground hover:text-destructive hover:border-destructive transition-colors" onClick={() => setResetOpen(true)}>
+          <RotateCcw size={18} /> Reset Changes
+        </Button>
+      </div>
 
       {/* Add Stat Modal */}
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
@@ -239,6 +253,8 @@ export default function AboutEditor() {
           </div>
         </DialogContent>
       </Dialog>
+
+      <ResetConfirmModal open={resetOpen} onClose={() => setResetOpen(false)} onConfirm={handleReset} />
     </div>
   );
 }
