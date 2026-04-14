@@ -35,10 +35,10 @@ function AnimatedCounter({ target, suffix = "", label }: { target: string; suffi
 
   return (
     <div ref={ref} className="text-center">
-      <div className="font-display text-4xl md:text-5xl font-bold gradient-text-glow">
+      <div className="font-display text-3xl md:text-4xl font-bold text-primary">
         {target === "Secure" ? "Secure" : value}{suffix}
       </div>
-      <div className="text-muted-foreground text-sm mt-3 font-medium">{label}</div>
+      <div className="text-muted-foreground text-sm mt-2 font-medium">{label}</div>
     </div>
   );
 }
@@ -48,24 +48,18 @@ export default function AboutSection() {
   const { about } = useContentStore();
 
   return (
-    <section id="about" className="section-padding relative section-mesh">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsla(220,20%,95%,0.5)] to-transparent" />
-
-      <div ref={ref} className="container mx-auto relative z-10">
+    <section id="about" className="section-padding">
+      <div ref={ref} className="container mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? 'fadeBlurUp 0.7s ease-out forwards' : 'none' }}>
-            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight gradient-text-dark">{about.heading}</h2>
-            <p className="mt-5 text-muted-foreground text-lg leading-relaxed">{about.description1}</p>
-            <p className="mt-4 text-muted-foreground leading-relaxed">{about.description2}</p>
+          <div style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? 'fadeBlurUp 0.6s ease-out forwards' : 'none' }}>
+            <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground">{about.heading}</h2>
+            <p className="mt-5 text-muted-foreground text-base leading-relaxed">{about.description1}</p>
+            <p className="mt-4 text-muted-foreground text-sm leading-relaxed">{about.description2}</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-6" style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? 'fadeBlurUp 0.7s ease-out 0.2s forwards' : 'none' }}>
-            {about.stats.map((stat, i) => (
-              <div
-                key={stat.id}
-                className="glass-neu rounded-2xl p-8 text-center transition-all duration-400 hover:-translate-y-2 hover:shadow-[0_20px_40px_hsla(0,0%,0%,0.1)]"
-                style={{ animationDelay: `${i * 0.1}s` }}
-              >
+          <div className="grid grid-cols-2 gap-6" style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? 'fadeBlurUp 0.6s ease-out 0.2s forwards' : 'none' }}>
+            {about.stats.map((stat) => (
+              <div key={stat.id} className="stat-card rounded-2xl p-8 text-center">
                 <AnimatedCounter target={stat.target} suffix={stat.suffix} label={stat.label} />
               </div>
             ))}

@@ -11,8 +11,8 @@ export default function Footer() {
   const { footer } = useContentStore();
 
   return (
-    <footer className="relative border-t border-[hsla(220,20%,85%,0.4)] bg-[hsla(0,0%,100%,0.6)] backdrop-blur-[16px]">
-      <div className="container mx-auto px-4 md:px-8 py-16">
+    <footer className="border-t border-border bg-card">
+      <div className="container mx-auto px-4 md:px-8 py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_1fr] gap-10 items-start">
           <div className="flex items-center justify-center">
             <img src={igaLogo} alt="Kingdom of Bahrain - Information & eGovernment Authority" className="h-24 object-contain" />
@@ -22,22 +22,22 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-display font-bold text-sm text-foreground mb-5 tracking-tight">Quick links</h4>
+            <h4 className="font-display font-bold text-sm text-foreground mb-5">Quick links</h4>
             <ul className="space-y-3">
               {footer.quickLinks.map((link) => (
                 <li key={link.id}>
-                  <a href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300">{link.label}</a>
+                  <a href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">{link.label}</a>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="font-display font-bold text-sm text-foreground mb-5 tracking-tight">External links</h4>
+            <h4 className="font-display font-bold text-sm text-foreground mb-5">External links</h4>
             <ul className="space-y-3">
               {footer.externalLinks.map((link) => (
                 <li key={link.id}>
-                  <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300 inline-flex items-center gap-1">
+                  <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200 inline-flex items-center gap-1">
                     {link.label}
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="opacity-50"><path d="M3.5 2h6.5v6.5M10 2L2 10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   </a>
@@ -47,18 +47,26 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-display font-bold text-sm text-foreground mb-5 tracking-tight">Follow us</h4>
+            <h4 className="font-display font-bold text-sm text-foreground mb-5">Follow us</h4>
             <div className="flex items-center gap-3">
               {footer.socialLinks.map((social) => {
                 const Icon = iconMap[social.platform] || Instagram;
                 return (
-                  <a key={social.platform} href={social.href} aria-label={social.platform} className="w-10 h-10 rounded-full glass-neu flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 hover:scale-110 btn-glow">
+                  <a key={social.platform} href={social.href} aria-label={social.platform} className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-200">
                     <Icon size={16} />
                   </a>
                 );
               })}
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="border-t border-border">
+        <div className="container mx-auto px-4 md:px-8 py-4">
+          <p className="text-center text-xs text-muted-foreground">
+            © {new Date().getFullYear()} Bahrain Spatial Data Infrastructure. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
