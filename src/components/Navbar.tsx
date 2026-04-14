@@ -22,23 +22,20 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "backdrop-blur-[20px] bg-[hsla(0,0%,100%,0.85)] border-b border-[hsla(220,20%,85%,0.4)]"
-          : "bg-[hsla(0,0%,100%,0.6)] backdrop-blur-[12px]"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-[hsl(0,0%,100%)] ${
+        scrolled ? "shadow-[0_2px_12px_hsla(210,20%,50%,0.1)]" : ""
       }`}
       style={{
-        boxShadow: scrolled ? '0 4px 30px hsla(220, 20%, 50%, 0.08)' : 'none',
         paddingTop: scrolled ? '0.5rem' : '0.75rem',
         paddingBottom: scrolled ? '0.5rem' : '0.75rem',
       }}
     >
       <div className="container mx-auto flex items-center justify-between px-4 md:px-8">
-        <a href="#" className="flex items-center gap-3 group">
+        <a href="#" className="flex items-center gap-3">
           <img
             src={igaHeaderLogo}
             alt="Information & eGovernment Authority"
-            className="h-10 md:h-12 transition-transform duration-300 group-hover:scale-105"
+            className="h-10 md:h-12"
           />
         </a>
 
@@ -47,16 +44,16 @@ export default function Navbar() {
             <a
               key={link.label}
               href={link.href}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200"
             >
               {link.label}
             </a>
           ))}
           <button
             onClick={() => navigate("/admin-crm")}
-            className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground btn-glow transition-all duration-300 hover:scale-105"
+            className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground transition-all duration-200 hover:opacity-90"
           >
-            Admin CRM
+            Admin
           </button>
         </div>
 
@@ -72,7 +69,7 @@ export default function Navbar() {
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden glass mt-2 mx-4 rounded-2xl p-6 animate-fade-up">
+        <div className="md:hidden bg-[hsl(0,0%,100%)] mt-2 mx-4 rounded-2xl p-6 shadow-lg">
           {navLinks.map((link) => (
             <a
               key={link.label}
@@ -83,8 +80,8 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
-          <button onClick={() => { setMobileOpen(false); navigate("/admin-crm"); }} className="mt-4 block w-full text-center px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground btn-glow">
-            Admin CRM
+          <button onClick={() => { setMobileOpen(false); navigate("/admin-crm"); }} className="mt-4 block w-full text-center px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground">
+            Admin
           </button>
         </div>
       )}

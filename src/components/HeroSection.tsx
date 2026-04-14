@@ -11,64 +11,64 @@ export default function HeroSection() {
   const sub = hero.subtitleStyle || {};
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section ref={ref} className="relative min-h-screen flex items-center overflow-hidden">
       <div className="absolute inset-0">
         <img src={hero.backgroundImage || heroBgDefault} alt="" className="w-full h-full object-cover" />
         <div className="absolute inset-0" style={{ background: `rgba(0,0,0,${hero.overlayOpacity / 100})` }} />
-        {/* Subtle animated grid overlay for GIS feel */}
-        <div className="absolute inset-0 opacity-[0.04]" style={{
-          backgroundImage: 'linear-gradient(hsla(0,0%,100%,0.3) 1px, transparent 1px), linear-gradient(90deg, hsla(0,0%,100%,0.3) 1px, transparent 1px)',
-          backgroundSize: '80px 80px'
-        }} />
       </div>
 
-      {/* Floating glass elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[15%] left-[8%] w-20 h-20 rounded-2xl bg-[hsla(0,0%,100%,0.05)] backdrop-blur-sm border border-[hsla(0,0%,100%,0.1)] rotate-12 animate-float" />
-        <div className="absolute bottom-[20%] right-[10%] w-32 h-32 rounded-3xl bg-[hsla(0,0%,100%,0.04)] backdrop-blur-sm border border-[hsla(0,0%,100%,0.08)] -rotate-6 animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-[35%] right-[20%] w-14 h-14 rounded-xl bg-[hsla(0,100%,59%,0.06)] backdrop-blur-sm border border-[hsla(0,100%,59%,0.1)] rotate-45 animate-float" style={{ animationDelay: '4s' }} />
-      </div>
+      <div className="relative z-10 container mx-auto px-4 md:px-8">
+        <div className={`max-w-3xl transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
+          {/* Large faded background text */}
+          <div className="relative">
+            <span
+              className="block font-display text-[8rem] md:text-[12rem] lg:text-[16rem] font-black leading-none text-[hsla(0,0%,100%,0.08)] select-none pointer-events-none"
+              aria-hidden="true"
+            >
+              BSDI
+            </span>
+          </div>
 
-      <div className="relative z-10 container mx-auto px-4 text-center">
-        <div className={`transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          <h1 className="font-display leading-[1.0] mb-2 tracking-[-0.02em]">
-            <span
+          <div className="-mt-20 md:-mt-32 relative z-10">
+            <h1 className="font-display leading-[1.05] mb-2 tracking-[-0.02em]">
+              <span
+                style={{
+                  fontSize: t1.fontSize ? `${t1.fontSize}px` : undefined,
+                  fontWeight: t1.fontWeight || "800",
+                  fontStyle: t1.italic ? "italic" : "normal",
+                  color: t1.color || undefined,
+                }}
+                className={`block ${!t1.fontSize ? "text-4xl sm:text-5xl md:text-6xl lg:text-7xl" : ""} ${!t1.color ? "hero-title-gradient" : ""}`}
+              >
+                {hero.title1}
+              </span>
+            </h1>
+            <h1 className="font-display leading-[1.05] mb-6 tracking-[-0.02em]">
+              <span
+                style={{
+                  fontSize: t2.fontSize ? `${t2.fontSize}px` : undefined,
+                  fontWeight: t2.fontWeight || "800",
+                  fontStyle: t2.italic ? "italic" : "normal",
+                  color: t2.color || undefined,
+                }}
+                className={`block ${!t2.fontSize ? "text-4xl sm:text-5xl md:text-6xl lg:text-7xl" : ""} ${!t2.color ? "gradient-text" : ""}`}
+              >
+                {hero.title2}
+              </span>
+            </h1>
+            <p
+              className="max-w-xl leading-[1.6] whitespace-pre-line"
               style={{
-                fontSize: t1.fontSize ? `${t1.fontSize}px` : undefined,
-                fontWeight: t1.fontWeight || "800",
-                fontStyle: t1.italic ? "italic" : "normal",
-                color: t1.color || undefined,
+                fontSize: sub.fontSize ? `${sub.fontSize}px` : "18px",
+                fontWeight: sub.fontWeight || "400",
+                fontStyle: sub.italic ? "italic" : "normal",
+                color: sub.color || "hsla(0,0%,100%,0.75)",
+                letterSpacing: "0.01em",
               }}
-              className={`${!t1.fontSize ? "text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem]" : ""} ${!t1.color ? "hero-title-gradient" : ""}`}
             >
-              {hero.title1}
-            </span>
-          </h1>
-          <h1 className="font-display leading-[1.0] mb-6 tracking-[-0.02em]">
-            <span
-              style={{
-                fontSize: t2.fontSize ? `${t2.fontSize}px` : undefined,
-                fontWeight: t2.fontWeight || "800",
-                fontStyle: t2.italic ? "italic" : "normal",
-                color: t2.color || undefined,
-              }}
-              className={`${!t2.fontSize ? "text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem]" : ""} ${!t2.color ? "gradient-text" : ""}`}
-            >
-              {hero.title2}
-            </span>
-          </h1>
-          <p
-            className="max-w-2xl mx-auto leading-[1.6] tracking-wide whitespace-pre-line"
-            style={{
-              fontSize: sub.fontSize ? `${sub.fontSize}px` : "22px",
-              fontWeight: sub.fontWeight || "600",
-              fontStyle: sub.italic ? "italic" : "normal",
-              color: sub.color || "#ffffff",
-              letterSpacing: "0.01em",
-            }}
-          >
-            {hero.subtitle}
-          </p>
+              {hero.subtitle}
+            </p>
+          </div>
         </div>
       </div>
     </section>
