@@ -61,7 +61,7 @@ export default function HeroSection() {
             className="max-w-2xl mx-auto leading-[1.6] tracking-wide whitespace-pre-line"
             style={{
               fontSize: sub.fontSize ? `${sub.fontSize}px` : "22px",
-              fontWeight: sub.fontWeight || "300",
+              fontWeight: sub.fontWeight || "600",
               fontStyle: sub.italic ? "italic" : "normal",
               color: sub.color || "#ffffff",
               letterSpacing: "0.01em",
