@@ -19,38 +19,40 @@ export default function HeroSection() {
 
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className={`transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          <h1 className="font-display leading-[1.05] mb-6 tracking-tight">
+          <h1 className="font-display leading-[1.0] mb-2 tracking-[-0.02em]">
             <span
               style={{
                 fontSize: t1.fontSize ? `${t1.fontSize}px` : undefined,
-                fontWeight: t1.fontWeight || "bold",
+                fontWeight: t1.fontWeight || "800",
                 fontStyle: t1.italic ? "italic" : "normal",
-                color: t1.color || "#ffffff",
+                color: t1.color || undefined,
               }}
-              className={!t1.fontSize ? "text-5xl sm:text-6xl md:text-7xl lg:text-8xl" : ""}
+              className={`${!t1.fontSize ? "text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem]" : ""} ${!t1.color ? "hero-title-gradient" : ""}`}
             >
               {hero.title1}
             </span>
-            <br />
+          </h1>
+          <h1 className="font-display leading-[1.0] mb-6 tracking-[-0.02em]">
             <span
               style={{
                 fontSize: t2.fontSize ? `${t2.fontSize}px` : undefined,
-                fontWeight: t2.fontWeight || "bold",
+                fontWeight: t2.fontWeight || "800",
                 fontStyle: t2.italic ? "italic" : "normal",
                 color: t2.color || undefined,
               }}
-              className={`${!t2.fontSize ? "text-5xl sm:text-6xl md:text-7xl lg:text-8xl" : ""} ${!t2.color ? "gradient-text" : ""}`}
+              className={`${!t2.fontSize ? "text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem]" : ""} ${!t2.color ? "gradient-text" : ""}`}
             >
               {hero.title2}
             </span>
           </h1>
           <p
-            className="max-w-2xl mx-auto leading-relaxed"
+            className="max-w-2xl mx-auto leading-[1.6] tracking-wide"
             style={{
               fontSize: sub.fontSize ? `${sub.fontSize}px` : undefined,
-              fontWeight: sub.fontWeight || "normal",
+              fontWeight: sub.fontWeight || "300",
               fontStyle: sub.italic ? "italic" : "normal",
-              color: sub.color || "rgba(255,255,255,0.8)",
+              color: sub.color || "rgba(255,255,255,0.75)",
+              letterSpacing: "0.01em",
             }}
           >
             {hero.subtitle}

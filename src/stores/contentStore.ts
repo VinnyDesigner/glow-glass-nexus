@@ -126,8 +126,8 @@ interface ContentStore {
 export const defaultHero: HeroContent = {
   title1: "National Spatial",
   title2: "Data Infrastructure",
-  subtitle: "Unified geospatial platform for secure data sharing, advanced analytics, and intelligent decision-making",
-  overlayOpacity: 40,
+  subtitle: "Unified geospatial platform for secure data and sharing,\nadvanced analytics, & intelligent decision-making",
+  overlayOpacity: 30,
 };
 
 export const defaultVision: VisionContent = {
