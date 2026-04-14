@@ -22,9 +22,13 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-white"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? "backdrop-blur-[20px] bg-[hsla(0,0%,100%,0.85)] border-b border-[hsla(220,20%,85%,0.4)]"
+          : "bg-[hsla(0,0%,100%,0.6)] backdrop-blur-[12px]"
+      }`}
       style={{
-        boxShadow: scrolled ? '0 2px 10px rgba(0,0,0,0.05)' : 'none',
+        boxShadow: scrolled ? '0 4px 30px hsla(220, 20%, 50%, 0.08)' : 'none',
         paddingTop: scrolled ? '0.5rem' : '0.75rem',
         paddingBottom: scrolled ? '0.5rem' : '0.75rem',
       }}
@@ -50,7 +54,7 @@ export default function Navbar() {
           ))}
           <button
             onClick={() => navigate("/admin-crm")}
-            className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground transition-all duration-300 hover:shadow-[0_0_25px_hsla(0,100%,59%,0.25)] hover:scale-105"
+            className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground btn-glow transition-all duration-300 hover:scale-105"
           >
             Admin CRM
           </button>
@@ -68,7 +72,7 @@ export default function Navbar() {
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden bg-white mt-2 mx-4 rounded-2xl p-6 animate-fade-up" style={{ boxShadow: '0 8px 25px rgba(0,0,0,0.08)' }}>
+        <div className="md:hidden glass mt-2 mx-4 rounded-2xl p-6 animate-fade-up">
           {navLinks.map((link) => (
             <a
               key={link.label}
@@ -79,7 +83,7 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
-          <button onClick={() => { setMobileOpen(false); navigate("/admin-crm"); }} className="mt-4 block w-full text-center px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground">
+          <button onClick={() => { setMobileOpen(false); navigate("/admin-crm"); }} className="mt-4 block w-full text-center px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground btn-glow">
             Admin CRM
           </button>
         </div>

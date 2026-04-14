@@ -6,16 +6,16 @@ export default function ServicesSection() {
   const { services } = useContentStore();
 
   return (
-    <section id="services" className="section-padding relative">
+    <section id="services" className="section-padding relative section-mesh">
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px]" />
 
       <div ref={ref} className="container mx-auto relative z-10">
-        <div className={`text-center mb-8 transition-all duration-700 ${isVisible ? "animate-fade-up" : "opacity-0"}`}>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 gradient-text-dark">{services.heading}</h2>
-          <p className="max-w-2xl mx-auto mt-4 text-muted-foreground text-lg">{services.description}</p>
+        <div className={`text-center mb-12`} style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? 'fadeBlurUp 0.7s ease-out forwards' : 'none' }}>
+          <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight gradient-text-dark">{services.heading}</h2>
+          <p className="max-w-2xl mx-auto mt-5 text-muted-foreground text-lg leading-relaxed">{services.description}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.cards.map((service, i) => {
             const Wrapper = service.link ? 'a' : 'div';
             const wrapperProps = service.link ? { href: service.link, target: '_blank', rel: 'noopener noreferrer' } : {};
@@ -23,21 +23,24 @@ export default function ServicesSection() {
               <Wrapper
                 key={service.id}
                 {...wrapperProps as any}
-                className={`glass-neu rounded-2xl overflow-hidden card-hover group transition-all duration-500 block ${isVisible ? "animate-fade-up" : "opacity-0"} ${service.link ? "cursor-pointer" : ""}`}
-                style={{ animationDelay: `${i * 100}ms` }}
+                className={`glass-card-img relative block ${service.link ? "cursor-pointer" : ""}`}
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  animation: isVisible ? `fadeBlurUp 0.6s ease-out ${i * 0.1}s forwards` : 'none',
+                }}
               >
-                <div className="relative h-[200px] overflow-hidden">
-                  <img src={service.image} alt={service.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" loading="lazy" />
-                  <div className="absolute bottom-3 left-4 flex gap-2">
+                <div className="card-image-wrapper" style={{ height: '65%', minHeight: 200 }}>
+                  <img src={service.image} alt={service.title} className="w-full h-full object-cover" loading="lazy" />
+                  <div className="absolute bottom-3 left-4 flex gap-2 z-10">
                     {service.tags.map((tag) => (
-                      <span key={tag} className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full border border-primary/40 text-primary" style={{ background: 'hsla(0, 0%, 100%, 0.85)', backdropFilter: 'blur(8px)' }}>
+                      <span key={tag} className="tag-shimmer text-[10px] font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full border border-[hsla(0,100%,59%,0.3)] text-primary bg-[hsla(0,0%,100%,0.9)] backdrop-blur-[8px]">
                         {tag}
                       </span>
                     ))}
                   </div>
                 </div>
-                <div className="p-5">
-                  <h3 className="font-display text-lg font-semibold text-foreground mb-2">{service.title}</h3>
+                <div className="p-6">
+                  <h3 className="font-display text-lg font-semibold text-foreground mb-2 tracking-tight">{service.title}</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed mb-4">{service.description}</p>
                   {service.link && (
                     <span className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:gap-3 transition-all duration-300">
