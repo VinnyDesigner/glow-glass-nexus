@@ -15,27 +15,17 @@ export default function HeroSection() {
   const { ref, isVisible } = useScrollAnimation(0.1);
   const { hero } = useContentStore();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [textVisible, setTextVisible] = useState(true);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
   const slides = hero.heroImages && hero.heroImages.length > 0 ? hero.heroImages : DEFAULT_SLIDES;
 
   const goToSlide = useCallback((index: number) => {
-    setTextVisible(false);
-    setTimeout(() => {
-      setCurrentIndex(index);
-      setTextVisible(true);
-    }, 200);
+    setCurrentIndex(index);
   }, []);
 
   // Continuous auto-play — never pauses
   useEffect(() => {
     timerRef.current = setInterval(() => {
-      setTextVisible(false);
-      setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % slides.length);
-        setTextVisible(true);
-      }, 200);
+      setCurrentIndex((prev) => (prev + 1) % slides.length);
     }, SLIDE_DURATION);
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
@@ -88,13 +78,7 @@ export default function HeroSection() {
         <div className={`max-w-3xl text-center px-4 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
           <div className="-mt-10 md:-mt-16">
             <div>
-              <div
-                className="transition-all duration-500 ease-out"
-                style={{
-                  opacity: textVisible ? 1 : 0,
-                  transform: textVisible ? "translateY(0)" : "translateY(8px)",
-                }}
-              >
+              <div>
                 <h1 className="font-display leading-[1.05] mb-2 tracking-[-0.02em]">
                   <span
                     style={{
