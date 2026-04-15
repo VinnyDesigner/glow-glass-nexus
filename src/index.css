@@ -65,22 +65,22 @@
 @layer components {
   /* Clean card */
   .clean-card {
-    background: hsl(210, 20%, 93%);
+    background: hsl(0, 0%, 100%);
     border-radius: 20px;
-    border: 1px solid hsla(210, 20%, 88%, 0.6);
+    border: none;
     overflow: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px hsla(210, 20%, 50%, 0.06);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 16px hsla(210, 20%, 50%, 0.08), 0 1px 4px hsla(210, 20%, 50%, 0.05);
   }
 
   .clean-card:hover {
-    box-shadow: 0 8px 24px hsla(210, 20%, 50%, 0.12);
-    transform: translateY(-3px);
+    box-shadow: 0 12px 32px hsla(210, 20%, 50%, 0.14), 0 4px 12px hsla(210, 20%, 50%, 0.08);
+    transform: translateY(-4px);
   }
 
   .clean-card .card-image {
-    margin: 12px 12px 0 12px;
-    border-radius: 14px;
+    margin: 14px 14px 0 14px;
+    border-radius: 16px;
     overflow: hidden;
   }
 

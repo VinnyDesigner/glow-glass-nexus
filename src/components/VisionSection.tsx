@@ -27,18 +27,18 @@ export default function VisionSection() {
                   animation: isVisible ? `fadeBlurUp 0.5s ease-out ${i * 0.1}s forwards` : 'none',
                 }}
               >
-                <div className="card-image" style={{ height: 200 }}>
+                <div className="card-image" style={{ aspectRatio: '4/3' }}>
                   <img src={card.image} alt={card.title} className="w-full h-full object-cover" loading="lazy" />
                 </div>
-                <div className="p-5">
+                <div className="p-5 flex flex-col flex-1">
                   <h3 className="font-display text-base font-semibold text-foreground mb-2">{card.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-2">{card.description}</p>
-                  {card.link && (
-                    <span className="view-details-link">
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-2 flex-1">{card.description}</p>
+                  <div className="border-t border-border pt-3 mt-auto">
+                    <span className="view-details-link justify-end w-full">
                       View Details
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </span>
-                  )}
+                  </div>
                 </div>
               </Wrapper>
             );
