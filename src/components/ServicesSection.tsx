@@ -41,24 +41,34 @@ export default function ServicesSection() {
               <Wrapper
                 key={service.id}
                 {...wrapperProps as any}
-                className={`clean-card block ${service.link ? "cursor-pointer" : ""}`}
+                className={`service-flip-card group ${service.link ? "cursor-pointer" : ""}`}
                 style={{
                   opacity: isVisible ? 1 : 0,
                   animation: isVisible ? `fadeBlurUp 0.5s ease-out ${i * 0.08}s forwards` : 'none',
                 }}
               >
-                <div className="card-image" style={{ aspectRatio: '4/3' }}>
-                  <img src={serviceImages[i % serviceImages.length]} alt={service.title} className="w-full h-full object-cover" loading="lazy" width={1024} height={768} />
+                {/* Full-bleed image */}
+                <div className="service-flip-card__image">
+                  <img
+                    src={serviceImages[i % serviceImages.length]}
+                    alt={service.title}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    width={1024}
+                    height={768}
+                  />
                 </div>
-                <div className="p-5 flex flex-col flex-1">
-                  <h3 className="font-display text-base font-semibold text-foreground mb-1.5">{service.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-2 flex-1">{service.description}</p>
-                  <div className="border-t border-border pt-3 mt-auto">
-                    <span className="view-details-link justify-end w-full">
-                      View Details
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    </span>
-                  </div>
+
+                {/* Default state: title overlay at bottom */}
+                <div className="service-flip-card__overlay">
+                  <h3 className="font-display text-lg font-bold text-white leading-tight">{service.title}</h3>
+                  <p className="text-white/70 text-xs mt-1">{service.description.split(' ').slice(0, 4).join(' ')}…</p>
+                </div>
+
+                {/* Hover state: text panel below image */}
+                <div className="service-flip-card__details">
+                  <h3 className="font-display text-base font-bold text-foreground leading-tight">{service.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed mt-1.5 line-clamp-2">{service.description}</p>
                 </div>
               </Wrapper>
             );
