@@ -172,6 +172,82 @@
   .gradient-text-glow {
     color: hsl(var(--primary));
   }
+  /* Service flip card — default: full-bleed image + overlay title; hover: image shrinks up, text panel appears */
+  .service-flip-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 24px;
+    overflow: hidden;
+    background: hsl(0, 0%, 100%);
+    box-shadow: 0 4px 20px hsla(210, 20%, 50%, 0.1), 0 1px 4px hsla(210, 20%, 50%, 0.06);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 380px;
+  }
+
+  .service-flip-card:hover {
+    box-shadow: 0 16px 40px hsla(210, 20%, 50%, 0.16), 0 4px 12px hsla(210, 20%, 50%, 0.1);
+    transform: translateY(-4px);
+  }
+
+  .service-flip-card__image {
+    position: absolute;
+    inset: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+  }
+
+  .service-flip-card:hover .service-flip-card__image {
+    position: relative;
+    inset: auto;
+    height: 65%;
+    margin: 10px 10px 0 10px;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .service-flip-card__image img {
+    transition: transform 0.4s ease;
+  }
+
+  .service-flip-card:hover .service-flip-card__image img {
+    transform: scale(1.05);
+  }
+
+  /* Overlay text (visible by default, hidden on hover) */
+  .service-flip-card__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 24px 20px;
+    background: linear-gradient(to top, hsla(0, 0%, 0%, 0.7) 0%, hsla(0, 0%, 0%, 0) 100%);
+    z-index: 2;
+    transition: opacity 0.35s ease;
+  }
+
+  .service-flip-card:hover .service-flip-card__overlay {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Details panel (hidden by default, visible on hover) */
+  .service-flip-card__details {
+    padding: 14px 16px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .service-flip-card:hover .service-flip-card__details {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @layer utilities {
