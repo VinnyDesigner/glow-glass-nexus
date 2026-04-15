@@ -147,10 +147,8 @@ export const defaultAbout: AboutContent = {
   description1: "BSDI (Bahrain Spatial Data Infrastructure) is a unified geospatial platform designed to enable secure data sharing, advanced analytics, and intelligent decision-making across government and enterprise sectors.",
   description2: "It brings together GIS, GeoAI, BIM, and governance standards into a single digital ecosystem — ensuring data accuracy, security, and national-level interoperability.",
   stats: [
-    { id: "s1", target: "50", suffix: "+", label: "Government Agencies" },
-    { id: "s2", target: "24", suffix: "/7", label: "Real-Time Access" },
-    { id: "s3", target: "99", suffix: ".9%", label: "Uptime" },
-    { id: "s4", target: "Secure", suffix: "", label: "National Standards" },
+     { id: "s1", target: "50", suffix: "+", label: "Government Agencies" },
+     { id: "s4", target: "Secure", suffix: "", label: "National Standards" },
   ],
 };
 
