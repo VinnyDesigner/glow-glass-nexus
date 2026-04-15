@@ -190,6 +190,11 @@
   100% { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes gradientSweep {
+  0% { opacity: 0.2; transform: translateX(-10%); }
+  100% { opacity: 0.4; transform: translateX(10%); }
+}
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
