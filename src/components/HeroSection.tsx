@@ -1,6 +1,7 @@
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
 import heroBgDefault from "@/assets/hero-bg.png";
+import heroOverlay from "@/assets/hero-overlay.png";
 
 export default function HeroSection() {
   const { ref, isVisible } = useScrollAnimation(0.1);
@@ -12,11 +13,13 @@ export default function HeroSection() {
 
   return (
     <section ref={ref} className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Bottom layer: Background image */}
       <div className="absolute inset-0">
         <img src={hero.backgroundImage || heroBgDefault} alt="" className="w-full h-full object-cover" />
         <div className="absolute inset-0" style={{ background: `rgba(0,0,0,${hero.overlayOpacity / 100})` }} />
       </div>
 
+      {/* Middle layer: Text */}
       <div className="relative z-10 container mx-auto px-4 md:px-8 flex justify-center">
         <div className={`max-w-3xl text-center transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
 
@@ -61,6 +64,11 @@ export default function HeroSection() {
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Top layer: Overlay building image */}
+      <div className="absolute inset-0 z-20 pointer-events-none">
+        <img src={heroOverlay} alt="" className="w-full h-full object-cover" />
       </div>
     </section>
   );
