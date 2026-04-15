@@ -164,8 +164,6 @@ export const defaultServices: ServicesContent = {
     { id: "sv6", title: "Cloud Infrastructure", description: "Scalable platform with high availability and disaster recovery capabilities.", image: "https://images.unsplash.com/photo-1506399558188-acca6f8cbf41?w=600&q=80", tags: ["High Availability", "Disaster Recovery"] },
     { id: "sv7", title: "Spatial Data APIs & Services", description: "To enable seamless access, integration, and sharing of geospatial data through standardized APIs and web services.", image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80", tags: ["APIs", "Data Sharing"] },
     { id: "sv8", title: "Decision Support Systems", description: "To empower government and stakeholders with data-driven insights for planning, monitoring, and strategic decision-making.", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80", tags: ["Data-Driven", "Strategic Planning"] },
-    { id: "sv9", title: "Field Survey & Mapping", description: "To enable accurate geospatial field data collection and mapping for national infrastructure and land management.", image: "", tags: ["Survey", "Mapping"] },
-    { id: "sv10", title: "Training & Capacity Building", description: "To develop GIS expertise across government entities through structured training programs and workshops.", image: "", tags: ["Training", "Knowledge Transfer"] },
   ],
 };
 

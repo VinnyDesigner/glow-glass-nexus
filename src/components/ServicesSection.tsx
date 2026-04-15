@@ -9,8 +9,6 @@ import serviceDataAnalytics from "@/assets/service-data-analytics.jpg";
 import serviceCloud from "@/assets/service-cloud.jpg";
 import serviceApi from "@/assets/service-api.jpg";
 import serviceDecisionSupport from "@/assets/service-decision-support.jpg";
-import serviceFieldSurvey from "@/assets/service-field-survey.jpg";
-import serviceTraining from "@/assets/service-training.jpg";
 
 const serviceImages = [
   serviceAdminConsole,
@@ -21,8 +19,6 @@ const serviceImages = [
   serviceCloud,
   serviceApi,
   serviceDecisionSupport,
-  serviceFieldSurvey,
-  serviceTraining,
 ];
 
 export default function ServicesSection() {
