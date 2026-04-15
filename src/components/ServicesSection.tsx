@@ -1,6 +1,26 @@
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
 
+import serviceAdminConsole from "@/assets/service-admin-console.jpg";
+import serviceGeocatalog from "@/assets/service-geocatalog.jpg";
+import serviceSmartMap from "@/assets/service-smart-map.jpg";
+import serviceGeointelligence from "@/assets/service-geointelligence.jpg";
+import serviceDataAnalytics from "@/assets/service-data-analytics.jpg";
+import serviceCloud from "@/assets/service-cloud.jpg";
+import serviceApi from "@/assets/service-api.jpg";
+import serviceDecisionSupport from "@/assets/service-decision-support.jpg";
+
+const serviceImages = [
+  serviceAdminConsole,
+  serviceGeocatalog,
+  serviceSmartMap,
+  serviceGeointelligence,
+  serviceDataAnalytics,
+  serviceCloud,
+  serviceApi,
+  serviceDecisionSupport,
+];
+
 export default function ServicesSection() {
   const { ref, isVisible } = useScrollAnimation();
   const { services } = useContentStore();
@@ -28,7 +48,7 @@ export default function ServicesSection() {
                 }}
               >
                 <div className="card-image" style={{ aspectRatio: '4/3' }}>
-                  <img src={service.image} alt={service.title} className="w-full h-full object-cover" loading="lazy" />
+                  <img src={serviceImages[i % serviceImages.length]} alt={service.title} className="w-full h-full object-cover" loading="lazy" width={1024} height={768} />
                 </div>
                 <div className="p-5 flex flex-col flex-1">
                   <h3 className="font-display text-base font-semibold text-foreground mb-1.5">{service.title}</h3>
