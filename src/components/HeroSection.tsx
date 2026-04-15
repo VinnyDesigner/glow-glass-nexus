@@ -19,15 +19,6 @@ export default function HeroSection() {
 
       <div className="relative z-10 container mx-auto px-4 md:px-8">
         <div className={`max-w-3xl transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          {/* Large faded background text */}
-          <div className="relative">
-            <span
-              className="block font-display text-[8rem] md:text-[12rem] lg:text-[16rem] font-black leading-none text-[hsla(0,0%,100%,0.08)] select-none pointer-events-none"
-              aria-hidden="true"
-            >
-              BSDI
-            </span>
-          </div>
 
           <div className="-mt-20 md:-mt-32 relative z-10">
             <h1 className="font-display leading-[1.05] mb-2 tracking-[-0.02em]">
