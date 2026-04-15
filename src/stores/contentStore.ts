@@ -64,6 +64,7 @@ export interface HeroContent {
   subtitle: string;
   overlayOpacity: number;
   backgroundImage?: string;
+  heroImages?: string[];
   title1Style?: HeroTextStyle;
   title2Style?: HeroTextStyle;
   subtitleStyle?: HeroTextStyle;

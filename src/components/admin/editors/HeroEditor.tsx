@@ -5,10 +5,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
-import { Save, ImagePlus, Bold, Italic, RotateCcw } from "lucide-react";
+import { Save, ImagePlus, Bold, Italic, RotateCcw, X, GripVertical } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import heroBgDefault from "@/assets/hero-bg.png";
+import heroSlide1 from "@/assets/hero-slide-1.png";
+import heroSlide2 from "@/assets/hero-slide-2.png";
+import heroSlide3 from "@/assets/hero-slide-3.png";
 import ResetConfirmModal from "../ResetConfirmModal";
+
+const DEFAULT_SLIDES = [heroBgDefault, heroSlide1, heroSlide2, heroSlide3];
 
 function TextStyleControls({ label, style, onChange }: { label: string; style: HeroTextStyle; onChange: (s: HeroTextStyle) => void }) {
   const weightCycle = () => {
@@ -51,12 +56,15 @@ export default function HeroEditor() {
   const { hero, updateHero } = useContentStore();
   const [draft, setDraft] = useState({
     ...hero,
+    heroImages: hero.heroImages && hero.heroImages.length > 0 ? hero.heroImages : [],
     title1Style: hero.title1Style || { fontSize: 72, fontWeight: "bold", italic: false, color: "#ffffff" },
     title2Style: hero.title2Style || { fontSize: 72, fontWeight: "bold", italic: false, color: "#FF3B30" },
     subtitleStyle: hero.subtitleStyle || { fontSize: 20, fontWeight: "normal", italic: false, color: "#ffffffcc" },
   });
   const [resetOpen, setResetOpen] = useState(false);
   const { toast } = useToast();
+
+  const currentSlides = draft.heroImages.length > 0 ? draft.heroImages : DEFAULT_SLIDES;
 
   const handleSave = () => {
     updateHero(draft);
@@ -66,6 +74,7 @@ export default function HeroEditor() {
   const handleReset = () => {
     const resetData = {
       ...defaultHero,
+      heroImages: [] as string[],
       title1Style: { fontSize: 72, fontWeight: "bold", italic: false, color: "#ffffff" },
       title2Style: { fontSize: 72, fontWeight: "bold", italic: false, color: "#FF3B30" },
       subtitleStyle: { fontSize: 20, fontWeight: "normal", italic: false, color: "#ffffffcc" },
@@ -76,116 +85,166 @@ export default function HeroEditor() {
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => setDraft((d) => ({ ...d, backgroundImage: ev.target?.result as string }));
-    reader.readAsDataURL(file);
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    const remaining = 5 - draft.heroImages.length;
+    const toAdd = files.slice(0, remaining);
+    
+    toAdd.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setDraft((d) => ({
+          ...d,
+          heroImages: [...d.heroImages, ev.target?.result as string],
+        }));
+      };
+      reader.readAsDataURL(file);
+    });
   };
 
-  const bgImage = draft.backgroundImage || heroBgDefault;
+  const removeImage = (index: number) => {
+    setDraft((d) => ({
+      ...d,
+      heroImages: d.heroImages.filter((_, i) => i !== index),
+    }));
+  };
 
   return (
     <div className="max-w-4xl">
       {/* Sticky Live Preview */}
       <div className="sticky top-0 z-20 pb-6">
-
-      {/* Live Preview */}
-      <div className="neu-card p-6 space-y-4">
-        <h3 className="font-display text-lg font-semibold text-foreground">Live Preview</h3>
-        <div className="relative rounded-xl overflow-hidden" style={{ height: 320 }}>
-          <img src={bgImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
-          <div className="absolute inset-0" style={{ background: `rgba(0,0,0,${draft.overlayOpacity / 100})` }} />
-          <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 transition-all duration-300">
-            <h1
-              style={{
-                fontSize: `${Math.min(draft.title1Style.fontSize || 72, 48)}px`,
-                fontWeight: draft.title1Style.fontWeight || "bold",
-                fontStyle: draft.title1Style.italic ? "italic" : "normal",
-                color: draft.title1Style.color || "#ffffff",
-              }}
-              className="font-display leading-tight"
-            >
-              {draft.title1}
-            </h1>
-            <h1
-              style={{
-                fontSize: `${Math.min(draft.title2Style.fontSize || 72, 48)}px`,
-                fontWeight: draft.title2Style.fontWeight || "bold",
-                fontStyle: draft.title2Style.italic ? "italic" : "normal",
-                color: draft.title2Style.color || "#FF3B30",
-              }}
-              className="font-display leading-tight"
-            >
-              {draft.title2}
-            </h1>
-            <p
-              className="max-w-md mt-3 leading-relaxed"
-              style={{
-                fontSize: `${Math.min(draft.subtitleStyle.fontSize || 20, 16)}px`,
-                fontWeight: draft.subtitleStyle.fontWeight || "normal",
-                fontStyle: draft.subtitleStyle.italic ? "italic" : "normal",
-                color: draft.subtitleStyle.color || "#ffffffcc",
-              }}
-            >
-              {draft.subtitle}
-            </p>
+        <div className="neu-card p-6 space-y-4">
+          <h3 className="font-display text-lg font-semibold text-foreground">Live Preview</h3>
+          <div className="relative rounded-xl overflow-hidden" style={{ height: 320 }}>
+            <img src={currentSlides[0]} alt="" className="absolute inset-0 w-full h-full object-cover" />
+            <div className="absolute inset-0" style={{ background: `rgba(0,0,0,${draft.overlayOpacity / 100})` }} />
+            <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+              <div className="backdrop-blur-md bg-white/[0.06] border border-white/[0.12] rounded-xl px-6 py-8">
+                <h1
+                  style={{
+                    fontSize: `${Math.min(draft.title1Style.fontSize || 72, 48)}px`,
+                    fontWeight: draft.title1Style.fontWeight || "bold",
+                    fontStyle: draft.title1Style.italic ? "italic" : "normal",
+                    color: draft.title1Style.color || "#ffffff",
+                  }}
+                  className="font-display leading-tight"
+                >
+                  {draft.title1}
+                </h1>
+                <h1
+                  style={{
+                    fontSize: `${Math.min(draft.title2Style.fontSize || 72, 48)}px`,
+                    fontWeight: draft.title2Style.fontWeight || "bold",
+                    fontStyle: draft.title2Style.italic ? "italic" : "normal",
+                    color: draft.title2Style.color || "#FF3B30",
+                  }}
+                  className="font-display leading-tight"
+                >
+                  {draft.title2}
+                </h1>
+                <p
+                  className="max-w-md mt-3 leading-relaxed"
+                  style={{
+                    fontSize: `${Math.min(draft.subtitleStyle.fontSize || 20, 16)}px`,
+                    fontWeight: draft.subtitleStyle.fontWeight || "normal",
+                    fontStyle: draft.subtitleStyle.italic ? "italic" : "normal",
+                    color: draft.subtitleStyle.color || "#ffffffcc",
+                  }}
+                >
+                  {draft.subtitle}
+                </p>
+              </div>
+            </div>
+            {/* Preview dots */}
+            <div className="absolute bottom-3 right-3 flex gap-1.5">
+              {currentSlides.map((_, i) => (
+                <div key={i} className="w-2 h-2 rounded-full" style={{ background: i === 0 ? "hsl(348, 83%, 40%)" : "rgba(255,255,255,0.4)" }} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
-      </div>
 
       <div className="space-y-8 mt-2">
-      {/* Background Image */}
-      <div className="neu-card p-6 space-y-4">
-        <h3 className="font-display text-lg font-semibold text-foreground">Background Image</h3>
-        <div className="border-2 border-dashed border-border rounded-xl p-4 text-center">
-          {bgImage && <img src={bgImage} alt="" className="w-full h-32 object-cover rounded-lg mb-3" />}
-          <label className="inline-flex items-center gap-2 cursor-pointer text-sm text-primary hover:underline">
-            <ImagePlus size={16} />
-            {draft.backgroundImage ? "Replace Image" : "Upload Hero Image"}
-            <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-          </label>
-        </div>
-        <div>
-          <Label>Overlay Opacity: {draft.overlayOpacity}%</Label>
-          <Slider value={[draft.overlayOpacity]} onValueChange={([v]) => setDraft({ ...draft, overlayOpacity: v })} min={0} max={100} step={5} className="mt-3" />
-        </div>
-      </div>
+        {/* Carousel Images */}
+        <div className="neu-card p-6 space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="font-display text-lg font-semibold text-foreground">Carousel Images</h3>
+            <span className="text-sm text-muted-foreground">{draft.heroImages.length}/5 custom</span>
+          </div>
+          <p className="text-sm text-muted-foreground">Upload up to 5 images for the hero carousel. When empty, default Bahrain images are used.</p>
+          
+          {/* Image grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {draft.heroImages.map((img, i) => (
+              <div key={i} className="relative group rounded-xl overflow-hidden border border-border">
+                <img src={img} alt={`Slide ${i + 1}`} className="w-full h-24 object-cover" />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                  <button
+                    onClick={() => removeImage(i)}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity bg-destructive text-white rounded-full p-1"
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+                <span className="absolute top-1 left-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">{i + 1}</span>
+              </div>
+            ))}
+            
+            {draft.heroImages.length < 5 && (
+              <label className="flex flex-col items-center justify-center h-24 border-2 border-dashed border-border rounded-xl cursor-pointer hover:border-primary/50 transition-colors">
+                <ImagePlus size={20} className="text-muted-foreground mb-1" />
+                <span className="text-xs text-muted-foreground">Add Image</span>
+                <input type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
+              </label>
+            )}
+          </div>
 
-      {/* Hero Text */}
-      <div className="neu-card p-6 space-y-4">
-        <h3 className="font-display text-lg font-semibold text-foreground">Hero Text</h3>
-        <div>
-          <Label>Title Line 1</Label>
-          <Input value={draft.title1} onChange={(e) => setDraft({ ...draft, title1: e.target.value })} className="mt-1.5" />
-        </div>
-        <div>
-          <Label>Title Line 2</Label>
-          <Input value={draft.title2} onChange={(e) => setDraft({ ...draft, title2: e.target.value })} className="mt-1.5" />
-        </div>
-        <div>
-          <Label>Subtitle</Label>
-          <Textarea value={draft.subtitle} onChange={(e) => setDraft({ ...draft, subtitle: e.target.value })} className="mt-1.5" rows={3} />
-        </div>
-      </div>
+          {draft.heroImages.length === 0 && (
+            <div className="text-xs text-muted-foreground bg-muted/50 rounded-lg p-3">
+              Using {DEFAULT_SLIDES.length} default Bahrain images. Upload custom images to replace them.
+            </div>
+          )}
 
-      {/* Text Style Controls */}
-      <div className="neu-card p-6 space-y-4">
-        <h3 className="font-display text-lg font-semibold text-foreground">Text Styling</h3>
-        <TextStyleControls label="Title Line 1" style={draft.title1Style} onChange={(s) => setDraft({ ...draft, title1Style: s })} />
-        <TextStyleControls label="Title Line 2" style={draft.title2Style} onChange={(s) => setDraft({ ...draft, title2Style: s })} />
-        <TextStyleControls label="Subtitle" style={draft.subtitleStyle} onChange={(s) => setDraft({ ...draft, subtitleStyle: s })} />
-      </div>
+          <div>
+            <Label>Overlay Opacity: {draft.overlayOpacity}%</Label>
+            <Slider value={[draft.overlayOpacity]} onValueChange={([v]) => setDraft({ ...draft, overlayOpacity: v })} min={0} max={100} step={5} className="mt-3" />
+          </div>
+        </div>
 
-      <div className="flex items-center gap-3">
-        <Button onClick={handleSave} className="gap-2" size="lg">
-          <Save size={18} /> Update Hero Section
-        </Button>
-        <Button variant="outline" size="lg" className="gap-2 text-muted-foreground hover:text-destructive hover:border-destructive transition-colors" onClick={() => setResetOpen(true)}>
-          <RotateCcw size={18} /> Reset Changes
-        </Button>
-      </div>
+        {/* Hero Text */}
+        <div className="neu-card p-6 space-y-4">
+          <h3 className="font-display text-lg font-semibold text-foreground">Hero Text</h3>
+          <div>
+            <Label>Title Line 1</Label>
+            <Input value={draft.title1} onChange={(e) => setDraft({ ...draft, title1: e.target.value })} className="mt-1.5" />
+          </div>
+          <div>
+            <Label>Title Line 2</Label>
+            <Input value={draft.title2} onChange={(e) => setDraft({ ...draft, title2: e.target.value })} className="mt-1.5" />
+          </div>
+          <div>
+            <Label>Subtitle</Label>
+            <Textarea value={draft.subtitle} onChange={(e) => setDraft({ ...draft, subtitle: e.target.value })} className="mt-1.5" rows={3} />
+          </div>
+        </div>
+
+        {/* Text Style Controls */}
+        <div className="neu-card p-6 space-y-4">
+          <h3 className="font-display text-lg font-semibold text-foreground">Text Styling</h3>
+          <TextStyleControls label="Title Line 1" style={draft.title1Style} onChange={(s) => setDraft({ ...draft, title1Style: s })} />
+          <TextStyleControls label="Title Line 2" style={draft.title2Style} onChange={(s) => setDraft({ ...draft, title2Style: s })} />
+          <TextStyleControls label="Subtitle" style={draft.subtitleStyle} onChange={(s) => setDraft({ ...draft, subtitleStyle: s })} />
+        </div>
+
+        <div className="flex items-center gap-3">
+          <Button onClick={handleSave} className="gap-2" size="lg">
+            <Save size={18} /> Update Hero Section
+          </Button>
+          <Button variant="outline" size="lg" className="gap-2 text-muted-foreground hover:text-destructive hover:border-destructive transition-colors" onClick={() => setResetOpen(true)}>
+            <RotateCcw size={18} /> Reset Changes
+          </Button>
+        </div>
       </div>
 
       <ResetConfirmModal open={resetOpen} onClose={() => setResetOpen(false)} onConfirm={handleReset} />

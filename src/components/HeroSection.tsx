@@ -1,66 +1,161 @@
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
 import heroBgDefault from "@/assets/hero-bg.png";
+import heroSlide1 from "@/assets/hero-slide-1.png";
+import heroSlide2 from "@/assets/hero-slide-2.png";
+import heroSlide3 from "@/assets/hero-slide-3.png";
+
+const DEFAULT_SLIDES = [heroBgDefault, heroSlide1, heroSlide2, heroSlide3];
+const SLIDE_DURATION = 5000;
+const TRANSITION_DURATION = 1000;
 
 export default function HeroSection() {
   const { ref, isVisible } = useScrollAnimation(0.1);
   const { hero } = useContentStore();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const progressRef = useRef<HTMLDivElement[]>([]);
+
+  const slides = hero.heroImages && hero.heroImages.length > 0 ? hero.heroImages : DEFAULT_SLIDES;
+
+  const goToSlide = useCallback((index: number) => {
+    setCurrentIndex(index);
+  }, []);
+
+  // Auto-play
+  useEffect(() => {
+    if (isPaused) {
+      if (timerRef.current) clearInterval(timerRef.current);
+      return;
+    }
+    timerRef.current = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % slides.length);
+    }, SLIDE_DURATION);
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [isPaused, slides.length, currentIndex]);
 
   const t1 = hero.title1Style || {};
   const t2 = hero.title2Style || {};
   const sub = hero.subtitleStyle || {};
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center overflow-hidden">
-      <div className="absolute inset-0">
-        <img src={hero.backgroundImage || heroBgDefault} alt="" className="w-full h-full object-cover" />
-        <div className="absolute inset-0" style={{ background: `rgba(0,0,0,${hero.overlayOpacity / 100})` }} />
-      </div>
+    <section
+      ref={ref}
+      className="relative h-screen w-full overflow-hidden"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      {/* Image slides with Ken Burns effect */}
+      {slides.map((src, i) => (
+        <div
+          key={i}
+          className="absolute inset-0 transition-opacity ease-in-out"
+          style={{
+            opacity: currentIndex === i ? 1 : 0,
+            transitionDuration: `${TRANSITION_DURATION}ms`,
+            zIndex: currentIndex === i ? 1 : 0,
+          }}
+        >
+          <img
+            src={src}
+            alt=""
+            loading={i === 0 ? "eager" : "lazy"}
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{
+              animation: currentIndex === i ? `kenBurns ${SLIDE_DURATION + TRANSITION_DURATION}ms ease-in-out forwards` : "none",
+              transform: "scale(1)",
+            }}
+          />
+        </div>
+      ))}
 
-      <div className="relative z-10 container mx-auto px-4 md:px-8 flex justify-center">
-        <div className={`max-w-3xl text-center transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
+      {/* Dark gradient overlay */}
+      <div
+        className="absolute inset-0 z-[2]"
+        style={{
+          background: `linear-gradient(180deg, rgba(0,0,0,${(hero.overlayOpacity || 30) / 100 * 0.6}) 0%, rgba(0,0,0,${(hero.overlayOpacity || 30) / 100}) 60%, rgba(0,0,0,${(hero.overlayOpacity || 30) / 100 * 0.9}) 100%)`,
+        }}
+      />
 
-          <div className="-mt-20 md:-mt-32 relative z-10">
-            <h1 className="font-display leading-[1.05] mb-2 tracking-[-0.02em]">
-              <span
+      {/* Content layer */}
+      <div className="relative z-10 h-full flex items-center justify-center">
+        <div className={`max-w-3xl text-center px-4 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
+          <div className="-mt-10 md:-mt-16">
+            {/* Glass container */}
+            <div className="backdrop-blur-md bg-white/[0.06] border border-white/[0.12] rounded-2xl px-8 py-10 md:px-12 md:py-14 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <h1 className="font-display leading-[1.05] mb-2 tracking-[-0.02em]">
+                <span
+                  style={{
+                    fontSize: t1.fontSize ? `${t1.fontSize}px` : undefined,
+                    fontWeight: t1.fontWeight || "800",
+                    fontStyle: t1.italic ? "italic" : "normal",
+                    color: t1.color || undefined,
+                  }}
+                  className={`block ${!t1.fontSize ? "text-4xl sm:text-5xl md:text-6xl lg:text-7xl" : ""} ${!t1.color ? "hero-title-gradient" : ""}`}
+                >
+                  {hero.title1}
+                </span>
+              </h1>
+              <h1 className="font-display leading-[1.05] mb-6 tracking-[-0.02em]">
+                <span
+                  style={{
+                    fontSize: t2.fontSize ? `${t2.fontSize}px` : undefined,
+                    fontWeight: t2.fontWeight || "800",
+                    fontStyle: t2.italic ? "italic" : "normal",
+                    color: t2.color || undefined,
+                  }}
+                  className={`block ${!t2.fontSize ? "text-4xl sm:text-5xl md:text-6xl lg:text-7xl" : ""} ${!t2.color ? "gradient-text" : ""}`}
+                >
+                  {hero.title2}
+                </span>
+              </h1>
+              <p
+                className="max-w-xl mx-auto leading-[1.6] whitespace-pre-line"
                 style={{
-                  fontSize: t1.fontSize ? `${t1.fontSize}px` : undefined,
-                  fontWeight: t1.fontWeight || "800",
-                  fontStyle: t1.italic ? "italic" : "normal",
-                  color: t1.color || undefined,
+                  fontSize: sub.fontSize ? `${sub.fontSize}px` : "18px",
+                  fontWeight: sub.fontWeight || "400",
+                  fontStyle: sub.italic ? "italic" : "normal",
+                  color: sub.color || "hsla(0,0%,100%,0.75)",
+                  letterSpacing: "0.01em",
                 }}
-                className={`block ${!t1.fontSize ? "text-4xl sm:text-5xl md:text-6xl lg:text-7xl" : ""} ${!t1.color ? "hero-title-gradient" : ""}`}
               >
-                {hero.title1}
-              </span>
-            </h1>
-            <h1 className="font-display leading-[1.05] mb-6 tracking-[-0.02em]">
-              <span
-                style={{
-                  fontSize: t2.fontSize ? `${t2.fontSize}px` : undefined,
-                  fontWeight: t2.fontWeight || "800",
-                  fontStyle: t2.italic ? "italic" : "normal",
-                  color: t2.color || undefined,
-                }}
-                className={`block ${!t2.fontSize ? "text-4xl sm:text-5xl md:text-6xl lg:text-7xl" : ""} ${!t2.color ? "gradient-text" : ""}`}
-              >
-                {hero.title2}
-              </span>
-            </h1>
-            <p
-              className="max-w-xl mx-auto leading-[1.6] whitespace-pre-line"
-              style={{
-                fontSize: sub.fontSize ? `${sub.fontSize}px` : "18px",
-                fontWeight: sub.fontWeight || "400",
-                fontStyle: sub.italic ? "italic" : "normal",
-                color: sub.color || "hsla(0,0%,100%,0.75)",
-                letterSpacing: "0.01em",
-              }}
-            >
-              {hero.subtitle}
-            </p>
+                {hero.subtitle}
+              </p>
+            </div>
           </div>
         </div>
+      </div>
+
+      {/* Navigation dots - bottom right */}
+      <div className="absolute bottom-8 right-8 z-20 flex items-center gap-3">
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => goToSlide(i)}
+            className="relative w-3 h-3 rounded-full overflow-hidden transition-all duration-300 focus:outline-none"
+            style={{
+              background: currentIndex === i ? "hsl(348, 83%, 40%)" : "rgba(255,255,255,0.35)",
+              transform: currentIndex === i ? "scale(1.3)" : "scale(1)",
+            }}
+            aria-label={`Go to slide ${i + 1}`}
+          >
+            {/* Progress fill animation */}
+            {currentIndex === i && !isPaused && (
+              <div
+                className="absolute inset-0 rounded-full"
+                style={{
+                  background: "rgba(255,255,255,0.4)",
+                  animation: `dotProgress ${SLIDE_DURATION}ms linear forwards`,
+                  transformOrigin: "left center",
+                }}
+              />
+            )}
+          </button>
+        ))}
       </div>
     </section>
   );
