@@ -15,27 +15,16 @@ export default function HeroSection() {
   const { ref, isVisible } = useScrollAnimation(0.1);
   const { hero } = useContentStore();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [textVisible, setTextVisible] = useState(true);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
   const slides = hero.heroImages && hero.heroImages.length > 0 ? hero.heroImages : DEFAULT_SLIDES;
 
   const goToSlide = useCallback((index: number) => {
-    setTextVisible(false);
-    setTimeout(() => {
-      setCurrentIndex(index);
-      setTextVisible(true);
-    }, 200);
+    setCurrentIndex(index);
   }, []);
 
   // Continuous auto-play — never pauses
   useEffect(() => {
     timerRef.current = setInterval(() => {
-      setTextVisible(false);
-      setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % slides.length);
-        setTextVisible(true);
-      }, 200);
+      setCurrentIndex((prev) => (prev + 1) % slides.length);
     }, SLIDE_DURATION);
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
