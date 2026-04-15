@@ -137,6 +137,7 @@ export const defaultVision: VisionContent = {
     { id: "v1", title: "Digital Transformation", description: "Leveraging cutting-edge technologies to modernize Bahrain's infrastructure and drive innovation across all government sectors.", image: "https://images.unsplash.com/photo-1768224656445-33d078c250b7?w=600&q=80" },
     { id: "v2", title: "Geospatial Intelligence", description: "Advanced GIS and GeoAI capabilities enable data-driven insights for strategic planning and resource management.", image: "https://images.unsplash.com/photo-1744968777188-3e1b2ef23339?w=600&q=80" },
     { id: "v3", title: "Smart Cities", description: "Building sustainable, connected urban environments through intelligent spatial planning and 3D visualization.", image: "https://images.unsplash.com/photo-1760553120312-2821bf54e767?w=600&q=80" },
+    { id: "v4", title: "Data Governance & Security", description: "Ensuring data integrity, privacy, and secure access through robust governance frameworks and compliance standards.", image: "https://images.unsplash.com/photo-1563986768609-322da13575f2?w=600&q=80" },
   ],
 };
 
