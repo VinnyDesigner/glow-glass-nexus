@@ -8,36 +8,39 @@ import heroSlide4 from "@/assets/hero-slide-4.png";
 import heroSlide5 from "@/assets/hero-slide-5.png";
 
 const DEFAULT_SLIDES = [heroSlide1, heroSlide2, heroSlide3, heroSlide4, heroSlide5];
-const SLIDE_DURATION = 5000;
+const SLIDE_DURATION = 3000;
 const TRANSITION_DURATION = 1000;
 
 export default function HeroSection() {
   const { ref, isVisible } = useScrollAnimation(0.1);
   const { hero } = useContentStore();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [textVisible, setTextVisible] = useState(true);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const progressRef = useRef<HTMLDivElement[]>([]);
 
   const slides = hero.heroImages && hero.heroImages.length > 0 ? hero.heroImages : DEFAULT_SLIDES;
 
   const goToSlide = useCallback((index: number) => {
-    setCurrentIndex(index);
+    setTextVisible(false);
+    setTimeout(() => {
+      setCurrentIndex(index);
+      setTextVisible(true);
+    }, 200);
   }, []);
 
-  // Auto-play
+  // Continuous auto-play — never pauses
   useEffect(() => {
-    if (isPaused) {
-      if (timerRef.current) clearInterval(timerRef.current);
-      return;
-    }
     timerRef.current = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % slides.length);
+      setTextVisible(false);
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % slides.length);
+        setTextVisible(true);
+      }, 200);
     }, SLIDE_DURATION);
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isPaused, slides.length, currentIndex]);
+  }, [slides.length]);
 
   const t1 = hero.title1Style || {};
   const t2 = hero.title2Style || {};
@@ -47,8 +50,6 @@ export default function HeroSection() {
     <section
       ref={ref}
       className="relative h-screen w-full overflow-hidden"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
     >
       {/* Image slides with Ken Burns effect */}
       {slides.map((src, i) => (
@@ -86,46 +87,53 @@ export default function HeroSection() {
       <div className="relative z-10 h-full flex items-center justify-center">
         <div className={`max-w-3xl text-center px-4 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
           <div className="-mt-10 md:-mt-16">
-            {/* Glass container */}
             <div className="backdrop-blur-md bg-white/[0.06] border border-white/[0.12] rounded-2xl px-8 py-10 md:px-12 md:py-14 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-              <h1 className="font-display leading-[1.05] mb-2 tracking-[-0.02em]">
-                <span
-                  style={{
-                    fontSize: t1.fontSize ? `${t1.fontSize}px` : undefined,
-                    fontWeight: t1.fontWeight || "800",
-                    fontStyle: t1.italic ? "italic" : "normal",
-                    color: t1.color || undefined,
-                  }}
-                  className={`block ${!t1.fontSize ? "text-4xl sm:text-5xl md:text-6xl lg:text-7xl" : ""} ${!t1.color ? "hero-title-gradient" : ""}`}
-                >
-                  {hero.title1}
-                </span>
-              </h1>
-              <h1 className="font-display leading-[1.05] mb-6 tracking-[-0.02em]">
-                <span
-                  style={{
-                    fontSize: t2.fontSize ? `${t2.fontSize}px` : undefined,
-                    fontWeight: t2.fontWeight || "800",
-                    fontStyle: t2.italic ? "italic" : "normal",
-                    color: t2.color || undefined,
-                  }}
-                  className={`block ${!t2.fontSize ? "text-4xl sm:text-5xl md:text-6xl lg:text-7xl" : ""} ${!t2.color ? "gradient-text" : ""}`}
-                >
-                  {hero.title2}
-                </span>
-              </h1>
-              <p
-                className="max-w-xl mx-auto leading-[1.6] whitespace-pre-line"
+              <div
+                className="transition-all duration-500 ease-out"
                 style={{
-                  fontSize: sub.fontSize ? `${sub.fontSize}px` : "18px",
-                  fontWeight: sub.fontWeight || "400",
-                  fontStyle: sub.italic ? "italic" : "normal",
-                  color: sub.color || "hsla(0,0%,100%,0.75)",
-                  letterSpacing: "0.01em",
+                  opacity: textVisible ? 1 : 0,
+                  transform: textVisible ? "translateY(0)" : "translateY(8px)",
                 }}
               >
-                {hero.subtitle}
-              </p>
+                <h1 className="font-display leading-[1.05] mb-2 tracking-[-0.02em]">
+                  <span
+                    style={{
+                      fontSize: t1.fontSize ? `${t1.fontSize}px` : undefined,
+                      fontWeight: t1.fontWeight || "800",
+                      fontStyle: t1.italic ? "italic" : "normal",
+                      color: t1.color || undefined,
+                    }}
+                    className={`block ${!t1.fontSize ? "text-4xl sm:text-5xl md:text-6xl lg:text-7xl" : ""} ${!t1.color ? "hero-title-gradient" : ""}`}
+                  >
+                    {hero.title1}
+                  </span>
+                </h1>
+                <h1 className="font-display leading-[1.05] mb-6 tracking-[-0.02em]">
+                  <span
+                    style={{
+                      fontSize: t2.fontSize ? `${t2.fontSize}px` : undefined,
+                      fontWeight: t2.fontWeight || "800",
+                      fontStyle: t2.italic ? "italic" : "normal",
+                      color: t2.color || undefined,
+                    }}
+                    className={`block ${!t2.fontSize ? "text-4xl sm:text-5xl md:text-6xl lg:text-7xl" : ""} ${!t2.color ? "gradient-text" : ""}`}
+                  >
+                    {hero.title2}
+                  </span>
+                </h1>
+                <p
+                  className="max-w-xl mx-auto leading-[1.6] whitespace-pre-line"
+                  style={{
+                    fontSize: sub.fontSize ? `${sub.fontSize}px` : "18px",
+                    fontWeight: sub.fontWeight || "400",
+                    fontStyle: sub.italic ? "italic" : "normal",
+                    color: sub.color || "hsla(0,0%,100%,0.75)",
+                    letterSpacing: "0.01em",
+                  }}
+                >
+                  {hero.subtitle}
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -144,9 +152,9 @@ export default function HeroSection() {
             }}
             aria-label={`Go to slide ${i + 1}`}
           >
-            {/* Progress fill animation */}
-            {currentIndex === i && !isPaused && (
+            {currentIndex === i && (
               <div
+                key={`progress-${currentIndex}-${i}`}
                 className="absolute inset-0 rounded-full"
                 style={{
                   background: "rgba(255,255,255,0.4)",
