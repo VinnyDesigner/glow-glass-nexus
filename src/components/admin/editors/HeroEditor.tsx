@@ -11,9 +11,11 @@ import heroBgDefault from "@/assets/hero-bg.png";
 import heroSlide1 from "@/assets/hero-slide-1.png";
 import heroSlide2 from "@/assets/hero-slide-2.png";
 import heroSlide3 from "@/assets/hero-slide-3.png";
+import heroSlide4 from "@/assets/hero-slide-4.png";
+import heroSlide5 from "@/assets/hero-slide-5.png";
 import ResetConfirmModal from "../ResetConfirmModal";
 
-const DEFAULT_SLIDES = [heroBgDefault, heroSlide1, heroSlide2, heroSlide3];
+const DEFAULT_SLIDES = [heroBgDefault, heroSlide1, heroSlide2, heroSlide3, heroSlide4, heroSlide5];
 
 function TextStyleControls({ label, style, onChange }: { label: string; style: HeroTextStyle; onChange: (s: HeroTextStyle) => void }) {
   const weightCycle = () => {
