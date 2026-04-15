@@ -27,12 +27,18 @@ export default function WhoCanUseSection() {
                   animation: isVisible ? `fadeBlurUp 0.5s ease-out ${i * 0.06}s forwards` : 'none',
                 }}
               >
-                <div className="card-image" style={{ height: 180 }}>
+                <div className="card-image" style={{ aspectRatio: '4/3' }}>
                   <img src={user.image} alt={user.title} className="w-full h-full object-cover" loading="lazy" />
                 </div>
-                <div className="p-5">
+                <div className="p-5 flex flex-col flex-1">
                   <h3 className="font-display text-sm font-semibold text-foreground mb-1.5">{user.title}</h3>
-                  <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2">{user.description}</p>
+                  <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2 flex-1">{user.description}</p>
+                  <div className="border-t border-border pt-3 mt-auto">
+                    <span className="view-details-link justify-end w-full text-xs">
+                      View Details
+                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    </span>
+                  </div>
                 </div>
               </Wrapper>
             );
