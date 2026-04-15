@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -7,6 +7,7 @@ export default function DataServicesSection() {
   const { ref, isVisible } = useScrollAnimation();
   const { dataServices } = useContentStore();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   const scroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -17,6 +18,22 @@ export default function DataServicesSection() {
     });
   };
 
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el || isHovered) return;
+
+    const interval = setInterval(() => {
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      if (el.scrollLeft >= maxScroll - 1) {
+        el.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        el.scrollBy({ left: 220, behavior: "smooth" });
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isHovered]);
+
   return (
     <section id="contact" className="section-padding">
       <div ref={ref} className="container mx-auto">
@@ -25,7 +42,11 @@ export default function DataServicesSection() {
           <p className="max-w-2xl mx-auto mt-4 text-muted-foreground text-base leading-relaxed">{dataServices.description}</p>
         </div>
 
-        <div className="relative flex items-center gap-3">
+        <div
+          className="relative flex items-center gap-3"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           <button
             onClick={() => scroll("left")}
             className="shrink-0 w-10 h-10 rounded-full bg-card border border-border shadow-sm flex items-center justify-center text-muted-foreground hover:text-foreground hover:shadow-md transition-all"
