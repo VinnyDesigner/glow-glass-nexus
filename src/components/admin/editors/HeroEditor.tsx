@@ -12,6 +12,7 @@ import heroSlide2 from "@/assets/hero-slide-2.png";
 import heroSlide3 from "@/assets/hero-slide-3.png";
 import heroSlide4 from "@/assets/hero-slide-4.png";
 import heroSlide5 from "@/assets/hero-slide-5.png";
+import ResetConfirmModal from "../ResetConfirmModal";
 
 const DEFAULT_SLIDES = [heroSlide1, heroSlide2, heroSlide3, heroSlide4, heroSlide5];
 
