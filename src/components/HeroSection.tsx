@@ -57,10 +57,6 @@ export default function HeroSection() {
             alt=""
             loading={i === 0 ? "eager" : "lazy"}
             className="absolute inset-0 w-full h-full object-cover"
-            style={{
-              animation: currentIndex === i ? `kenBurns ${SLIDE_DURATION + TRANSITION_DURATION}ms ease-in-out forwards` : "none",
-              transform: "scale(1)",
-            }}
           />
         </div>
       ))}
