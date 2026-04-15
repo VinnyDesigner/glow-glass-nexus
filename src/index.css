@@ -113,7 +113,7 @@
   }
 
   .section-padding {
-    @apply py-16 md:py-24 lg:py-32 px-4 md:px-6;
+    @apply py-10 md:py-14 lg:py-18 px-4 md:px-6;
   }
 
   /* View details link */
