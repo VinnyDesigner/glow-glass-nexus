@@ -96,7 +96,7 @@ export default function HeroSection() {
                       fontStyle: t2.italic ? "italic" : "normal",
                       color: t2.color || undefined,
                     }}
-                    className={`block ${!t2.fontSize ? "text-4xl sm:text-5xl md:text-6xl lg:text-7xl" : ""} ${!t2.color ? "gradient-text" : ""}`}
+                    className="block text-[#ffad99] text-5xl font-extrabold"
                   >
                     {hero.title2}
                   </span>
