@@ -27,7 +27,7 @@ export default function WhoCanUseSection() {
                   animation: isVisible ? `fadeBlurUp 0.5s ease-out ${i * 0.06}s forwards` : 'none',
                 }}
               >
-                <div className="relative overflow-hidden" style={{ height: 180 }}>
+                <div className="card-image" style={{ height: 180 }}>
                   <img src={user.image} alt={user.title} className="w-full h-full object-cover" loading="lazy" />
                 </div>
                 <div className="p-5">
