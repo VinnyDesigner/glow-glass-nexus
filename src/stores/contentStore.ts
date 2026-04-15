@@ -232,6 +232,18 @@ export const useContentStore = create<ContentStore>()(
       updateDataServices: (data) => set((s) => ({ dataServices: { ...s.dataServices, ...data } })),
       updateFooter: (data) => set((s) => ({ footer: { ...s.footer, ...data } })),
     }),
-    { name: "bsdi-content" }
+    {
+      name: "bsdi-content",
+      merge: (persisted: any, current: any) => {
+        const merged = { ...current, ...persisted };
+        // Ensure new default vision cards appear
+        if (persisted?.vision?.cards) {
+          const persistedIds = new Set(persisted.vision.cards.map((c: any) => c.id));
+          const newDefaults = defaultVision.cards.filter(c => !persistedIds.has(c.id));
+          merged.vision = { ...merged.vision, cards: [...persisted.vision.cards, ...newDefaults] };
+        }
+        return merged;
+      },
+    }
   )
 );
