@@ -79,7 +79,7 @@ export default function VisionSection() {
                     WebkitBackdropFilter: 'blur(12px)',
                   }}
                 >
-                  <h3 className="font-display text-base md:text-lg font-semibold mb-1.5 text-primary-foreground">
+                  <h3 className="font-display text-base md:text-lg font-semibold mb-1.5 text-secondary-foreground">
                     {card.title}
                   </h3>
                   <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2">

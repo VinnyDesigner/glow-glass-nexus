@@ -83,7 +83,7 @@ export default function WhoCanUseSection() {
                     WebkitBackdropFilter: 'blur(12px)',
                   }}
                 >
-                  <h3 className="font-display text-sm md:text-base font-semibold mb-1.5 text-primary-foreground">
+                  <h3 className="font-display text-sm md:text-base font-semibold mb-1.5 text-secondary-foreground">
                     {user.title}
                   </h3>
                   <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2">
