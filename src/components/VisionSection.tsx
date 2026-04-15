@@ -13,7 +13,7 @@ export default function VisionSection() {
           <p className="max-w-3xl mx-auto mt-4 text-muted-foreground text-base leading-relaxed">{vision.description}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {vision.cards.map((card, i) => {
             const Wrapper = card.link ? 'a' : 'div';
             const wrapperProps = card.link ? { href: card.link, target: '_blank', rel: 'noopener noreferrer' } : {};
