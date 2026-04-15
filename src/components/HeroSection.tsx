@@ -87,7 +87,7 @@ export default function HeroSection() {
       <div className="relative z-10 h-full flex items-center justify-center">
         <div className={`max-w-3xl text-center px-4 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
           <div className="-mt-10 md:-mt-16">
-            <div className="backdrop-blur-md bg-white/[0.06] border border-white/[0.12] rounded-2xl px-8 py-10 md:px-12 md:py-14 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+            <div>
               <div
                 className="transition-all duration-500 ease-out"
                 style={{
