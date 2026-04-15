@@ -137,7 +137,7 @@ export default function HeroSection() {
 
       {/* Top layer: Overlay building image */}
       <div className="absolute inset-0 z-20 pointer-events-none">
-        <img src={heroOverlay} alt="" className="w-full h-full object-cover" />
+        <img src={heroOverlay} alt="" className="w-full h-full object-cover object-center" />
       </div>
     </section>
   );
