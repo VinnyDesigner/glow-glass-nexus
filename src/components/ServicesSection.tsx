@@ -27,7 +27,7 @@ export default function ServicesSection() {
                   animation: isVisible ? `fadeBlurUp 0.5s ease-out ${i * 0.08}s forwards` : 'none',
                 }}
               >
-                <div className="relative overflow-hidden" style={{ height: 200 }}>
+                <div className="card-image" style={{ height: 200 }}>
                   <img src={service.image} alt={service.title} className="w-full h-full object-cover" loading="lazy" />
                 </div>
                 <div className="p-5">

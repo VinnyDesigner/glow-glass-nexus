@@ -13,7 +13,7 @@ export default function VisionSection() {
           <p className="max-w-3xl mx-auto mt-4 text-muted-foreground text-base leading-relaxed">{vision.description}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {vision.cards.map((card, i) => {
             const Wrapper = card.link ? 'a' : 'div';
             const wrapperProps = card.link ? { href: card.link, target: '_blank', rel: 'noopener noreferrer' } : {};
@@ -27,12 +27,12 @@ export default function VisionSection() {
                   animation: isVisible ? `fadeBlurUp 0.5s ease-out ${i * 0.1}s forwards` : 'none',
                 }}
               >
-                <div className="relative overflow-hidden" style={{ height: 220 }}>
+                <div className="card-image" style={{ height: 200 }}>
                   <img src={card.image} alt={card.title} className="w-full h-full object-cover" loading="lazy" />
                 </div>
-                <div className="p-6">
-                  <h3 className="font-display text-lg font-semibold text-foreground mb-2">{card.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-4">{card.description}</p>
+                <div className="p-5">
+                  <h3 className="font-display text-base font-semibold text-foreground mb-2">{card.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-2">{card.description}</p>
                   {card.link && (
                     <span className="view-details-link">
                       View Details
