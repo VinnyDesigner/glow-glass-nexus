@@ -79,7 +79,7 @@ export default function AdminLayout() {
             </h1>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm" className="gap-2 border-white/20 text-white hover:bg-white/10 hover:text-white" onClick={() => navigate("/")}>
+            <Button variant="default" size="sm" className="gap-2 border border-white/20 text-white hover:text-white" onClick={() => navigate("/")}>
               <ExternalLink size={14} />
               Portal Page
             </Button>
