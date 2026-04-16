@@ -43,7 +43,7 @@ export default function AdminLayout() {
   const currentTab = tabs.find((t) => t.id === activeTab);
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="h-screen bg-background flex overflow-hidden">
       {/* Sidebar */}
       <aside className="w-64 border-r border-border bg-card flex flex-col shrink-0">
         <div className="p-5 border-b border-border">
@@ -79,7 +79,7 @@ export default function AdminLayout() {
       </aside>
 
       {/* Main */}
-      <div className="flex-1 flex flex-col min-h-screen">
+      <div className="flex-1 flex flex-col h-screen overflow-hidden">
         {/* Header */}
         <header className="h-16 border-b border-border bg-card flex items-center justify-between px-6 shrink-0">
           <div className="flex items-center gap-3">
