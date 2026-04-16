@@ -71,7 +71,7 @@ export default function AdminLayout() {
       {/* Main */}
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
         {/* Header */}
-        <header className="h-16 border-b border-border bg-card flex items-center justify-between px-6 shrink-0">
+        <header className="h-16 border-b border-border bg-white flex items-center justify-between px-6 shrink-0">
           <div className="flex items-center gap-3">
             {currentTab && <currentTab.icon size={20} className="text-primary" />}
             <h1 className="font-display text-lg font-semibold text-foreground">
