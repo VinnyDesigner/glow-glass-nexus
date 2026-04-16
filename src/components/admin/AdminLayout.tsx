@@ -66,16 +66,6 @@ export default function AdminLayout() {
             </button>
           ))}
         </nav>
-        <div className="p-3 border-t border-border">
-          <Button
-            variant="outline"
-            className="w-full gap-2"
-            onClick={() => navigate("/")}
-          >
-            <ChevronLeft size={16} />
-            Back to Site
-          </Button>
-        </div>
       </aside>
 
       {/* Main */}
