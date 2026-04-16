@@ -104,10 +104,13 @@ export default function HeroEditor() {
   };
 
   const removeImage = (index: number) => {
-    setDraft((d) => ({
-      ...d,
-      heroImages: d.heroImages.filter((_, i) => i !== index),
-    }));
+    setDraft((d) => {
+      const images = [...d.heroImages];
+      images[index] = DEFAULT_SLIDES[index];
+      // If all images match defaults, clear custom array
+      const allDefault = images.every((img, i) => img === DEFAULT_SLIDES[i]);
+      return { ...d, heroImages: allDefault ? [] : images };
+    });
   };
 
   return (
@@ -175,37 +178,50 @@ export default function HeroEditor() {
           </div>
           <p className="text-sm text-muted-foreground">Upload up to 5 images for the hero carousel. When empty, default Bahrain images are used.</p>
           
-          {/* Image grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {draft.heroImages.map((img, i) => (
-              <div key={i} className="relative group rounded-xl overflow-hidden border border-border">
-                <img src={img} alt={`Slide ${i + 1}`} className="w-full h-24 object-cover" />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                  <button
-                    onClick={() => removeImage(i)}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity bg-destructive text-white rounded-full p-1"
-                  >
-                    <X size={14} />
-                  </button>
+          {/* Image grid - always show 5 slots */}
+          <div className="grid grid-cols-5 gap-3">
+            {currentSlides.map((img, i) => (
+              <div key={i} className="relative group rounded-xl overflow-hidden border border-border aspect-[4/3]">
+                <img src={img} alt={`Slide ${i + 1}`} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-center justify-center">
+                  <label className="opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer flex flex-col items-center gap-1">
+                    <div className="bg-white/90 rounded-full p-2">
+                      <ImagePlus size={16} className="text-foreground" />
+                    </div>
+                    <span className="text-[10px] text-white font-medium">Replace</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        const reader = new FileReader();
+                        reader.onload = (ev) => {
+                          setDraft((d) => {
+                            const images = d.heroImages.length > 0 ? [...d.heroImages] : [...DEFAULT_SLIDES];
+                            images[i] = ev.target?.result as string;
+                            return { ...d, heroImages: images };
+                          });
+                        };
+                        reader.readAsDataURL(file);
+                        e.target.value = "";
+                      }}
+                    />
+                  </label>
                 </div>
                 <span className="absolute top-1 left-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">{i + 1}</span>
+                {draft.heroImages.length > 0 && draft.heroImages[i] && (
+                  <button
+                    onClick={() => removeImage(i)}
+                    className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity bg-destructive text-white rounded-full p-0.5"
+                  >
+                    <X size={12} />
+                  </button>
+                )}
               </div>
             ))}
-            
-            {draft.heroImages.length < 5 && (
-              <label className="flex flex-col items-center justify-center h-24 border-2 border-dashed border-border rounded-xl cursor-pointer hover:border-primary/50 transition-colors">
-                <ImagePlus size={20} className="text-muted-foreground mb-1" />
-                <span className="text-xs text-muted-foreground">Add Image</span>
-                <input type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
-              </label>
-            )}
           </div>
-
-          {draft.heroImages.length === 0 && (
-            <div className="text-xs text-muted-foreground bg-muted/50 rounded-lg p-3">
-              Using {DEFAULT_SLIDES.length} default Bahrain images. Upload custom images to replace them.
-            </div>
-          )}
 
           <div>
             <Label>Overlay Opacity: {draft.overlayOpacity}%</Label>
