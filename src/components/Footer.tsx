@@ -61,9 +61,6 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="flex justify-center mt-10">
-          <img src={bahrainSkyline} alt="Bahrain Skyline" className="h-[15rem] object-contain opacity-50" />
-        </div>
       </div>
 
       <div className="border-t border-border">
@@ -71,6 +68,9 @@ export default function Footer() {
           <p className="text-center text-xs text-muted-foreground">
             © {new Date().getFullYear()} Bahrain Spatial Data Infrastructure. All rights reserved.
           </p>
+          <div className="flex justify-center mt-4">
+            <img src={bahrainSkyline} alt="Bahrain Skyline" className="h-[7.5rem] object-contain opacity-50" />
+          </div>
         </div>
       </div>
     </footer>
