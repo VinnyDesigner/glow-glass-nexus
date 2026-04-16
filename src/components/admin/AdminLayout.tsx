@@ -45,10 +45,10 @@ export default function AdminLayout() {
   return (
     <div className="h-screen bg-background flex overflow-hidden">
       {/* Sidebar */}
-      <aside className="w-64 border-r border-border bg-card flex flex-col shrink-0">
-        <div className="p-5 border-b border-border">
-          <h2 className="font-display text-lg font-bold text-foreground">BSDI Admin</h2>
-          <p className="text-xs text-muted-foreground mt-1">Content Management</p>
+      <aside className="w-64 border-r border-sidebar-border bg-sidebar flex flex-col shrink-0">
+        <div className="p-5 border-b border-sidebar-border">
+          <h2 className="font-display text-lg font-bold text-sidebar-foreground">BSDI Admin</h2>
+          <p className="text-xs text-sidebar-foreground/60 mt-1">Content Management</p>
         </div>
         <nav className="flex-1 p-3 space-y-1">
           {tabs.map((tab) => (
@@ -57,8 +57,8 @@ export default function AdminLayout() {
               onClick={() => setActiveTab(tab.id)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                 activeTab === tab.id
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                  ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-sm"
+                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
               }`}
             >
               <tab.icon size={18} />
