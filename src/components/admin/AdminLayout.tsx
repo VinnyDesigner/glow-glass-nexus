@@ -45,7 +45,7 @@ export default function AdminLayout() {
   return (
     <div className="h-screen bg-background flex overflow-hidden">
       {/* Sidebar */}
-      <aside className="w-64 border-r border-sidebar-border bg-sidebar flex flex-col shrink-0">
+      <aside className="w-64 border-r border-sidebar-border flex flex-col shrink-0" style={{ background: 'linear-gradient(180deg, hsl(215 50% 22%) 0%, hsl(215 50% 14%) 100%)' }}>
         <div className="p-5 border-b border-sidebar-border">
           <h2 className="font-display text-lg font-bold text-sidebar-foreground">BSDI Admin</h2>
           <p className="text-xs text-sidebar-foreground/60 mt-1">Content Management</p>
@@ -71,15 +71,15 @@ export default function AdminLayout() {
       {/* Main */}
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
         {/* Header */}
-        <header className="h-16 border-b border-border bg-card flex items-center justify-between px-6 shrink-0">
+        <header className="h-16 border-b border-sidebar-border flex items-center justify-between px-6 shrink-0" style={{ background: 'linear-gradient(90deg, hsl(215 50% 18%) 0%, hsl(215 45% 22%) 100%)' }}>
           <div className="flex items-center gap-3">
-            {currentTab && <currentTab.icon size={20} className="text-primary" />}
-            <h1 className="font-display text-lg font-semibold text-foreground">
+            {currentTab && <currentTab.icon size={20} className="text-white/80" />}
+            <h1 className="font-display text-lg font-semibold text-white">
               {currentTab?.label}
             </h1>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm" className="gap-2" onClick={() => navigate("/")}>
+            <Button variant="outline" size="sm" className="gap-2 border-white/20 text-white hover:bg-white/10 hover:text-white" onClick={() => navigate("/")}>
               <ExternalLink size={14} />
               Portal Page
             </Button>
