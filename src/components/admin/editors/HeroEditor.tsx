@@ -104,10 +104,13 @@ export default function HeroEditor() {
   };
 
   const removeImage = (index: number) => {
-    setDraft((d) => ({
-      ...d,
-      heroImages: d.heroImages.filter((_, i) => i !== index),
-    }));
+    setDraft((d) => {
+      const images = [...d.heroImages];
+      images[index] = DEFAULT_SLIDES[index];
+      // If all images match defaults, clear custom array
+      const allDefault = images.every((img, i) => img === DEFAULT_SLIDES[i]);
+      return { ...d, heroImages: allDefault ? [] : images };
+    });
   };
 
   return (
