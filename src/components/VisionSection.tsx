@@ -18,7 +18,7 @@ export default function VisionSection() {
   const { vision } = useContentStore();
 
   return (
-    <section id="vision" className="relative overflow-hidden py-20 md:py-32 px-4 md:px-6 lg:py-[160px]">
+    <section id="vision" className="relative overflow-hidden py-20 md:py-32 px-4 md:px-6 lg:py-[100px]">
       {/* Background blurred blobs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
