@@ -64,8 +64,8 @@ export default function Footer() {
       </div>
 
       <div>
-        <div className="container mx-auto px-4 md:px-8 py-4">
-          <div className="flex justify-center mb-4">
+        <div className="container mx-auto md:px-8 py-4 px-0">
+          <div className="flex justify-center mb-4 py-0">
             <img src={bahrainSkyline} alt="Bahrain Skyline" className="h-[7.5rem] object-contain opacity-50" />
           </div>
           <div className="border-t border-border" />
