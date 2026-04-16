@@ -48,7 +48,7 @@ export default function AboutSection() {
   const { about } = useContentStore();
 
   return (
-    <section id="about" className="section-padding">
+    <section id="about" className="section-padding my-0 py-0">
       <div ref={ref} className="container mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? 'fadeBlurUp 0.6s ease-out forwards' : 'none' }}>

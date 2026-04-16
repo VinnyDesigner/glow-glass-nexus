@@ -26,7 +26,7 @@ export default function WhoCanUseSection() {
   const { users } = useContentStore();
 
   return (
-    <section id="who-can-use" className="relative overflow-hidden py-20 md:py-32 lg:py-40 px-4 md:px-6">
+    <section id="who-can-use" className="relative overflow-hidden py-20 md:py-32 px-4 md:px-6 lg:py-[120px]">
       {/* Background elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-10 right-10 w-80 h-80 rounded-full opacity-[0.06]"
