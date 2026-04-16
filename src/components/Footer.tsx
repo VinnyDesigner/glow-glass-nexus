@@ -59,7 +59,7 @@ export default function Footer() {
                 );
               })}
             </div>
-            <img src={bahrainSkyline} alt="Bahrain Skyline" className="mt-8 h-[4.5rem] object-contain opacity-50" />
+            <img src={bahrainSkyline} alt="Bahrain Skyline" className="mt-8 h-[6.75rem] object-contain opacity-50" />
           </div>
         </div>
       </div>
