@@ -69,7 +69,7 @@ export default function Footer() {
             <img src={bahrainSkyline} alt="Bahrain Skyline" className="h-[7.5rem] object-contain opacity-50" />
           </div>
           <div className="border-t border-border" />
-          <p className="text-center text-xs text-muted-foreground">
+          <p className="text-center text-xs text-muted-foreground py-[16px]">
             © {new Date().getFullYear()} Bahrain Spatial Data Infrastructure. All rights reserved.
           </p>
         </div>
