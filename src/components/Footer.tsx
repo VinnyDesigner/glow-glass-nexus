@@ -2,6 +2,7 @@ import { Instagram, Twitter, Facebook, Linkedin, Youtube } from "lucide-react";
 import { useContentStore } from "@/stores/contentStore";
 import bahrain2030 from "@/assets/bahrain-2030.png";
 import igaLogo from "@/assets/iga-logo.png";
+import bahrainSkyline from "@/assets/bahrain-skyline-footer.png";
 
 const iconMap: Record<string, React.ElementType> = {
   Instagram, Twitter, Facebook, LinkedIn: Linkedin, YouTube: Youtube,
