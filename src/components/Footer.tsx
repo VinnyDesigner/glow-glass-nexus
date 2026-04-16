@@ -65,12 +65,12 @@ export default function Footer() {
 
       <div className="border-t border-border">
         <div className="container mx-auto px-4 md:px-8 py-4">
+          <div className="flex justify-center mb-4">
+            <img src={bahrainSkyline} alt="Bahrain Skyline" className="h-[7.5rem] object-contain opacity-50" />
+          </div>
           <p className="text-center text-xs text-muted-foreground">
             © {new Date().getFullYear()} Bahrain Spatial Data Infrastructure. All rights reserved.
           </p>
-          <div className="flex justify-center mt-4">
-            <img src={bahrainSkyline} alt="Bahrain Skyline" className="h-[7.5rem] object-contain opacity-50" />
-          </div>
         </div>
       </div>
     </footer>
