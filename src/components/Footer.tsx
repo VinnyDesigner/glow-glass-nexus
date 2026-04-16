@@ -59,7 +59,7 @@ export default function Footer() {
                 );
               })}
             </div>
-            <img src={bahrainSkyline} alt="Bahrain Skyline" className="mt-4 h-12 object-contain opacity-30" />
+            
           </div>
         </div>
       </div>
