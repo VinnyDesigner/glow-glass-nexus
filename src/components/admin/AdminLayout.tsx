@@ -4,6 +4,7 @@ import {
   LayoutDashboard, Eye, Globe, Info, Grid3X3, Users, Building2, FileText,
   ChevronLeft, Save, ExternalLink
 } from "lucide-react";
+import dashLogo from "@/assets/dashLogo.png";
 import { Button } from "@/components/ui/button";
 import HeroEditor from "./editors/HeroEditor";
 import VisionEditor from "./editors/VisionEditor";
