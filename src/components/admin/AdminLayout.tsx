@@ -47,9 +47,8 @@ export default function AdminLayout() {
     <div className="h-screen bg-background flex overflow-hidden">
       {/* Sidebar */}
       <aside className="w-64 border-r border-sidebar-border flex flex-col shrink-0" style={{ background: 'linear-gradient(180deg, hsl(215 50% 22%) 0%, hsl(215 50% 14%) 100%)' }}>
-        <div className="p-5 border-b border-sidebar-border">
-          <h2 className="font-display text-lg font-bold text-sidebar-foreground">BSDI Admin</h2>
-          <p className="text-xs text-sidebar-foreground/60 mt-1">Content Management</p>
+        <div className="p-5 border-b border-sidebar-border flex items-center gap-3">
+          <img src={dashLogo} alt="BSDI Logo" className="h-10 w-auto" />
         </div>
         <nav className="flex-1 p-3 space-y-1">
           {tabs.map((tab) => (
