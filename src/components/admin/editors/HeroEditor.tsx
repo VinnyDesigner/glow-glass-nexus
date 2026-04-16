@@ -116,8 +116,8 @@ export default function HeroEditor() {
   return (
     <div className="max-w-4xl">
       {/* Sticky Live Preview */}
-      <div className="sticky top-0 z-20 pb-6">
-        <div className="neu-card p-6 space-y-4">
+      <div className="sticky top-0 z-20 pb-6 backdrop-blur-xl bg-background/80 -mx-6 px-6 pt-6 rounded-b-2xl">
+        <div className="neu-card p-6 space-y-4 shadow-lg">
           <h3 className="font-display text-lg font-semibold text-foreground">Live Preview</h3>
           <div className="relative rounded-xl overflow-hidden" style={{ height: 320 }}>
             <img src={currentSlides[0]} alt="" className="absolute inset-0 w-full h-full object-cover" />
