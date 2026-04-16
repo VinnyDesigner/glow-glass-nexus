@@ -59,8 +59,10 @@ export default function Footer() {
                 );
               })}
             </div>
-            <img src={bahrainSkyline} alt="Bahrain Skyline" className="mt-8 h-[10rem] object-contain opacity-50" />
           </div>
+        </div>
+        <div className="flex justify-center mt-10">
+          <img src={bahrainSkyline} alt="Bahrain Skyline" className="h-[15rem] object-contain opacity-50" />
         </div>
       </div>
 
