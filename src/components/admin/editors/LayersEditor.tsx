@@ -170,6 +170,16 @@ export default function LayersEditor() {
               />
             </div>
             <div>
+              <Label>Description</Label>
+              <Textarea
+                value={editForm.description}
+                onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
+                className="mt-1.5"
+                rows={2}
+                placeholder="Short description of this layer"
+              />
+            </div>
+            <div>
               <Label>Image URL</Label>
               <Input
                 value={editForm.image}
