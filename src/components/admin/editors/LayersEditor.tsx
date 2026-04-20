@@ -13,7 +13,7 @@ export default function LayersEditor() {
   const { layers, updateLayers } = useContentStore();
   const [draft, setDraft] = useState({ ...layers, cards: [...layers.cards] });
   const [editIndex, setEditIndex] = useState<number | null>(null);
-  const [editForm, setEditForm] = useState<LayerCard>({ id: "", title: "", image: "", link: "" });
+  const [editForm, setEditForm] = useState<LayerCard>({ id: "", title: "", description: "", image: "", link: "" });
   const [resetOpen, setResetOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"add" | "edit">("add");
   const { toast } = useToast();
