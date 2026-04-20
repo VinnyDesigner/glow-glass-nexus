@@ -35,7 +35,7 @@ export default function LayersEditor() {
   };
 
   const openAdd = () => {
-    setEditForm({ id: "", title: "", image: "", link: "" });
+    setEditForm({ id: "", title: "", description: "", image: "", link: "" });
     setModalMode("add");
     setEditIndex(-1);
   };
