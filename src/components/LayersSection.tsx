@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ArrowRight } from "lucide-react";
 
-function LayerCardItem({ card }: { card: { id: string; title: string; image: string; link?: string } }) {
+function LayerCardItem({ card }: { card: { id: string; title: string; description?: string; image: string; link?: string } }) {
   const content = (
-    <div className="group rounded-2xl overflow-hidden bg-card border border-border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+    <div className="group rounded-2xl overflow-hidden bg-card border border-border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-full flex flex-col">
       <div className="aspect-square overflow-hidden bg-muted">
         <img
           src={card.image}
@@ -16,10 +16,15 @@ function LayerCardItem({ card }: { card: { id: string; title: string; image: str
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>
-      <div className="p-3 text-center">
+      <div className="p-3 text-center flex-1 flex flex-col justify-start gap-1">
         <p className="font-display text-xs md:text-sm font-semibold tracking-wide text-foreground truncate">
           {card.title}
         </p>
+        {card.description && (
+          <p className="text-[11px] md:text-xs text-muted-foreground leading-snug line-clamp-2">
+            {card.description}
+          </p>
+        )}
       </div>
     </div>
   );

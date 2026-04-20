@@ -13,7 +13,7 @@ export default function LayersEditor() {
   const { layers, updateLayers } = useContentStore();
   const [draft, setDraft] = useState({ ...layers, cards: [...layers.cards] });
   const [editIndex, setEditIndex] = useState<number | null>(null);
-  const [editForm, setEditForm] = useState<LayerCard>({ id: "", title: "", image: "", link: "" });
+  const [editForm, setEditForm] = useState<LayerCard>({ id: "", title: "", description: "", image: "", link: "" });
   const [resetOpen, setResetOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"add" | "edit">("add");
   const { toast } = useToast();
@@ -35,7 +35,7 @@ export default function LayersEditor() {
   };
 
   const openAdd = () => {
-    setEditForm({ id: "", title: "", image: "", link: "" });
+    setEditForm({ id: "", title: "", description: "", image: "", link: "" });
     setModalMode("add");
     setEditIndex(-1);
   };
@@ -167,6 +167,16 @@ export default function LayersEditor() {
                 onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
                 className="mt-1.5"
                 placeholder="ADDRESSES"
+              />
+            </div>
+            <div>
+              <Label>Description</Label>
+              <Textarea
+                value={editForm.description}
+                onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
+                className="mt-1.5"
+                rows={2}
+                placeholder="Short description of this layer"
               />
             </div>
             <div>
