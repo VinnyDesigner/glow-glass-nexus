@@ -107,6 +107,19 @@ export interface FooterContent {
   socialLinks: SocialLink[];
 }
 
+export interface LayerCard {
+  id: string;
+  title: string;
+  image: string;
+  link?: string;
+}
+
+export interface LayersContent {
+  heading: string;
+  description: string;
+  cards: LayerCard[];
+}
+
 interface ContentStore {
   hero: HeroContent;
   vision: VisionContent;
@@ -115,6 +128,7 @@ interface ContentStore {
   users: UsersContent;
   dataServices: DataServicesContent;
   footer: FooterContent;
+  layers: LayersContent;
   updateHero: (data: Partial<HeroContent>) => void;
   updateVision: (data: Partial<VisionContent>) => void;
   updateAbout: (data: Partial<AboutContent>) => void;
@@ -122,6 +136,7 @@ interface ContentStore {
   updateUsers: (data: Partial<UsersContent>) => void;
   updateDataServices: (data: Partial<DataServicesContent>) => void;
   updateFooter: (data: Partial<FooterContent>) => void;
+  updateLayers: (data: Partial<LayersContent>) => void;
 }
 
 export const defaultHero: HeroContent = {
@@ -212,6 +227,40 @@ export const defaultFooter: FooterContent = {
     { platform: "Facebook", href: "#" },
     { platform: "LinkedIn", href: "#" },
     { platform: "YouTube", href: "#" },
+  ],
+};
+
+export const defaultLayers: LayersContent = {
+  heading: "Layers",
+  description: "Explore the spatial datasets and thematic layers powering Bahrain's geospatial intelligence.",
+  cards: [
+    { id: "l1", title: "ADDRESSES", image: "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&q=80", link: "#" },
+    { id: "l2", title: "ADMINBOUNDRY", image: "https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=600&q=80", link: "#" },
+    { id: "l3", title: "APPROVED_ZONES", image: "https://images.unsplash.com/photo-1569235186275-626cb53b83ce?w=600&q=80", link: "#" },
+    { id: "l4", title: "BACA", image: "https://images.unsplash.com/photo-1564769625905-50e93615e769?w=600&q=80", link: "#" },
+    { id: "l5", title: "BBU", image: "https://images.unsplash.com/photo-1545486332-9e0999c535b2?w=600&q=80", link: "#" },
+    { id: "l6", title: "BIX", image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&q=80", link: "#" },
+    { id: "l7", title: "BOTANICAL_ATLAS", image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=80", link: "#" },
+    { id: "l8", title: "BUILDINGS", image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80", link: "#" },
+    { id: "l9", title: "BUS ROUTE", image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=600&q=80", link: "#" },
+    { id: "l10", title: "CAA", image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80", link: "#" },
+    { id: "l11", title: "CADASTRAL", image: "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&q=80", link: "#" },
+    { id: "l12", title: "DISTRICT_COOLING", image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&q=80", link: "#" },
+    { id: "l13", title: "DTM", image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80", link: "#" },
+    { id: "l14", title: "DUBAISAT2011", image: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=600&q=80", link: "#" },
+    { id: "l15", title: "ELECTRICITYANDWATER", image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&q=80", link: "#" },
+    { id: "l16", title: "EWA_EDD", image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&q=80", link: "#" },
+    { id: "l17", title: "HEALTHSERVICES", image: "https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=600&q=80", link: "#" },
+    { id: "l18", title: "OIL_GAS", image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&q=80", link: "#" },
+    { id: "l19", title: "PAVEMENTS", image: "https://images.unsplash.com/photo-1597007030739-6d2e7172ee6c?w=600&q=80", link: "#" },
+    { id: "l20", title: "POPULATION_DEMOGRAPHY", image: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=600&q=80", link: "#" },
+    { id: "l21", title: "ROAD_DUCTS", image: "https://images.unsplash.com/photo-1518228684816-9135c15ab4ea?w=600&q=80", link: "#" },
+    { id: "l22", title: "SEWERAGEANDDRAINAGE", image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&q=80", link: "#" },
+    { id: "l23", title: "STREETCENTERLINES", image: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=600&q=80", link: "#" },
+    { id: "l24", title: "TELECOM", image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80", link: "#" },
+    { id: "l25", title: "TOPOGRAPHIC", image: "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&q=80", link: "#" },
+    { id: "l26", title: "VEGETATION", image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80", link: "#" },
+    { id: "l27", title: "ZONES", image: "https://images.unsplash.com/photo-1569235186275-626cb53b83ce?w=600&q=80", link: "#" },
   ],
 };
 
