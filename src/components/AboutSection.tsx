@@ -50,20 +50,18 @@ export default function AboutSection() {
   return (
     <section id="about" className="section-padding my-0 py-[80px]">
       <div ref={ref} className="container mx-auto">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? 'fadeBlurUp 0.6s ease-out forwards' : 'none' }}>
-            <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground">{about.heading}</h2>
-            <p className="mt-5 text-muted-foreground text-base leading-relaxed">{about.description1}</p>
-            <p className="mt-4 text-muted-foreground text-sm leading-relaxed">{about.description2}</p>
-          </div>
+        <div className="max-w-3xl mx-auto text-center" style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? 'fadeBlurUp 0.6s ease-out forwards' : 'none' }}>
+          <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground">{about.heading}</h2>
+          <p className="mt-5 text-muted-foreground text-base leading-relaxed">{about.description1}</p>
+          <p className="mt-4 text-muted-foreground text-sm leading-relaxed">{about.description2}</p>
+        </div>
 
-          <div className="grid grid-cols-2 gap-6" style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? 'fadeBlurUp 0.6s ease-out 0.2s forwards' : 'none' }}>
-            {about.stats.map((stat) => (
-              <div key={stat.id} className="stat-card rounded-2xl p-8 text-center">
-                <AnimatedCounter target={stat.target} suffix={stat.suffix} label={stat.label} />
-              </div>
-            ))}
-          </div>
+        <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto mt-12" style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? 'fadeBlurUp 0.6s ease-out 0.2s forwards' : 'none' }}>
+          {about.stats.map((stat) => (
+            <div key={stat.id} className="stat-card rounded-2xl p-8 text-center">
+              <AnimatedCounter target={stat.target} suffix={stat.suffix} label={stat.label} />
+            </div>
+          ))}
         </div>
       </div>
     </section>
