@@ -282,6 +282,7 @@ export const useContentStore = create<ContentStore>()(
       updateUsers: (data) => set((s) => ({ users: { ...s.users, ...data } })),
       updateDataServices: (data) => set((s) => ({ dataServices: { ...s.dataServices, ...data } })),
       updateFooter: (data) => set((s) => ({ footer: { ...s.footer, ...data } })),
+      updateLayers: (data) => set((s) => ({ layers: { ...s.layers, ...data } })),
     }),
     {
       name: "bsdi-content",
@@ -292,6 +293,10 @@ export const useContentStore = create<ContentStore>()(
           const persistedIds = new Set(persisted.vision.cards.map((c: any) => c.id));
           const newDefaults = defaultVision.cards.filter(c => !persistedIds.has(c.id));
           merged.vision = { ...merged.vision, cards: [...persisted.vision.cards, ...newDefaults] };
+        }
+        // Ensure layers section exists for users with older persisted state
+        if (!persisted?.layers) {
+          merged.layers = defaultLayers;
         }
         return merged;
       },
