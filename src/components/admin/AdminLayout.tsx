@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  LayoutDashboard, Eye, Globe, Info, Grid3X3, Users, Building2, FileText,
+  LayoutDashboard, Eye, Globe, Info, Grid3X3, Users, Building2, FileText, Layers,
   ChevronLeft, Save, ExternalLink
 } from "lucide-react";
 import dashLogo from "@/assets/dashLogo.png";
@@ -13,6 +13,7 @@ import ServicesEditor from "./editors/ServicesEditor";
 import UsersEditor from "./editors/UsersEditor";
 import DataServicesEditor from "./editors/DataServicesEditor";
 import FooterEditor from "./editors/FooterEditor";
+import LayersEditor from "./editors/LayersEditor";
 
 const tabs = [
   { id: "hero", label: "Hero Section", icon: LayoutDashboard },
@@ -20,6 +21,7 @@ const tabs = [
   { id: "about", label: "About BSDI", icon: Info },
   { id: "services", label: "What BSDI Provides", icon: Grid3X3 },
   { id: "users", label: "Who Can Use BSDI", icon: Users },
+  { id: "layers", label: "Layers", icon: Layers },
   { id: "data", label: "Data Services", icon: Building2 },
   { id: "footer", label: "Footer", icon: FileText },
 ];
@@ -35,6 +37,7 @@ export default function AdminLayout() {
       case "about": return <AboutEditor />;
       case "services": return <ServicesEditor />;
       case "users": return <UsersEditor />;
+      case "layers": return <LayersEditor />;
       case "data": return <DataServicesEditor />;
       case "footer": return <FooterEditor />;
       default: return null;
