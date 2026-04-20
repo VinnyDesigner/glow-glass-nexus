@@ -110,6 +110,7 @@ export interface FooterContent {
 export interface LayerCard {
   id: string;
   title: string;
+  description: string;
   image: string;
   link?: string;
 }
