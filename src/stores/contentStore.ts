@@ -274,6 +274,7 @@ export const useContentStore = create<ContentStore>()(
       users: defaultUsers,
       dataServices: defaultDataServices,
       footer: defaultFooter,
+      layers: defaultLayers,
       updateHero: (data) => set((s) => ({ hero: { ...s.hero, ...data } })),
       updateVision: (data) => set((s) => ({ vision: { ...s.vision, ...data } })),
       updateAbout: (data) => set((s) => ({ about: { ...s.about, ...data } })),
