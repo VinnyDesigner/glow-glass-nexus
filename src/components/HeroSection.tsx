@@ -75,7 +75,7 @@ export default function HeroSection() {
           <div className="-mt-10 md:-mt-16">
             <div>
               <div>
-                <h1 className="font-display leading-[1.05] mb-2 tracking-[-0.02em]">
+                <h1 className="hero-display-font leading-[1.02] mb-2">
                   <span
                     style={{
                       fontSize: t1.fontSize ? `${t1.fontSize}px` : undefined,
@@ -88,7 +88,7 @@ export default function HeroSection() {
                     {hero.title1}
                   </span>
                 </h1>
-                <h1 className="font-display leading-[1.05] mb-6 tracking-[-0.02em]">
+                <h1 className="hero-display-font leading-[1.02] mb-6">
                   <span
                     style={{
                       fontSize: t2.fontSize ? `${t2.fontSize}px` : undefined,
