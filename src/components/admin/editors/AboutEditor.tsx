@@ -160,12 +160,16 @@ export default function AboutEditor() {
               <Input value={newStat.suffix} onChange={(e) => setNewStat({ ...newStat, suffix: e.target.value })} className="mt-1.5" />
             </div>
             <div>
-              <Label>Label</Label>
+              <Label>Label (EN)</Label>
               <Input value={newStat.label} onChange={(e) => setNewStat({ ...newStat, label: e.target.value })} className="mt-1.5" />
+            </div>
+            <div>
+              <Label>Label (AR · العربية)</Label>
+              <Input dir="rtl" value={newStat.label_ar} onChange={(e) => setNewStat({ ...newStat, label_ar: e.target.value })} className="mt-1.5" style={{ fontFamily: "'Cairo','Tajawal',sans-serif" }} />
             </div>
             <Button className="w-full" disabled={!newStat.target || !newStat.label} onClick={() => {
               setDraft({ ...draft, stats: [...draft.stats, { ...newStat, id: `s${Date.now()}` }] });
-              setNewStat({ target: "", suffix: "", label: "" });
+              setNewStat({ target: "", suffix: "", label: "", label_ar: "" });
               setModalOpen(false);
             }}>
               Create Card
@@ -193,8 +197,12 @@ export default function AboutEditor() {
                 <Input value={editForm.suffix} onChange={(e) => setEditForm({ ...editForm, suffix: e.target.value })} className="mt-1.5" />
               </div>
               <div>
-                <Label>Label</Label>
+                <Label>Label (EN)</Label>
                 <Input value={editForm.label} onChange={(e) => setEditForm({ ...editForm, label: e.target.value })} className="mt-1.5" />
+              </div>
+              <div>
+                <Label>Label (AR · العربية)</Label>
+                <Input dir="rtl" value={editForm.label_ar || ""} onChange={(e) => setEditForm({ ...editForm, label_ar: e.target.value })} className="mt-1.5" style={{ fontFamily: "'Cairo','Tajawal',sans-serif" }} />
               </div>
 
               <div className="space-y-3 border-t border-border pt-4">
