@@ -1,5 +1,6 @@
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
+import { useUiStore } from "@/stores/uiStore";
 import { useEffect, useState, useRef } from "react";
 
 function AnimatedCounter({ target, suffix = "", label }: { target: string; suffix?: string; label: string }) {
@@ -46,7 +47,7 @@ function AnimatedCounter({ target, suffix = "", label }: { target: string; suffi
 export default function AboutSection() {
   const { ref, isVisible } = useScrollAnimation();
   const { about } = useContentStore();
-  const { language } = require("@/stores/uiStore").useUiStore();
+  const { language } = useUiStore();
   const L = (en: string, ar?: string) => (language === "ar" && ar ? ar : en);
 
   return (

@@ -1,10 +1,13 @@
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
+import { useLocalized, useT } from "@/lib/i18n";
 import { ArrowRight, Calendar } from "lucide-react";
 
 export default function NewsSection() {
   const { ref, isVisible } = useScrollAnimation();
   const { news } = useContentStore();
+  const L = useLocalized();
+  const t = useT();
 
   return (
     <section id="news" className="section-padding py-[80px]">
