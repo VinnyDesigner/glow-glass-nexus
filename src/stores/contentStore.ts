@@ -1,10 +1,14 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+// ============= Types =============
+
 export interface VisionCard {
   id: string;
   title: string;
+  title_ar?: string;
   description: string;
+  description_ar?: string;
   image: string;
   link?: string;
 }
@@ -12,16 +16,21 @@ export interface VisionCard {
 export interface ServiceCard {
   id: string;
   title: string;
+  title_ar?: string;
   description: string;
+  description_ar?: string;
   image: string;
   tags: string[];
+  tags_ar?: string[];
   link?: string;
 }
 
 export interface UserCard {
   id: string;
   title: string;
+  title_ar?: string;
   description: string;
+  description_ar?: string;
   image: string;
   link?: string;
 }
@@ -31,11 +40,13 @@ export interface StatCard {
   target: string;
   suffix: string;
   label: string;
+  label_ar?: string;
 }
 
 export interface DataEntity {
   id: string;
   name: string;
+  name_ar?: string;
   logo: string;
   link: string;
 }
@@ -43,6 +54,7 @@ export interface DataEntity {
 export interface QuickLink {
   id: string;
   label: string;
+  label_ar?: string;
   href: string;
 }
 
@@ -62,7 +74,9 @@ export interface HeroTextStyle {
 export interface NewsItem {
   id: string;
   title: string;
+  title_ar?: string;
   excerpt: string;
+  excerpt_ar?: string;
   date: string;
   image: string;
   link?: string;
@@ -70,22 +84,30 @@ export interface NewsItem {
 
 export interface NewsContent {
   heading: string;
+  heading_ar?: string;
   description: string;
+  description_ar?: string;
   items: NewsItem[];
 }
 
 export interface MapViewContent {
   heading: string;
+  heading_ar?: string;
   description: string;
+  description_ar?: string;
   ctaLabel: string;
+  ctaLabel_ar?: string;
   ctaHref: string;
   previewImage: string;
 }
 
 export interface HeroContent {
   title1: string;
+  title1_ar?: string;
   title2: string;
+  title2_ar?: string;
   subtitle: string;
+  subtitle_ar?: string;
   overlayOpacity: number;
   backgroundImage?: string;
   heroImages?: string[];
@@ -96,32 +118,43 @@ export interface HeroContent {
 
 export interface VisionContent {
   heading: string;
+  heading_ar?: string;
   description: string;
+  description_ar?: string;
   cards: VisionCard[];
 }
 
 export interface AboutContent {
   heading: string;
+  heading_ar?: string;
   description1: string;
+  description1_ar?: string;
   description2: string;
+  description2_ar?: string;
   stats: StatCard[];
 }
 
 export interface ServicesContent {
   heading: string;
+  heading_ar?: string;
   description: string;
+  description_ar?: string;
   cards: ServiceCard[];
 }
 
 export interface UsersContent {
   heading: string;
+  heading_ar?: string;
   description: string;
+  description_ar?: string;
   cards: UserCard[];
 }
 
 export interface DataServicesContent {
   heading: string;
+  heading_ar?: string;
   description: string;
+  description_ar?: string;
   entities: DataEntity[];
 }
 
@@ -134,14 +167,18 @@ export interface FooterContent {
 export interface LayerCard {
   id: string;
   title: string;
+  title_ar?: string;
   description: string;
+  description_ar?: string;
   image: string;
   link?: string;
 }
 
 export interface LayersContent {
   heading: string;
+  heading_ar?: string;
   description: string;
+  description_ar?: string;
   cards: LayerCard[];
 }
 
@@ -168,87 +205,136 @@ interface ContentStore {
   updateMapView: (data: Partial<MapViewContent>) => void;
 }
 
+// ============= Light, infrastructure-themed imagery =============
+// Curated Unsplash light/daylight infrastructure images
+const IMG = {
+  solar: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80",
+  windTurbines: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80",
+  powerLines: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80",
+  highway: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&q=80",
+  industrialPlant: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&q=80",
+  factory: "https://images.unsplash.com/photo-1581091012184-5c8c8d04bf2e?w=800&q=80",
+  waterTreatment: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80",
+  smartCity: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80",
+  blueprint: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80",
+  telecomTower: "https://images.unsplash.com/photo-1532093268420-c391bccc8d6d?w=800&q=80",
+  bridge: "https://images.unsplash.com/photo-1473073898421-f0fa0fffd5b8?w=800&q=80",
+  aerialRoad: "https://images.unsplash.com/photo-1494522855154-9297ac14b55f?w=800&q=80",
+  dataCenter: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
+  construction: "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=800&q=80",
+  pipeline: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&q=80",
+  cityPlan: "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800&q=80",
+  hospital: "https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=800&q=80",
+  satellite: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&q=80",
+  terrain: "https://images.unsplash.com/photo-1547234935-80c7145ec969?w=800&q=80",
+  vegetation: "https://images.unsplash.com/photo-1597177884890-ed40ee93f0c6?w=800&q=80",
+  bus: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=800&q=80",
+  airport: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=80",
+  govtBuilding: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+  urbanPlan: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&q=80",
+  research: "https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=800&q=80",
+  developers: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&q=80",
+  emergency: "https://images.unsplash.com/photo-1599301715049-72366c8a9e3a?w=800&q=80",
+  bahrainMap: "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1200&q=80",
+};
+
+// ============= Defaults =============
+
 export const defaultHero: HeroContent = {
   title1: "National Spatial",
+  title1_ar: "البنية التحتية",
   title2: "Data Infrastructure",
+  title2_ar: "للبيانات المكانية الوطنية",
   subtitle: "Unified geospatial platform for secure data and sharing,\nadvanced analytics, & intelligent decision-making",
+  subtitle_ar: "منصة جغرافية موحّدة لمشاركة البيانات بشكل آمن،\nوتحليلات متقدمة وصنع قرارات ذكية",
   overlayOpacity: 30,
 };
 
 export const defaultVision: VisionContent = {
   heading: "BSDI Vision",
+  heading_ar: "رؤية BSDI",
   description: "Empowering Bahrain through a unified geospatial ecosystem. Creating a secure, scalable, and collaborative national geospatial infrastructure.",
+  description_ar: "تمكين البحرين من خلال منظومة جغرافية موحّدة، وبناء بنية تحتية وطنية آمنة وقابلة للتوسع وتعاونية.",
   cards: [
-    { id: "v1", title: "Digital Transformation", description: "Leveraging cutting-edge technologies to modernize Bahrain's infrastructure and drive innovation across all government sectors.", image: "https://images.unsplash.com/photo-1768224656445-33d078c250b7?w=600&q=80" },
-    { id: "v2", title: "Geospatial Intelligence", description: "Advanced GIS and GeoAI capabilities enable data-driven insights for strategic planning and resource management.", image: "https://images.unsplash.com/photo-1744968777188-3e1b2ef23339?w=600&q=80" },
-    { id: "v3", title: "Smart Cities", description: "Building sustainable, connected urban environments through intelligent spatial planning and 3D visualization.", image: "https://images.unsplash.com/photo-1760553120312-2821bf54e767?w=600&q=80" },
-    { id: "v4", title: "Data Governance & Security", description: "Ensuring data integrity, privacy, and secure access through robust governance frameworks and compliance standards.", image: "https://images.unsplash.com/photo-1563986768609-322da13575f2?w=600&q=80" },
+    { id: "v1", title: "Digital Transformation", title_ar: "التحول الرقمي", description: "Leveraging cutting-edge technologies to modernize Bahrain's infrastructure and drive innovation across all government sectors.", description_ar: "الاستفادة من أحدث التقنيات لتحديث البنية التحتية للبحرين ودفع الابتكار في جميع القطاعات الحكومية.", image: IMG.smartCity },
+    { id: "v2", title: "Geospatial Intelligence", title_ar: "الذكاء الجغرافي", description: "Advanced GIS and GeoAI capabilities enable data-driven insights for strategic planning and resource management.", description_ar: "قدرات متقدمة في نظم المعلومات الجغرافية والذكاء الاصطناعي الجغرافي لتمكين رؤى مبنية على البيانات.", image: IMG.dataCenter },
+    { id: "v3", title: "Smart Cities", title_ar: "المدن الذكية", description: "Building sustainable, connected urban environments through intelligent spatial planning and 3D visualization.", description_ar: "بناء بيئات حضرية مستدامة ومتصلة من خلال التخطيط المكاني الذكي والتصور ثلاثي الأبعاد.", image: IMG.cityPlan },
+    { id: "v4", title: "Data Governance & Security", title_ar: "حوكمة البيانات والأمان", description: "Ensuring data integrity, privacy, and secure access through robust governance frameworks and compliance standards.", description_ar: "ضمان تكامل البيانات والخصوصية والوصول الآمن من خلال أطر حوكمة قوية ومعايير الامتثال.", image: IMG.blueprint },
   ],
 };
 
 export const defaultAbout: AboutContent = {
   heading: "About BSDI",
+  heading_ar: "حول BSDI",
   description1: "BSDI (Bahrain Spatial Data Infrastructure) is a unified geospatial platform designed to enable secure data sharing, advanced analytics, and intelligent decision-making across government and enterprise sectors.",
+  description1_ar: "BSDI (البنية التحتية للبيانات المكانية في البحرين) هي منصة جغرافية موحّدة مصمّمة لتمكين مشاركة البيانات بشكل آمن، والتحليلات المتقدمة، وصنع القرارات الذكية في القطاعات الحكومية والمؤسسية.",
   description2: "It brings together GIS, GeoAI, BIM, and governance standards into a single digital ecosystem — ensuring data accuracy, security, and national-level interoperability.",
+  description2_ar: "تجمع بين نظم المعلومات الجغرافية والذكاء الاصطناعي الجغرافي ونمذجة معلومات البناء ومعايير الحوكمة في منظومة رقمية واحدة، تضمن دقة البيانات والأمان والتشغيل البيني على المستوى الوطني.",
   stats: [
-     { id: "s1", target: "50", suffix: "+", label: "Government Agencies" },
-     { id: "s4", target: "Secure", suffix: "", label: "National Standards" },
+    { id: "s1", target: "50", suffix: "+", label: "Government Agencies", label_ar: "جهة حكومية" },
+    { id: "s4", target: "Secure", suffix: "", label: "National Standards", label_ar: "المعايير الوطنية" },
   ],
 };
 
 export const defaultServices: ServicesContent = {
   heading: "What BSDI Provides",
+  heading_ar: "ما توفّره BSDI",
   description: "Comprehensive spatial intelligence solutions for modern government operations",
+  description_ar: "حلول شاملة للذكاء المكاني للعمليات الحكومية الحديثة",
   cards: [
-    { id: "sv1", title: "BSDI Admin Console", description: "To ensure secure, transparent, and efficient management of geospatial services across all government entities.", image: "https://images.unsplash.com/photo-1621421770492-272ae6d7882a?w=600&q=80", tags: ["2D & 3D Maps", "Secure Access"] },
-    { id: "sv2", title: "National GeoCatalog Bahrain", description: "To provide standardized metadata management aligned with SDI best practices and international standards.", image: "https://images.unsplash.com/photo-1620662892011-f5c2d523fae2?w=600&q=80", tags: ["AI-Powered", "Spatial Analysis"] },
-    { id: "sv3", title: "BSDI Smart Map", description: "To provide a user-friendly interface for viewing and analyzing government geospatial datasets.", image: "https://images.unsplash.com/photo-1760801802787-86f7958c439e?w=600&q=80", tags: ["3D Visualization", "Infrastructure"] },
-    { id: "sv4", title: "GeoIntelligence Bahrain", description: "To transform geospatial data into actionable intelligence through spatial modelling.", image: "https://images.unsplash.com/photo-1768839720936-87ce3adf2d08?w=600&q=80", tags: ["Role-Based Access", "Audit Logging"] },
-    { id: "sv5", title: "Data Analytics", description: "Advanced insights through visual dashboards and data-driven decision making.", image: "https://images.unsplash.com/photo-1759661966728-4a02e3c6ed91?w=600&q=80", tags: ["Visual Dashboards", "Data-Driven"] },
-    { id: "sv6", title: "Cloud Infrastructure", description: "Scalable platform with high availability and disaster recovery capabilities.", image: "https://images.unsplash.com/photo-1506399558188-acca6f8cbf41?w=600&q=80", tags: ["High Availability", "Disaster Recovery"] },
-    { id: "sv7", title: "Spatial Data APIs & Services", description: "To enable seamless access, integration, and sharing of geospatial data through standardized APIs and web services.", image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80", tags: ["APIs", "Data Sharing"] },
-    { id: "sv8", title: "Decision Support Systems", description: "To empower government and stakeholders with data-driven insights for planning, monitoring, and strategic decision-making.", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80", tags: ["Data-Driven", "Strategic Planning"] },
+    { id: "sv1", title: "BSDI Admin Console", title_ar: "وحدة تحكم BSDI", description: "To ensure secure, transparent, and efficient management of geospatial services across all government entities.", description_ar: "لضمان إدارة آمنة وشفافة وفعّالة للخدمات الجغرافية عبر جميع الجهات الحكومية.", image: IMG.dataCenter, tags: ["2D & 3D Maps", "Secure Access"], tags_ar: ["خرائط ثنائية وثلاثية", "وصول آمن"] },
+    { id: "sv2", title: "National GeoCatalog Bahrain", title_ar: "الكتالوج الجغرافي الوطني", description: "To provide standardized metadata management aligned with SDI best practices and international standards.", description_ar: "لتوفير إدارة بيانات وصفية موحّدة وفق أفضل الممارسات والمعايير الدولية.", image: IMG.blueprint, tags: ["AI-Powered", "Spatial Analysis"], tags_ar: ["مدعوم بالذكاء الاصطناعي", "تحليل مكاني"] },
+    { id: "sv3", title: "BSDI Smart Map", title_ar: "خريطة BSDI الذكية", description: "To provide a user-friendly interface for viewing and analyzing government geospatial datasets.", description_ar: "لتوفير واجهة سهلة الاستخدام لعرض وتحليل مجموعات البيانات الجغرافية الحكومية.", image: IMG.cityPlan, tags: ["3D Visualization", "Infrastructure"], tags_ar: ["تصور ثلاثي الأبعاد", "البنية التحتية"] },
+    { id: "sv4", title: "GeoIntelligence Bahrain", title_ar: "الذكاء الجغرافي للبحرين", description: "To transform geospatial data into actionable intelligence through spatial modelling.", description_ar: "لتحويل البيانات الجغرافية إلى ذكاء قابل للتنفيذ عبر النمذجة المكانية.", image: IMG.satellite, tags: ["Role-Based Access", "Audit Logging"], tags_ar: ["وصول حسب الدور", "سجل التدقيق"] },
+    { id: "sv5", title: "Data Analytics", title_ar: "تحليل البيانات", description: "Advanced insights through visual dashboards and data-driven decision making.", description_ar: "رؤى متقدمة عبر لوحات تحكم مرئية واتخاذ قرارات مبنية على البيانات.", image: IMG.industrialPlant, tags: ["Visual Dashboards", "Data-Driven"], tags_ar: ["لوحات مرئية", "مبني على البيانات"] },
+    { id: "sv6", title: "Cloud Infrastructure", title_ar: "البنية التحتية السحابية", description: "Scalable platform with high availability and disaster recovery capabilities.", description_ar: "منصة قابلة للتوسع بإتاحة عالية وقدرات استعادة من الكوارث.", image: IMG.dataCenter, tags: ["High Availability", "Disaster Recovery"], tags_ar: ["إتاحة عالية", "استعادة الكوارث"] },
+    { id: "sv7", title: "Spatial Data APIs & Services", title_ar: "واجهات وخدمات البيانات المكانية", description: "To enable seamless access, integration, and sharing of geospatial data through standardized APIs and web services.", description_ar: "لتمكين الوصول والتكامل ومشاركة البيانات الجغرافية عبر واجهات برمجة موحّدة وخدمات ويب.", image: IMG.dataCenter, tags: ["APIs", "Data Sharing"], tags_ar: ["واجهات برمجة", "مشاركة البيانات"] },
+    { id: "sv8", title: "Decision Support Systems", title_ar: "أنظمة دعم القرار", description: "To empower government and stakeholders with data-driven insights for planning, monitoring, and strategic decision-making.", description_ar: "لتمكين الحكومة وأصحاب المصلحة برؤى مبنية على البيانات للتخطيط والرصد وصنع القرار الاستراتيجي.", image: IMG.blueprint, tags: ["Data-Driven", "Strategic Planning"], tags_ar: ["مبني على البيانات", "تخطيط استراتيجي"] },
   ],
 };
 
 export const defaultUsers: UsersContent = {
   heading: "Who Can Use BSDI?",
+  heading_ar: "من يمكنه استخدام BSDI؟",
   description: "BSDI is designed for organizations that rely on accurate spatial data, secure collaboration, and intelligent insights.",
+  description_ar: "صُمّمت BSDI للمؤسسات التي تعتمد على بيانات مكانية دقيقة وتعاون آمن ورؤى ذكية.",
   cards: [
-    { id: "u1", title: "Government Authorities", description: "Empowering national and local government bodies with comprehensive GIS infrastructure for policy making, urban development, and citizen services.", image: "https://images.unsplash.com/photo-1612165469953-69b4bc7eedbf?w=500&q=80" },
-    { id: "u2", title: "Urban Planning Departments", description: "Strategic tools for city planners to visualize growth, manage land use, and create sustainable urban environments with data-driven insights.", image: "https://images.unsplash.com/photo-1760553120324-d3d2bf53852b?w=500&q=80" },
-    { id: "u3", title: "Infrastructure & Utilities", description: "Manage critical infrastructure networks including water, electricity, telecommunications, and transportation with real-time spatial monitoring.", image: "https://images.unsplash.com/photo-1765028994202-abd7b1649971?w=500&q=80" },
-    { id: "u4", title: "Environmental Agencies", description: "Monitor environmental changes, track natural resources, and implement conservation strategies using advanced geospatial analysis tools.", image: "https://images.unsplash.com/photo-1641392945935-194a6251804a?w=500&q=80" },
-    { id: "u5", title: "Transportation & Smart Cities", description: "Optimize traffic flow, plan public transit routes, and build intelligent city systems with integrated transportation data and analytics.", image: "https://images.unsplash.com/photo-1699602050604-698045645108?w=500&q=80" },
-    { id: "u6", title: "National Security & Emergency", description: "Enhance response times and coordination during emergencies with real-time location intelligence and secure communication channels.", image: "https://images.unsplash.com/photo-1763888709576-71022f7b2658?w=500&q=80" },
-    { id: "u7", title: "Developers & Private Enterprises", description: "Build innovative location-based applications and services using our comprehensive APIs and developer-friendly spatial data infrastructure.", image: "https://images.unsplash.com/photo-1514591792873-8862494066d2?w=500&q=80" },
-    { id: "u8", title: "Research & Academia", description: "Access high-quality spatial datasets for academic research, geographic studies, and educational programs in GIS and spatial sciences.", image: "https://images.unsplash.com/photo-1623632306901-e509641e7191?w=500&q=80" },
+    { id: "u1", title: "Government Authorities", title_ar: "الجهات الحكومية", description: "Empowering national and local government bodies with comprehensive GIS infrastructure for policy making, urban development, and citizen services.", description_ar: "تمكين الهيئات الحكومية الوطنية والمحلية ببنية تحتية شاملة لنظم المعلومات الجغرافية لصنع السياسات والتنمية الحضرية وخدمات المواطنين.", image: IMG.govtBuilding },
+    { id: "u2", title: "Urban Planning Departments", title_ar: "إدارات التخطيط العمراني", description: "Strategic tools for city planners to visualize growth, manage land use, and create sustainable urban environments with data-driven insights.", description_ar: "أدوات استراتيجية لمخططي المدن لتصور النمو وإدارة استخدام الأراضي وإنشاء بيئات حضرية مستدامة.", image: IMG.urbanPlan },
+    { id: "u3", title: "Infrastructure & Utilities", title_ar: "البنية التحتية والمرافق", description: "Manage critical infrastructure networks including water, electricity, telecommunications, and transportation with real-time spatial monitoring.", description_ar: "إدارة شبكات البنية التحتية الحيوية تشمل الماء والكهرباء والاتصالات والنقل بمراقبة مكانية فورية.", image: IMG.powerLines },
+    { id: "u4", title: "Environmental Agencies", title_ar: "الهيئات البيئية", description: "Monitor environmental changes, track natural resources, and implement conservation strategies using advanced geospatial analysis tools.", description_ar: "رصد التغيرات البيئية وتتبع الموارد الطبيعية وتنفيذ استراتيجيات الحفاظ باستخدام أدوات تحليل جغرافي متقدمة.", image: IMG.solar },
+    { id: "u5", title: "Transportation & Smart Cities", title_ar: "النقل والمدن الذكية", description: "Optimize traffic flow, plan public transit routes, and build intelligent city systems with integrated transportation data and analytics.", description_ar: "تحسين تدفق المرور وتخطيط مسارات النقل العام وبناء أنظمة مدن ذكية ببيانات نقل متكاملة.", image: IMG.aerialRoad },
+    { id: "u6", title: "National Security & Emergency", title_ar: "الأمن الوطني والطوارئ", description: "Enhance response times and coordination during emergencies with real-time location intelligence and secure communication channels.", description_ar: "تحسين أوقات الاستجابة والتنسيق خلال الطوارئ بذكاء موقعي فوري وقنوات اتصال آمنة.", image: IMG.emergency },
+    { id: "u7", title: "Developers & Private Enterprises", title_ar: "المطورون والشركات الخاصة", description: "Build innovative location-based applications and services using our comprehensive APIs and developer-friendly spatial data infrastructure.", description_ar: "بناء تطبيقات وخدمات مبتكرة مبنية على الموقع باستخدام واجهات برمجتنا الشاملة وبنية تحتية ودودة للمطورين.", image: IMG.developers },
+    { id: "u8", title: "Research & Academia", title_ar: "البحث والأكاديميا", description: "Access high-quality spatial datasets for academic research, geographic studies, and educational programs in GIS and spatial sciences.", description_ar: "الوصول إلى مجموعات بيانات مكانية عالية الجودة للبحث الأكاديمي والدراسات الجغرافية والبرامج التعليمية.", image: IMG.research },
   ],
 };
 
 export const defaultDataServices: DataServicesContent = {
   heading: "Data Services Provided by",
+  heading_ar: "خدمات البيانات المقدّمة من",
   description: "Find Data Services by their providing entities",
+  description_ar: "ابحث عن خدمات البيانات حسب الجهات المقدّمة",
   entities: [
-    { id: "d1", name: "Information & eGovernment Authority", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/f605a5e591189376365a30f4b95cd45df42b30e8.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
-    { id: "d2", name: "Survey and Land Registration Bureau", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/727daca89e21026342142442add6c9766c555cbb.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
-    { id: "d3", name: "Social Insurance Organization", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/f1c6e9c2249bcaeb1e3018078696afc3cfcf52d0.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
-    { id: "d4", name: "Tender Board", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/01f965fdea88f9f7d0cced4e43fd8e495d4ffef2.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
-    { id: "d5", name: "Ministry of Foreign Affairs", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/f19352d4f262cdb0f5fc7260253177e0bfaae583.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
-    { id: "d6", name: "Ministry of Industry and Commerce", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/d0a3949086d392f40ff1edc155daf8aa8b1bcd3b.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
-    { id: "d7", name: "Ministry of Transportation and Telecommunications", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/d6aa7287fb342a673e97a0e070843e01698abdc2.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
-    { id: "d8", name: "Ministry of Interior", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/8f93324345cc3e00b8122973bbc8251a16de98d9.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
+    { id: "d1", name: "Information & eGovernment Authority", name_ar: "هيئة المعلومات والحكومة الإلكترونية", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/f605a5e591189376365a30f4b95cd45df42b30e8.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
+    { id: "d2", name: "Survey and Land Registration Bureau", name_ar: "جهاز المساحة والتسجيل العقاري", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/727daca89e21026342142442add6c9766c555cbb.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
+    { id: "d3", name: "Social Insurance Organization", name_ar: "هيئة التأمين الاجتماعي", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/f1c6e9c2249bcaeb1e3018078696afc3cfcf52d0.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
+    { id: "d4", name: "Tender Board", name_ar: "مجلس المناقصات", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/01f965fdea88f9f7d0cced4e43fd8e495d4ffef2.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
+    { id: "d5", name: "Ministry of Foreign Affairs", name_ar: "وزارة الخارجية", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/f19352d4f262cdb0f5fc7260253177e0bfaae583.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
+    { id: "d6", name: "Ministry of Industry and Commerce", name_ar: "وزارة الصناعة والتجارة", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/d0a3949086d392f40ff1edc155daf8aa8b1bcd3b.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
+    { id: "d7", name: "Ministry of Transportation and Telecommunications", name_ar: "وزارة المواصلات والاتصالات", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/d6aa7287fb342a673e97a0e070843e01698abdc2.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
+    { id: "d8", name: "Ministry of Interior", name_ar: "وزارة الداخلية", logo: "https://shush-bubble-84673240.figma.site/_assets/v11/8f93324345cc3e00b8122973bbc8251a16de98d9.png", link: "https://services.bahrain.bh/wps/portal/en/BSP/GSX-UI-MultipleEntitiesByEService/GSX-UI-EServicesByEntity" },
   ],
 };
 
 export const defaultFooter: FooterContent = {
   quickLinks: [
-    { id: "ql1", label: "Dataset Request", href: "#" },
-    { id: "ql2", label: "Open Data Policy", href: "#" },
+    { id: "ql1", label: "Dataset Request", label_ar: "طلب مجموعة بيانات", href: "#" },
+    { id: "ql2", label: "Open Data Policy", label_ar: "سياسة البيانات المفتوحة", href: "#" },
   ],
   externalLinks: [
-    { id: "el1", label: "GCC Statistical Center", href: "https://gccstat.org" },
-    { id: "el2", label: "SHAREKNA", href: "https://www.sharekna.bh" },
+    { id: "el1", label: "GCC Statistical Center", label_ar: "المركز الإحصائي الخليجي", href: "https://gccstat.org" },
+    { id: "el2", label: "SHAREKNA", label_ar: "شاركنا", href: "https://www.sharekna.bh" },
   ],
   socialLinks: [
     { platform: "Instagram", href: "#" },
@@ -261,55 +347,64 @@ export const defaultFooter: FooterContent = {
 
 export const defaultLayers: LayersContent = {
   heading: "Layers",
+  heading_ar: "الطبقات",
   description: "Explore the spatial datasets and thematic layers powering Bahrain's geospatial intelligence.",
+  description_ar: "استكشف مجموعات البيانات المكانية والطبقات الموضوعية التي تشغّل الذكاء الجغرافي للبحرين.",
   cards: [
-    { id: "l1", title: "ADDRESSES", description: "Standardized address points across Bahrain.", image: "https://images.unsplash.com/photo-1559060017-445fb9722f2a?w=600&q=80", link: "#" },
-    { id: "l2", title: "ADMINBOUNDRY", description: "Administrative boundaries and governorate divisions.", image: "https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=600&q=80", link: "#" },
-    { id: "l3", title: "APPROVED_ZONES", description: "Officially approved planning and development zones.", image: "https://images.unsplash.com/photo-1580834341580-8c17a3a630ca?w=600&q=80", link: "#" },
-    { id: "l4", title: "BACA", description: "Bahrain Authority for Culture & Antiquities sites.", image: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=600&q=80", link: "#" },
-    { id: "l5", title: "BBU", description: "Bahrain Bayan University campus and facilities.", image: "https://images.unsplash.com/photo-1562774053-701939374585?w=600&q=80", link: "#" },
-    { id: "l6", title: "BIX", description: "Bahrain Internet Exchange node locations.", image: "https://images.unsplash.com/photo-1573164574511-73c773193279?w=600&q=80", link: "#" },
-    { id: "l7", title: "BOTANICAL_ATLAS", description: "Native flora and botanical reference data.", image: "https://images.unsplash.com/photo-1597177884890-ed40ee93f0c6?w=600&q=80", link: "#" },
-    { id: "l8", title: "BUILDINGS", description: "Building footprints and structure inventory.", image: "https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=600&q=80", link: "#" },
-    { id: "l9", title: "BUS ROUTE", description: "Public bus routes and transit corridors.", image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=600&q=80", link: "#" },
-    { id: "l10", title: "CAA", description: "Civil Aviation Authority airspace data.", image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80", link: "#" },
-    { id: "l11", title: "CADASTRAL", description: "Land parcels and cadastral survey records.", image: "https://images.unsplash.com/photo-1580834341580-8c17a3a630ca?w=600&q=80", link: "#" },
-    { id: "l12", title: "DISTRICT_COOLING", description: "District cooling network infrastructure.", image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&q=80", link: "#" },
-    { id: "l13", title: "DTM", description: "Digital terrain model elevation data.", image: "https://images.unsplash.com/photo-1547234935-80c7145ec969?w=600&q=80", link: "#" },
-    { id: "l14", title: "DUBAISAT2011", description: "Satellite imagery base layer over Bahrain.", image: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=600&q=80", link: "#" },
-    { id: "l15", title: "ELECTRICITYANDWATER", description: "Electricity and water utility networks.", image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&q=80", link: "#" },
-    { id: "l16", title: "EWA_EDD", description: "EWA electricity distribution division assets.", image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&q=80", link: "#" },
-    { id: "l17", title: "HEALTHSERVICES", description: "Hospitals, clinics and healthcare facilities.", image: "https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=600&q=80", link: "#" },
-    { id: "l18", title: "OIL_GAS", description: "Oil and gas fields, pipelines and assets.", image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&q=80", link: "#" },
-    { id: "l19", title: "PAVEMENTS", description: "Pavement condition and surface inventory.", image: "https://images.unsplash.com/photo-1597007030739-6d2e7172ee6c?w=600&q=80", link: "#" },
-    { id: "l20", title: "POPULATION_DEMOGRAPHY", description: "Population density and demographic layers.", image: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=600&q=80", link: "#" },
-    { id: "l21", title: "ROAD_DUCTS", description: "Underground road duct network.", image: "https://images.unsplash.com/photo-1518228684816-9135c15ab4ea?w=600&q=80", link: "#" },
-    { id: "l22", title: "SEWERAGEANDDRAINAGE", description: "Sewerage and stormwater drainage network.", image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&q=80", link: "#" },
-    { id: "l23", title: "STREETCENTERLINES", description: "Street centerline reference network.", image: "https://images.unsplash.com/photo-1559060017-445fb9722f2a?w=600&q=80", link: "#" },
-    { id: "l24", title: "TELECOM", description: "Telecommunications infrastructure layer.", image: "https://images.unsplash.com/photo-1519750157634-b6d493a0f77c?w=600&q=80", link: "#" },
-    { id: "l25", title: "TOPOGRAPHIC", description: "Topographic base map of Bahrain.", image: "https://images.unsplash.com/photo-1547234935-80c7145ec969?w=600&q=80", link: "#" },
-    { id: "l26", title: "VEGETATION", description: "Vegetation cover and green space mapping.", image: "https://images.unsplash.com/photo-1597177884890-ed40ee93f0c6?w=600&q=80", link: "#" },
-    { id: "l27", title: "ZONES", description: "Land use and planning zone classification.", image: "https://images.unsplash.com/photo-1573164574511-73c773193279?w=600&q=80", link: "#" },
+    { id: "l1", title: "ADDRESSES", title_ar: "العناوين", description: "Standardized address points across Bahrain.", description_ar: "نقاط عناوين موحّدة في جميع أنحاء البحرين.", image: IMG.cityPlan, link: "#" },
+    { id: "l2", title: "ADMINBOUNDRY", title_ar: "الحدود الإدارية", description: "Administrative boundaries and governorate divisions.", description_ar: "الحدود الإدارية وتقسيمات المحافظات.", image: IMG.blueprint, link: "#" },
+    { id: "l3", title: "APPROVED_ZONES", title_ar: "المناطق المعتمدة", description: "Officially approved planning and development zones.", description_ar: "مناطق التخطيط والتطوير المعتمدة رسمياً.", image: IMG.urbanPlan, link: "#" },
+    { id: "l4", title: "BACA", title_ar: "هيئة الثقافة والآثار", description: "Bahrain Authority for Culture & Antiquities sites.", description_ar: "مواقع هيئة البحرين للثقافة والآثار.", image: IMG.cityPlan, link: "#" },
+    { id: "l5", title: "BBU", title_ar: "جامعة بيان البحرين", description: "Bahrain Bayan University campus and facilities.", description_ar: "حرم ومرافق جامعة بيان البحرين.", image: IMG.govtBuilding, link: "#" },
+    { id: "l6", title: "BIX", title_ar: "نقطة تبادل الإنترنت", description: "Bahrain Internet Exchange node locations.", description_ar: "مواقع عقد تبادل الإنترنت في البحرين.", image: IMG.dataCenter, link: "#" },
+    { id: "l7", title: "BOTANICAL_ATLAS", title_ar: "الأطلس النباتي", description: "Native flora and botanical reference data.", description_ar: "بيانات الغطاء النباتي المحلي والمرجعية النباتية.", image: IMG.vegetation, link: "#" },
+    { id: "l8", title: "BUILDINGS", title_ar: "المباني", description: "Building footprints and structure inventory.", description_ar: "مساحات المباني وحصر المنشآت.", image: IMG.blueprint, link: "#" },
+    { id: "l9", title: "BUS ROUTE", title_ar: "مسارات الحافلات", description: "Public bus routes and transit corridors.", description_ar: "مسارات الحافلات العامة وممرات النقل.", image: IMG.bus, link: "#" },
+    { id: "l10", title: "CAA", title_ar: "هيئة الطيران المدني", description: "Civil Aviation Authority airspace data.", description_ar: "بيانات المجال الجوي لهيئة الطيران المدني.", image: IMG.airport, link: "#" },
+    { id: "l11", title: "CADASTRAL", title_ar: "المساحة العقارية", description: "Land parcels and cadastral survey records.", description_ar: "قطع الأراضي وسجلات المساحة العقارية.", image: IMG.blueprint, link: "#" },
+    { id: "l12", title: "DISTRICT_COOLING", title_ar: "التبريد المركزي", description: "District cooling network infrastructure.", description_ar: "البنية التحتية لشبكة التبريد المركزي.", image: IMG.industrialPlant, link: "#" },
+    { id: "l13", title: "DTM", title_ar: "نموذج التضاريس الرقمي", description: "Digital terrain model elevation data.", description_ar: "بيانات ارتفاع نموذج التضاريس الرقمي.", image: IMG.terrain, link: "#" },
+    { id: "l14", title: "DUBAISAT2011", title_ar: "صور الأقمار الصناعية", description: "Satellite imagery base layer over Bahrain.", description_ar: "طبقة صور الأقمار الصناعية على البحرين.", image: IMG.satellite, link: "#" },
+    { id: "l15", title: "ELECTRICITYANDWATER", title_ar: "الكهرباء والماء", description: "Electricity and water utility networks.", description_ar: "شبكات مرافق الكهرباء والماء.", image: IMG.powerLines, link: "#" },
+    { id: "l16", title: "EWA_EDD", title_ar: "توزيع الكهرباء", description: "EWA electricity distribution division assets.", description_ar: "أصول قسم توزيع الكهرباء.", image: IMG.powerLines, link: "#" },
+    { id: "l17", title: "HEALTHSERVICES", title_ar: "الخدمات الصحية", description: "Hospitals, clinics and healthcare facilities.", description_ar: "المستشفيات والعيادات والمرافق الصحية.", image: IMG.hospital, link: "#" },
+    { id: "l18", title: "OIL_GAS", title_ar: "النفط والغاز", description: "Oil and gas fields, pipelines and assets.", description_ar: "حقول النفط والغاز والأنابيب والأصول.", image: IMG.pipeline, link: "#" },
+    { id: "l19", title: "PAVEMENTS", title_ar: "الأرصفة", description: "Pavement condition and surface inventory.", description_ar: "حالة الأرصفة وحصر الأسطح.", image: IMG.highway, link: "#" },
+    { id: "l20", title: "POPULATION_DEMOGRAPHY", title_ar: "السكان والديموغرافيا", description: "Population density and demographic layers.", description_ar: "كثافة السكان والطبقات الديموغرافية.", image: IMG.cityPlan, link: "#" },
+    { id: "l21", title: "ROAD_DUCTS", title_ar: "قنوات الطرق", description: "Underground road duct network.", description_ar: "شبكة قنوات الطرق تحت الأرض.", image: IMG.aerialRoad, link: "#" },
+    { id: "l22", title: "SEWERAGEANDDRAINAGE", title_ar: "الصرف الصحي", description: "Sewerage and stormwater drainage network.", description_ar: "شبكة الصرف الصحي ومياه الأمطار.", image: IMG.waterTreatment, link: "#" },
+    { id: "l23", title: "STREETCENTERLINES", title_ar: "محاور الشوارع", description: "Street centerline reference network.", description_ar: "شبكة مرجعية لمحاور الشوارع.", image: IMG.aerialRoad, link: "#" },
+    { id: "l24", title: "TELECOM", title_ar: "الاتصالات", description: "Telecommunications infrastructure layer.", description_ar: "طبقة البنية التحتية للاتصالات.", image: IMG.telecomTower, link: "#" },
+    { id: "l25", title: "TOPOGRAPHIC", title_ar: "الطبوغرافيا", description: "Topographic base map of Bahrain.", description_ar: "خريطة الأساس الطبوغرافية للبحرين.", image: IMG.terrain, link: "#" },
+    { id: "l26", title: "VEGETATION", title_ar: "الغطاء النباتي", description: "Vegetation cover and green space mapping.", description_ar: "تخطيط الغطاء النباتي والمساحات الخضراء.", image: IMG.vegetation, link: "#" },
+    { id: "l27", title: "ZONES", title_ar: "المناطق", description: "Land use and planning zone classification.", description_ar: "تصنيف استخدام الأراضي ومناطق التخطيط.", image: IMG.urbanPlan, link: "#" },
   ],
 };
 
 export const defaultNews: NewsContent = {
   heading: "Latest News",
+  heading_ar: "آخر الأخبار",
   description: "Stay informed with the latest updates, announcements and milestones from BSDI and the Information & eGovernment Authority.",
+  description_ar: "ابقَ على اطلاع بآخر التحديثات والإعلانات والإنجازات من BSDI وهيئة المعلومات والحكومة الإلكترونية.",
   items: [
-    { id: "n1", title: "BSDI launches unified geospatial portal", excerpt: "A new unified portal centralises spatial datasets across all government entities for streamlined access and analytics.", date: "Apr 22, 2026", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80", link: "#" },
-    { id: "n2", title: "Bahrain advances Smart City initiative", excerpt: "Smart city programmes accelerate as new 3D mapping and IoT integration come online across key urban districts.", date: "Apr 10, 2026", image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&q=80", link: "#" },
-    { id: "n3", title: "New partnership for open spatial data", excerpt: "BSDI partners with national agencies to expand the open data catalogue and improve cross-sector collaboration.", date: "Mar 28, 2026", image: "https://images.unsplash.com/photo-1620662892011-f5c2d523fae2?w=800&q=80", link: "#" },
+    { id: "n1", title: "BSDI launches unified geospatial portal", title_ar: "BSDI تطلق البوابة الجغرافية الموحّدة", excerpt: "A new unified portal centralises spatial datasets across all government entities for streamlined access and analytics.", excerpt_ar: "بوابة موحّدة جديدة تجمع مجموعات البيانات المكانية عبر جميع الجهات الحكومية لتسهيل الوصول والتحليلات.", date: "Apr 22, 2026", image: IMG.dataCenter, link: "#" },
+    { id: "n2", title: "Bahrain advances Smart City initiative", title_ar: "البحرين تقدّم مبادرة المدينة الذكية", excerpt: "Smart city programmes accelerate as new 3D mapping and IoT integration come online across key urban districts.", excerpt_ar: "تتسارع برامج المدن الذكية مع إطلاق خرائط ثلاثية الأبعاد جديدة وتكامل إنترنت الأشياء في الأحياء الرئيسية.", date: "Apr 10, 2026", image: IMG.smartCity, link: "#" },
+    { id: "n3", title: "New partnership for open spatial data", title_ar: "شراكة جديدة للبيانات المكانية المفتوحة", excerpt: "BSDI partners with national agencies to expand the open data catalogue and improve cross-sector collaboration.", excerpt_ar: "BSDI تتشارك مع الجهات الوطنية لتوسيع كتالوج البيانات المفتوحة وتحسين التعاون بين القطاعات.", date: "Mar 28, 2026", image: IMG.blueprint, link: "#" },
   ],
 };
 
 export const defaultMapView: MapViewContent = {
-  heading: "Explore Bahrain on the Map",
-  description: "Visualise spatial datasets, infrastructure and zones interactively. Open the full Map View to navigate Bahrain's geospatial ecosystem.",
+  heading: "Bahrain Map View",
+  heading_ar: "خريطة البحرين",
+  description: "Visualise spatial datasets, infrastructure and zones interactively across the Kingdom of Bahrain.",
+  description_ar: "تصوّر مجموعات البيانات المكانية والبنية التحتية والمناطق بشكل تفاعلي في مملكة البحرين.",
   ctaLabel: "Open Map View",
+  ctaLabel_ar: "افتح الخريطة",
   ctaHref: "/map",
-  previewImage: "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1200&q=80",
+  previewImage: IMG.bahrainMap,
 };
+
+const OLD_MAP_HEADINGS = ["Explore Bahrain on the Map"];
 
 export const useContentStore = create<ContentStore>()(
   persist(
@@ -337,20 +432,22 @@ export const useContentStore = create<ContentStore>()(
     }),
     {
       name: "bsdi-content",
+      version: 3,
+      migrate: (persisted: any) => persisted,
       merge: (persisted: any, current: any) => {
-        const merged = { ...current, ...persisted };
-        // Ensure new default vision cards appear
+        const merged = { ...current, ...(persisted || {}) };
         if (persisted?.vision?.cards) {
           const persistedIds = new Set(persisted.vision.cards.map((c: any) => c.id));
-          const newDefaults = defaultVision.cards.filter(c => !persistedIds.has(c.id));
-          merged.vision = { ...merged.vision, cards: [...persisted.vision.cards, ...newDefaults] };
+          const newDefaults = defaultVision.cards.filter((c) => !persistedIds.has(c.id));
+          merged.vision = { ...defaultVision, ...persisted.vision, cards: [...persisted.vision.cards, ...newDefaults] };
         }
-        // Ensure layers section exists for users with older persisted state
-        if (!persisted?.layers) {
-          merged.layers = defaultLayers;
-        }
+        if (!persisted?.layers) merged.layers = defaultLayers;
         if (!persisted?.news) merged.news = defaultNews;
         if (!persisted?.mapView) merged.mapView = defaultMapView;
+        // Replace old map view heading if user hasn't customised it
+        if (persisted?.mapView && OLD_MAP_HEADINGS.includes(persisted.mapView.heading)) {
+          merged.mapView = { ...merged.mapView, heading: defaultMapView.heading, heading_ar: defaultMapView.heading_ar, description: defaultMapView.description, description_ar: defaultMapView.description_ar };
+        }
         return merged;
       },
     }
