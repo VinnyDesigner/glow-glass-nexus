@@ -30,8 +30,19 @@ function TextStyleControls({ label, style, onChange }: { label: string; style: H
     { label: "Montserrat", value: "'Montserrat', sans-serif" },
     { label: "Poppins", value: "'Poppins', sans-serif" },
     { label: "Roboto", value: "'Roboto', sans-serif" },
+    { label: "Outfit", value: "'Outfit', sans-serif" },
+    { label: "Plus Jakarta Sans", value: "'Plus Jakarta Sans', sans-serif" },
+    { label: "DM Sans", value: "'DM Sans', sans-serif" },
+    { label: "Manrope", value: "'Manrope', sans-serif" },
+    { label: "Work Sans", value: "'Work Sans', sans-serif" },
+    { label: "IBM Plex Sans", value: "'IBM Plex Sans', sans-serif" },
+    { label: "Raleway", value: "'Raleway', sans-serif" },
     { label: "Playfair Display", value: "'Playfair Display', serif" },
     { label: "Merriweather", value: "'Merriweather', serif" },
+    { label: "Lora", value: "'Lora', serif" },
+    { label: "Source Serif 4", value: "'Source Serif 4', serif" },
+    { label: "Cairo (Arabic)", value: "'Cairo', sans-serif" },
+    { label: "Tajawal (Arabic)", value: "'Tajawal', sans-serif" },
   ];
 
   return (
