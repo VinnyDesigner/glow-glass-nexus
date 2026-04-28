@@ -128,3 +128,29 @@ export function useLocalizeNumber() {
   const { language } = useUiStore();
   return (value: string | number) => (language === "ar" ? toArabicDigits(value) : String(value));
 }
+
+// ============= Section style helpers =============
+
+import type { CSSProperties } from "react";
+import type { HeroTextStyle, SectionStyles } from "@/stores/contentStore";
+
+export function styleToCss(s?: HeroTextStyle): CSSProperties {
+  if (!s) return {};
+  return {
+    fontSize: s.fontSize ? `${s.fontSize}px` : undefined,
+    fontWeight: s.fontWeight || undefined,
+    fontStyle: s.italic ? "italic" : undefined,
+    color: s.color || undefined,
+    fontFamily: s.fontFamily || undefined,
+  };
+}
+
+/** Returns inline-style objects for a section's heading + description, language-aware. */
+export function useSectionStyles(content: SectionStyles) {
+  const { language } = useUiStore();
+  const isAr = language === "ar";
+  return {
+    heading: styleToCss(isAr ? content.headingStyleAr : content.headingStyle),
+    description: styleToCss(isAr ? content.descriptionStyleAr : content.descriptionStyle),
+  };
+}
