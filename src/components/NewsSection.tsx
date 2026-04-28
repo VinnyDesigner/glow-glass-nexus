@@ -27,15 +27,15 @@ export default function NewsSection() {
         </div>
 
         <div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? "fadeBlurUp 0.6s ease-out 0.15s forwards" : "none" }}
         >
           {news.items.map((item) => {
             const title = L(item.title, item.title_ar);
             const excerpt = L(item.excerpt, item.excerpt_ar);
             const card = (
-              <article className="clean-card h-full flex flex-col">
-                <div className="card-image aspect-[16/10]">
+              <article className="clean-card h-full flex flex-col !rounded-3xl">
+                <div className="card-image aspect-[16/10] !rounded-2xl">
                   <img
                     src={item.image}
                     alt={title}
@@ -43,18 +43,18 @@ export default function NewsSection() {
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                   />
                 </div>
-                <div className="p-5 flex-1 flex flex-col">
+                <div className="p-4 flex-1 flex flex-col">
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
                     <Calendar size={13} />
                     <span>{fmtDate(item.date)}</span>
                   </div>
-                  <h3 className="font-display text-lg font-semibold text-foreground leading-snug">
+                  <h3 className="font-display text-[15px] font-semibold text-foreground leading-snug">
                     {title}
                   </h3>
                   <p className="mt-2 text-sm text-muted-foreground leading-relaxed line-clamp-2 flex-1">
                     {excerpt}
                   </p>
-                  <span className="view-details-link mt-4">
+                  <span className="view-details-link mt-4 text-sm">
                     {t("news.readMore")} <ArrowRight size={14} />
                   </span>
                 </div>
