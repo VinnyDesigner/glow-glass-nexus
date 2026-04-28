@@ -18,11 +18,16 @@ export default function HeroSection() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const slides = hero.heroImages && hero.heroImages.length > 0 ? hero.heroImages : DEFAULT_SLIDES;
 
+  // language-aware getters via dynamic import to avoid stale render
+  const language = (typeof document !== "undefined" && document.documentElement.lang === "ar") ? "ar" : "en";
+  const title1 = language === "ar" && hero.title1_ar ? hero.title1_ar : hero.title1;
+  const title2 = language === "ar" && hero.title2_ar ? hero.title2_ar : hero.title2;
+  const subtitle = language === "ar" && hero.subtitle_ar ? hero.subtitle_ar : hero.subtitle;
+
   const goToSlide = useCallback((index: number) => {
     setCurrentIndex(index);
   }, []);
 
-  // Continuous auto-play — never pauses
   useEffect(() => {
     timerRef.current = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % slides.length);
