@@ -82,6 +82,7 @@ export default function HeroSection() {
                       fontWeight: t1.fontWeight || "800",
                       fontStyle: t1.italic ? "italic" : "normal",
                       color: t1.color || undefined,
+                      fontFamily: t1.fontFamily || undefined,
                     }}
                     className={`block ${!t1.fontSize ? "text-4xl sm:text-5xl md:text-6xl lg:text-7xl" : ""} ${!t1.color ? "hero-title-gradient" : ""}`}
                   >
@@ -95,6 +96,7 @@ export default function HeroSection() {
                       fontWeight: t2.fontWeight || "800",
                       fontStyle: t2.italic ? "italic" : "normal",
                       color: t2.color || undefined,
+                      fontFamily: t2.fontFamily || undefined,
                     }}
                     className="block text-5xl font-extrabold text-[#ff9494]"
                   >
@@ -108,6 +110,7 @@ export default function HeroSection() {
                     fontWeight: sub.fontWeight || "400",
                     fontStyle: sub.italic ? "italic" : "normal",
                     color: sub.color || "hsla(0,0%,100%,0.75)",
+                    fontFamily: sub.fontFamily || undefined,
                     letterSpacing: "0.01em",
                   }}
                 >

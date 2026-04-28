@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Save, ImagePlus, Bold, Italic, RotateCcw, X, GripVertical } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import heroSlide1 from "@/assets/hero-slide-1.png";
@@ -23,9 +24,37 @@ function TextStyleControls({ label, style, onChange }: { label: string; style: H
   };
   const weightLabel = style.fontWeight === "300" ? "Light" : style.fontWeight === "bold" ? "Bold" : "Regular";
 
+  const FONT_OPTIONS = [
+    { label: "Inter", value: "'Inter', sans-serif" },
+    { label: "Space Grotesk", value: "'Space Grotesk', sans-serif" },
+    { label: "Montserrat", value: "'Montserrat', sans-serif" },
+    { label: "Poppins", value: "'Poppins', sans-serif" },
+    { label: "Roboto", value: "'Roboto', sans-serif" },
+    { label: "Playfair Display", value: "'Playfair Display', serif" },
+    { label: "Merriweather", value: "'Merriweather', serif" },
+  ];
+
   return (
     <div className="space-y-3 p-4 border border-border rounded-xl">
       <p className="text-sm font-semibold text-foreground">{label}</p>
+      <div>
+        <Label>Font Family</Label>
+        <Select
+          value={style.fontFamily || ""}
+          onValueChange={(v) => onChange({ ...style, fontFamily: v })}
+        >
+          <SelectTrigger className="mt-1.5">
+            <SelectValue placeholder="Select font" />
+          </SelectTrigger>
+          <SelectContent>
+            {FONT_OPTIONS.map((f) => (
+              <SelectItem key={f.value} value={f.value} style={{ fontFamily: f.value }}>
+                {f.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
       <div>
         <Label>Font Size ({style.fontSize || 16}px)</Label>
         <Slider value={[style.fontSize || 16]} min={12} max={96} step={1} onValueChange={([v]) => onChange({ ...style, fontSize: v })} className="mt-1.5" />
