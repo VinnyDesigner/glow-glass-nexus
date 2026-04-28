@@ -122,6 +122,9 @@ export interface HeroContent {
   title1Style?: HeroTextStyle;
   title2Style?: HeroTextStyle;
   subtitleStyle?: HeroTextStyle;
+  title1StyleAr?: HeroTextStyle;
+  title2StyleAr?: HeroTextStyle;
+  subtitleStyleAr?: HeroTextStyle;
 }
 
 export interface SectionStyles {
@@ -250,8 +253,12 @@ const IMG = {
   research: "https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=800&q=80",
   developers: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&q=80",
   emergency: "https://images.unsplash.com/photo-1599301715049-72366c8a9e3a?w=800&q=80",
-  bahrainMap: "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1200&q=80",
+  bahrainMap: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Bahrain_location_map.svg/1024px-Bahrain_location_map.svg.png",
 };
+
+const OLD_BAHRAIN_MAP_URLS = [
+  "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1200&q=80",
+];
 
 // ============= Defaults =============
 
@@ -405,6 +412,7 @@ export const defaultNews: NewsContent = {
     { id: "n1", title: "BSDI launches unified geospatial portal", title_ar: "BSDI تطلق البوابة الجغرافية الموحّدة", excerpt: "A new unified portal centralises spatial datasets across all government entities for streamlined access and analytics.", excerpt_ar: "بوابة موحّدة جديدة تجمع مجموعات البيانات المكانية عبر جميع الجهات الحكومية لتسهيل الوصول والتحليلات.", date: "Apr 22, 2026", image: IMG.dataCenter, link: "#" },
     { id: "n2", title: "Bahrain advances Smart City initiative", title_ar: "البحرين تقدّم مبادرة المدينة الذكية", excerpt: "Smart city programmes accelerate as new 3D mapping and IoT integration come online across key urban districts.", excerpt_ar: "تتسارع برامج المدن الذكية مع إطلاق خرائط ثلاثية الأبعاد جديدة وتكامل إنترنت الأشياء في الأحياء الرئيسية.", date: "Apr 10, 2026", image: IMG.smartCity, link: "#" },
     { id: "n3", title: "New partnership for open spatial data", title_ar: "شراكة جديدة للبيانات المكانية المفتوحة", excerpt: "BSDI partners with national agencies to expand the open data catalogue and improve cross-sector collaboration.", excerpt_ar: "BSDI تتشارك مع الجهات الوطنية لتوسيع كتالوج البيانات المفتوحة وتحسين التعاون بين القطاعات.", date: "Mar 28, 2026", image: IMG.blueprint, link: "#" },
+    { id: "n4", title: "Solar & energy infrastructure mapped nationwide", title_ar: "تخطيط البنية التحتية للطاقة الشمسية على المستوى الوطني", excerpt: "New layers visualise renewable energy assets and grid infrastructure to support sustainability planning.", excerpt_ar: "طبقات جديدة تصوّر أصول الطاقة المتجددة والبنية التحتية للشبكة لدعم تخطيط الاستدامة.", date: "Mar 14, 2026", image: IMG.solar, link: "#" },
   ],
 };
 
@@ -447,7 +455,7 @@ export const useContentStore = create<ContentStore>()(
     }),
     {
       name: "bsdi-content",
-      version: 3,
+      version: 4,
       migrate: (persisted: any) => persisted,
       merge: (persisted: any, current: any) => {
         const merged = { ...current, ...(persisted || {}) };
@@ -457,11 +465,19 @@ export const useContentStore = create<ContentStore>()(
           merged.vision = { ...defaultVision, ...persisted.vision, cards: [...persisted.vision.cards, ...newDefaults] };
         }
         if (!persisted?.layers) merged.layers = defaultLayers;
-        if (!persisted?.news) merged.news = defaultNews;
+        if (!persisted?.news) {
+          merged.news = defaultNews;
+        } else if (persisted.news.items) {
+          const persistedIds = new Set(persisted.news.items.map((i: any) => i.id));
+          const newItems = defaultNews.items.filter((i) => !persistedIds.has(i.id));
+          merged.news = { ...defaultNews, ...persisted.news, items: [...persisted.news.items, ...newItems] };
+        }
         if (!persisted?.mapView) merged.mapView = defaultMapView;
-        // Replace old map view heading if user hasn't customised it
         if (persisted?.mapView && OLD_MAP_HEADINGS.includes(persisted.mapView.heading)) {
           merged.mapView = { ...merged.mapView, heading: defaultMapView.heading, heading_ar: defaultMapView.heading_ar, description: defaultMapView.description, description_ar: defaultMapView.description_ar };
+        }
+        if (persisted?.mapView && OLD_BAHRAIN_MAP_URLS.includes(persisted.mapView.previewImage)) {
+          merged.mapView = { ...merged.mapView, previewImage: defaultMapView.previewImage };
         }
         return merged;
       },

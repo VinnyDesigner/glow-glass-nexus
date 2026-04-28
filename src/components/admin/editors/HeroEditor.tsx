@@ -5,8 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Save, ImagePlus, Bold, Italic, RotateCcw, X, GripVertical } from "lucide-react";
+import { Save, ImagePlus, RotateCcw, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import heroSlide1 from "@/assets/hero-slide-1.png";
 import heroSlide2 from "@/assets/hero-slide-2.png";
@@ -14,84 +13,11 @@ import heroSlide3 from "@/assets/hero-slide-3.png";
 import heroSlide4 from "@/assets/hero-slide-4.png";
 import heroSlide5 from "@/assets/hero-slide-5.png";
 import ResetConfirmModal from "../ResetConfirmModal";
+import { BilingualField } from "../BilingualField";
+import { SectionStyleControls } from "../SectionStyleControls";
 
 const DEFAULT_SLIDES = [heroSlide1, heroSlide2, heroSlide3, heroSlide4, heroSlide5];
 
-function TextStyleControls({ label, style, onChange }: { label: string; style: HeroTextStyle; onChange: (s: HeroTextStyle) => void }) {
-  const weightCycle = () => {
-    const map: Record<string, string> = { "300": "normal", normal: "bold", bold: "300" };
-    onChange({ ...style, fontWeight: map[style.fontWeight || "normal"] || "normal" });
-  };
-  const weightLabel = style.fontWeight === "300" ? "Light" : style.fontWeight === "bold" ? "Bold" : "Regular";
-
-  const FONT_OPTIONS = [
-    { label: "Inter", value: "'Inter', sans-serif" },
-    { label: "Space Grotesk", value: "'Space Grotesk', sans-serif" },
-    { label: "Montserrat", value: "'Montserrat', sans-serif" },
-    { label: "Poppins", value: "'Poppins', sans-serif" },
-    { label: "Roboto", value: "'Roboto', sans-serif" },
-    { label: "Outfit", value: "'Outfit', sans-serif" },
-    { label: "Plus Jakarta Sans", value: "'Plus Jakarta Sans', sans-serif" },
-    { label: "DM Sans", value: "'DM Sans', sans-serif" },
-    { label: "Manrope", value: "'Manrope', sans-serif" },
-    { label: "Work Sans", value: "'Work Sans', sans-serif" },
-    { label: "IBM Plex Sans", value: "'IBM Plex Sans', sans-serif" },
-    { label: "Raleway", value: "'Raleway', sans-serif" },
-    { label: "Playfair Display", value: "'Playfair Display', serif" },
-    { label: "Merriweather", value: "'Merriweather', serif" },
-    { label: "Lora", value: "'Lora', serif" },
-    { label: "Source Serif 4", value: "'Source Serif 4', serif" },
-    { label: "Cairo (Arabic)", value: "'Cairo', sans-serif" },
-    { label: "Tajawal (Arabic)", value: "'Tajawal', sans-serif" },
-  ];
-
-  return (
-    <div className="space-y-3 p-4 border border-border rounded-xl">
-      <p className="text-sm font-semibold text-foreground">{label}</p>
-      <div>
-        <Label>Font Family</Label>
-        <Select
-          value={style.fontFamily || ""}
-          onValueChange={(v) => onChange({ ...style, fontFamily: v })}
-        >
-          <SelectTrigger className="mt-1.5">
-            <SelectValue placeholder="Select font" />
-          </SelectTrigger>
-          <SelectContent>
-            {FONT_OPTIONS.map((f) => (
-              <SelectItem key={f.value} value={f.value} style={{ fontFamily: f.value }}>
-                {f.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      <div>
-        <Label>Font Size ({style.fontSize || 16}px)</Label>
-        <Slider value={[style.fontSize || 16]} min={12} max={96} step={1} onValueChange={([v]) => onChange({ ...style, fontSize: v })} className="mt-1.5" />
-      </div>
-      <div className="flex items-center gap-2">
-        <Button type="button" variant={style.fontWeight === "bold" ? "default" : "outline"} size="icon" className="h-8 w-8" onClick={weightCycle} title={weightLabel}>
-          <Bold size={14} />
-        </Button>
-        <span className="text-xs text-muted-foreground">{weightLabel}</span>
-        <Button type="button" variant={style.italic ? "default" : "outline"} size="icon" className="h-8 w-8 ml-2" onClick={() => onChange({ ...style, italic: !style.italic })}>
-          <Italic size={14} />
-        </Button>
-        <span className="text-xs text-muted-foreground">{style.italic ? "On" : "Off"}</span>
-      </div>
-      <div>
-        <Label>Text Color</Label>
-        <div className="flex items-center gap-2 mt-1">
-          <input type="color" value={style.color || "#ffffff"} onChange={(e) => onChange({ ...style, color: e.target.value })} className="h-8 w-8 rounded cursor-pointer border-0" />
-          <span className="text-xs text-muted-foreground">{style.color || "#ffffff"}</span>
-          <Button type="button" variant="ghost" size="sm" className="text-xs h-6 ml-auto" onClick={() => onChange({ ...style, color: "#ffffff" })}>White</Button>
-          <Button type="button" variant="ghost" size="sm" className="text-xs h-6 text-[#FF3B30]" onClick={() => onChange({ ...style, color: "#FF3B30" })}>Red</Button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default function HeroEditor() {
   const { hero, updateHero } = useContentStore();
@@ -101,6 +27,9 @@ export default function HeroEditor() {
     title1Style: hero.title1Style || { fontSize: 72, fontWeight: "bold", italic: false, color: "#ffffff" },
     title2Style: hero.title2Style || { fontSize: 72, fontWeight: "bold", italic: false, color: "#FF3B30" },
     subtitleStyle: hero.subtitleStyle || { fontSize: 20, fontWeight: "normal", italic: false, color: "#ffffffcc" },
+    title1StyleAr: hero.title1StyleAr || {},
+    title2StyleAr: hero.title2StyleAr || {},
+    subtitleStyleAr: hero.subtitleStyleAr || {},
   });
   const [resetOpen, setResetOpen] = useState(false);
   const { toast } = useToast();
@@ -119,6 +48,9 @@ export default function HeroEditor() {
       title1Style: { fontSize: 72, fontWeight: "bold", italic: false, color: "#ffffff" },
       title2Style: { fontSize: 72, fontWeight: "bold", italic: false, color: "#FF3B30" },
       subtitleStyle: { fontSize: 20, fontWeight: "normal", italic: false, color: "#ffffffcc" },
+      title1StyleAr: {} as HeroTextStyle,
+      title2StyleAr: {} as HeroTextStyle,
+      subtitleStyleAr: {} as HeroTextStyle,
     };
     setDraft(resetData);
     updateHero(defaultHero);
@@ -272,26 +204,57 @@ export default function HeroEditor() {
         {/* Hero Text */}
         <div className="neu-card p-6 space-y-4">
           <h3 className="font-display text-lg font-semibold text-foreground">Hero Text</h3>
-          <div>
-            <Label>Title Line 1</Label>
-            <Input value={draft.title1} onChange={(e) => setDraft({ ...draft, title1: e.target.value })} className="mt-1.5" />
-          </div>
-          <div>
-            <Label>Title Line 2</Label>
-            <Input value={draft.title2} onChange={(e) => setDraft({ ...draft, title2: e.target.value })} className="mt-1.5" />
-          </div>
-          <div>
-            <Label>Subtitle</Label>
-            <Textarea value={draft.subtitle} onChange={(e) => setDraft({ ...draft, subtitle: e.target.value })} className="mt-1.5" rows={3} />
-          </div>
+          <BilingualField
+            label="Title Line 1"
+            value={draft.title1}
+            valueAr={draft.title1_ar || ""}
+            onChange={(v) => setDraft({ ...draft, title1: v })}
+            onChangeAr={(v) => setDraft({ ...draft, title1_ar: v })}
+          />
+          <BilingualField
+            label="Title Line 2"
+            value={draft.title2}
+            valueAr={draft.title2_ar || ""}
+            onChange={(v) => setDraft({ ...draft, title2: v })}
+            onChangeAr={(v) => setDraft({ ...draft, title2_ar: v })}
+          />
+          <BilingualField
+            label="Subtitle"
+            multiline rows={3}
+            value={draft.subtitle}
+            valueAr={draft.subtitle_ar || ""}
+            onChange={(v) => setDraft({ ...draft, subtitle: v })}
+            onChangeAr={(v) => setDraft({ ...draft, subtitle_ar: v })}
+          />
         </div>
 
-        {/* Text Style Controls */}
+        {/* Text Style Controls (EN + AR side-by-side) */}
         <div className="neu-card p-6 space-y-4">
           <h3 className="font-display text-lg font-semibold text-foreground">Text Styling</h3>
-          <TextStyleControls label="Title Line 1" style={draft.title1Style} onChange={(s) => setDraft({ ...draft, title1Style: s })} />
-          <TextStyleControls label="Title Line 2" style={draft.title2Style} onChange={(s) => setDraft({ ...draft, title2Style: s })} />
-          <TextStyleControls label="Subtitle" style={draft.subtitleStyle} onChange={(s) => setDraft({ ...draft, subtitleStyle: s })} />
+          <SectionStyleControls
+            label="Title Line 1"
+            styleEn={draft.title1Style}
+            styleAr={draft.title1StyleAr}
+            onChangeEn={(s) => setDraft({ ...draft, title1Style: s })}
+            onChangeAr={(s) => setDraft({ ...draft, title1StyleAr: s })}
+            defaultColor="#ffffff"
+          />
+          <SectionStyleControls
+            label="Title Line 2"
+            styleEn={draft.title2Style}
+            styleAr={draft.title2StyleAr}
+            onChangeEn={(s) => setDraft({ ...draft, title2Style: s })}
+            onChangeAr={(s) => setDraft({ ...draft, title2StyleAr: s })}
+            defaultColor="#FF3B30"
+          />
+          <SectionStyleControls
+            label="Subtitle"
+            styleEn={draft.subtitleStyle}
+            styleAr={draft.subtitleStyleAr}
+            onChangeEn={(s) => setDraft({ ...draft, subtitleStyle: s })}
+            onChangeAr={(s) => setDraft({ ...draft, subtitleStyleAr: s })}
+            defaultColor="#ffffffcc"
+          />
         </div>
 
         <div className="flex items-center gap-3">
