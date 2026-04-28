@@ -45,7 +45,10 @@ function StyleControls({ style, onChange, defaultColor = "#1C1C1E", rtl }: Contr
     <div className="space-y-3">
       <div>
         <Label className="text-xs">Font Family</Label>
-        <Select value={style.fontFamily || ""} onValueChange={(v) => onChange({ ...style, fontFamily: v })}>
+        <Select
+          value={style.fontFamily || "__default__"}
+          onValueChange={(v) => onChange({ ...style, fontFamily: v === "__default__" ? undefined : v })}
+        >
           <SelectTrigger className="mt-1 h-9">
             <SelectValue placeholder="Default" />
           </SelectTrigger>
