@@ -3,10 +3,10 @@ import { useContentStore, NewsItem, defaultNews } from "@/stores/contentStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Save, Plus, Trash2, ImagePlus, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ResetConfirmModal from "../ResetConfirmModal";
+import { BilingualField } from "../BilingualField";
 
 export default function NewsEditor() {
   const { news, updateNews } = useContentStore();
@@ -23,7 +23,16 @@ export default function NewsEditor() {
       ...draft,
       items: [
         ...draft.items,
-        { id: `n${Date.now()}`, title: "New article", excerpt: "Short summary...", date: new Date().toLocaleDateString(), image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80", link: "#" },
+        {
+          id: `n${Date.now()}`,
+          title: "New article",
+          title_ar: "مقال جديد",
+          excerpt: "Short summary...",
+          excerpt_ar: "ملخص قصير...",
+          date: new Date().toLocaleDateString(),
+          image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
+          link: "#",
+        },
       ],
     });
   };
@@ -42,17 +51,24 @@ export default function NewsEditor() {
   };
 
   return (
-    <div className="max-w-4xl space-y-6">
+    <div className="max-w-5xl space-y-6">
       <div className="neu-card p-6 space-y-4 bg-card rounded-2xl border border-border">
         <h3 className="font-display text-lg font-semibold text-foreground">Section Header</h3>
-        <div>
-          <Label>Heading</Label>
-          <Input value={draft.heading} onChange={(e) => setDraft({ ...draft, heading: e.target.value })} className="mt-1.5" />
-        </div>
-        <div>
-          <Label>Description</Label>
-          <Textarea value={draft.description} onChange={(e) => setDraft({ ...draft, description: e.target.value })} rows={2} className="mt-1.5" />
-        </div>
+        <BilingualField
+          label="Heading"
+          value={draft.heading}
+          valueAr={draft.heading_ar || ""}
+          onChange={(v) => setDraft({ ...draft, heading: v })}
+          onChangeAr={(v) => setDraft({ ...draft, heading_ar: v })}
+        />
+        <BilingualField
+          label="Description"
+          multiline rows={2}
+          value={draft.description}
+          valueAr={draft.description_ar || ""}
+          onChange={(v) => setDraft({ ...draft, description: v })}
+          onChangeAr={(v) => setDraft({ ...draft, description_ar: v })}
+        />
       </div>
 
       <div className="space-y-4">
@@ -66,12 +82,33 @@ export default function NewsEditor() {
                   <input type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files?.[0] && handleImage(item.id, e.target.files[0])} />
                 </label>
               </div>
-              <div className="flex-1 space-y-2">
-                <Input value={item.title} onChange={(e) => updateItem(item.id, { title: e.target.value })} placeholder="Title" />
-                <Textarea value={item.excerpt} onChange={(e) => updateItem(item.id, { excerpt: e.target.value })} placeholder="Excerpt" rows={2} />
+              <div className="flex-1 space-y-3 min-w-0">
+                <BilingualField
+                  label="Title"
+                  value={item.title}
+                  valueAr={item.title_ar || ""}
+                  onChange={(v) => updateItem(item.id, { title: v })}
+                  onChangeAr={(v) => updateItem(item.id, { title_ar: v })}
+                  placeholder="Title"
+                />
+                <BilingualField
+                  label="Excerpt"
+                  multiline rows={2}
+                  value={item.excerpt}
+                  valueAr={item.excerpt_ar || ""}
+                  onChange={(v) => updateItem(item.id, { excerpt: v })}
+                  onChangeAr={(v) => updateItem(item.id, { excerpt_ar: v })}
+                  placeholder="Excerpt"
+                />
                 <div className="grid grid-cols-2 gap-2">
-                  <Input value={item.date} onChange={(e) => updateItem(item.id, { date: e.target.value })} placeholder="Date" />
-                  <Input value={item.link || ""} onChange={(e) => updateItem(item.id, { link: e.target.value })} placeholder="Link (https://...)" />
+                  <div>
+                    <Label className="text-xs">Date (e.g. Apr 22, 2026)</Label>
+                    <Input value={item.date} onChange={(e) => updateItem(item.id, { date: e.target.value })} placeholder="Apr 22, 2026" className="mt-1" />
+                  </div>
+                  <div>
+                    <Label className="text-xs">Link</Label>
+                    <Input value={item.link || ""} onChange={(e) => updateItem(item.id, { link: e.target.value })} placeholder="https://..." className="mt-1" />
+                  </div>
                 </div>
               </div>
               <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)} className="text-muted-foreground hover:text-destructive">

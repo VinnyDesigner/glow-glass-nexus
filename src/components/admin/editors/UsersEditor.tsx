@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { useContentStore, defaultUsers } from "@/stores/contentStore";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Save, Plus, Trash2, Pencil, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import CardEditorModal from "./CardEditorModal";
 import ResetConfirmModal from "../ResetConfirmModal";
+import { BilingualField } from "../BilingualField";
 
 export default function UsersEditor() {
   const { users, updateUsers } = useContentStore();
@@ -37,17 +35,24 @@ export default function UsersEditor() {
   const openAdd = () => { setEditIndex(null); setModalOpen(true); };
 
   return (
-    <div className="max-w-3xl space-y-8">
+    <div className="max-w-5xl space-y-8">
       <div className="neu-card p-6 space-y-4">
         <h3 className="font-display text-lg font-semibold">Section Header</h3>
-        <div>
-          <Label>Heading</Label>
-          <Input value={draft.heading} onChange={(e) => setDraft({ ...draft, heading: e.target.value })} className="mt-1.5" />
-        </div>
-        <div>
-          <Label>Description</Label>
-          <Textarea value={draft.description} onChange={(e) => setDraft({ ...draft, description: e.target.value })} className="mt-1.5" rows={2} />
-        </div>
+        <BilingualField
+          label="Heading"
+          value={draft.heading}
+          valueAr={draft.heading_ar || ""}
+          onChange={(v) => setDraft({ ...draft, heading: v })}
+          onChangeAr={(v) => setDraft({ ...draft, heading_ar: v })}
+        />
+        <BilingualField
+          label="Description"
+          multiline rows={2}
+          value={draft.description}
+          valueAr={draft.description_ar || ""}
+          onChange={(v) => setDraft({ ...draft, description: v })}
+          onChangeAr={(v) => setDraft({ ...draft, description_ar: v })}
+        />
       </div>
 
       <div className="neu-card p-6 space-y-4">

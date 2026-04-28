@@ -22,12 +22,17 @@ const en: Dict = {
   "news.readMore": "Read more",
   "mapView.badge": "Interactive Map",
   "mapView.back": "Back to Home",
+  "mapView.placeholder": "Interactive map integration will be available here. This is a preview placeholder.",
   "common.openExternal": "Open",
+  "common.viewDetails": "View Details",
+  "common.viewAllLayers": "View All Layers",
+  "common.allLayers": "All Layers",
   "footer.quickLinks": "Quick Links",
   "footer.externalLinks": "External Links",
   "footer.followUs": "Follow Us",
   "footer.contact": "Contact",
   "footer.rights": "All rights reserved.",
+  "footer.brand": "Bahrain Spatial Data Infrastructure",
 };
 
 const ar: Dict = {
@@ -50,12 +55,17 @@ const ar: Dict = {
   "news.readMore": "اقرأ المزيد",
   "mapView.badge": "الخريطة التفاعلية",
   "mapView.back": "العودة للرئيسية",
+  "mapView.placeholder": "سيكون تكامل الخريطة التفاعلية متاحاً هنا. هذه معاينة مؤقتة.",
   "common.openExternal": "فتح",
+  "common.viewDetails": "عرض التفاصيل",
+  "common.viewAllLayers": "عرض كل الطبقات",
+  "common.allLayers": "جميع الطبقات",
   "footer.quickLinks": "روابط سريعة",
   "footer.externalLinks": "روابط خارجية",
   "footer.followUs": "تابعنا",
   "footer.contact": "اتصل بنا",
   "footer.rights": "جميع الحقوق محفوظة.",
+  "footer.brand": "البنية التحتية للبيانات المكانية في البحرين",
 };
 
 const dictionaries: Record<string, Dict> = { en, ar };
@@ -75,4 +85,46 @@ export function pickLocalized<T extends string | undefined>(en: T, ar: T | undef
 export function useLocalized() {
   const { language } = useUiStore();
   return <T extends string | undefined>(en: T, ar?: T) => pickLocalized(en, ar, language);
+}
+
+// ============= Date / Number localization =============
+
+const AR_MONTHS_SHORT: Record<string, string> = {
+  jan: "يناير", feb: "فبراير", mar: "مارس", apr: "أبريل",
+  may: "مايو", jun: "يونيو", jul: "يوليو", aug: "أغسطس",
+  sep: "سبتمبر", oct: "أكتوبر", nov: "نوفمبر", dec: "ديسمبر",
+};
+
+const EASTERN_ARABIC_DIGITS = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+
+export function toArabicDigits(input: string | number): string {
+  return String(input).replace(/[0-9]/g, (d) => EASTERN_ARABIC_DIGITS[+d]);
+}
+
+/** Best-effort localization of a date string to Arabic. Falls back to original if unparseable. */
+export function localizeDate(value: string, lang: string): string {
+  if (lang !== "ar" || !value) return value;
+  // Try native parsing first
+  const d = new Date(value);
+  if (!isNaN(d.getTime())) {
+    try {
+      return new Intl.DateTimeFormat("ar-EG", { day: "numeric", month: "long", year: "numeric" }).format(d);
+    } catch {}
+  }
+  // Fallback: replace English month tokens + digits
+  let out = value;
+  Object.entries(AR_MONTHS_SHORT).forEach(([en, arName]) => {
+    out = out.replace(new RegExp(`\\b${en}[a-z]*\\b`, "gi"), arName);
+  });
+  return toArabicDigits(out);
+}
+
+export function useLocalizeDate() {
+  const { language } = useUiStore();
+  return (value: string) => localizeDate(value, language);
+}
+
+export function useLocalizeNumber() {
+  const { language } = useUiStore();
+  return (value: string | number) => (language === "ar" ? toArabicDigits(value) : String(value));
 }

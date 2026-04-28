@@ -1,13 +1,17 @@
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
 import { useUiStore } from "@/stores/uiStore";
+import { toArabicDigits } from "@/lib/i18n";
 import { useEffect, useState, useRef } from "react";
 
 function AnimatedCounter({ target, suffix = "", label }: { target: string; suffix?: string; label: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [value, setValue] = useState(0);
   const [started, setStarted] = useState(false);
+  const { language } = useUiStore();
   const numericTarget = parseInt(target.replace(/[^0-9]/g, "")) || 0;
+  const isSecure = target === "Secure";
+  const secureLabel = language === "ar" ? "آمن" : "Secure";
 
   useEffect(() => {
     const el = ref.current;
@@ -37,7 +41,7 @@ function AnimatedCounter({ target, suffix = "", label }: { target: string; suffi
   return (
     <div ref={ref} className="text-center">
       <div className="font-display text-3xl md:text-4xl font-bold text-primary">
-        {target === "Secure" ? "Secure" : value}{suffix}
+        {isSecure ? secureLabel : (language === "ar" ? toArabicDigits(value) : value)}{suffix}
       </div>
       <div className="text-muted-foreground text-sm mt-2 font-medium">{label}</div>
     </div>

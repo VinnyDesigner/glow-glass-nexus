@@ -7,6 +7,7 @@ import { Save, Plus, Trash2, ImagePlus, Pencil, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ResetConfirmModal from "../ResetConfirmModal";
+import { BilingualField } from "../BilingualField";
 
 export default function DataServicesEditor() {
   const { dataServices, updateDataServices } = useContentStore();
@@ -59,17 +60,23 @@ export default function DataServicesEditor() {
   };
 
   return (
-    <div className="max-w-3xl space-y-8">
+    <div className="max-w-5xl space-y-8">
       <div className="neu-card p-6 space-y-4">
         <h3 className="font-display text-lg font-semibold">Section Header</h3>
-        <div>
-          <Label>Heading</Label>
-          <Input value={draft.heading} onChange={(e) => setDraft({ ...draft, heading: e.target.value })} className="mt-1.5" />
-        </div>
-        <div>
-          <Label>Description</Label>
-          <Input value={draft.description} onChange={(e) => setDraft({ ...draft, description: e.target.value })} className="mt-1.5" />
-        </div>
+        <BilingualField
+          label="Heading"
+          value={draft.heading}
+          valueAr={draft.heading_ar || ""}
+          onChange={(v) => setDraft({ ...draft, heading: v })}
+          onChangeAr={(v) => setDraft({ ...draft, heading_ar: v })}
+        />
+        <BilingualField
+          label="Description"
+          value={draft.description}
+          valueAr={draft.description_ar || ""}
+          onChange={(v) => setDraft({ ...draft, description: v })}
+          onChangeAr={(v) => setDraft({ ...draft, description_ar: v })}
+        />
       </div>
 
       <div className="neu-card p-6 space-y-4">

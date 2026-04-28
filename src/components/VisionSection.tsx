@@ -1,5 +1,6 @@
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
+import { useLocalized } from "@/lib/i18n";
 
 import visionDigitalTransformation from "@/assets/vision-digital-transformation.jpg";
 import visionGeospatial from "@/assets/vision-geospatial.jpg";
@@ -16,6 +17,7 @@ const visionImages = [
 export default function VisionSection() {
   const { ref, isVisible } = useScrollAnimation();
   const { vision } = useContentStore();
+  const L = useLocalized();
 
   return (
     <section id="vision" className="relative overflow-hidden py-20 md:py-32 px-4 md:px-6 lg:py-[100px]">
@@ -35,10 +37,10 @@ export default function VisionSection() {
         {/* Header */}
         <div className={`text-center mb-20 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
-            {vision.heading}
+            {L(vision.heading, vision.heading_ar)}
           </h2>
           <p className="max-w-3xl mx-auto mt-5 text-muted-foreground text-base md:text-lg leading-relaxed">
-            {vision.description}
+            {L(vision.description, vision.description_ar)}
           </p>
         </div>
 
@@ -63,7 +65,7 @@ export default function VisionSection() {
                 {/* Image — 70% */}
                 <img
                   src={visionImages[i % visionImages.length]}
-                  alt={card.title}
+                  alt={L(card.title, card.title_ar)}
                   loading="lazy"
                   width={800}
                   height={1024}
@@ -80,10 +82,10 @@ export default function VisionSection() {
                   }}
                 >
                   <h3 className="font-display text-base md:text-lg font-semibold mb-1.5 text-secondary-foreground">
-                    {card.title}
+                    {L(card.title, card.title_ar)}
                   </h3>
                   <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2">
-                    {card.description}
+                    {L(card.description, card.description_ar)}
                   </p>
                 </div>
 

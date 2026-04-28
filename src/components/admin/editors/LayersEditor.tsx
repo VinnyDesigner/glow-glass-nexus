@@ -8,12 +8,13 @@ import { Save, Plus, Trash2, Pencil, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ResetConfirmModal from "../ResetConfirmModal";
+import { BilingualField } from "../BilingualField";
 
 export default function LayersEditor() {
   const { layers, updateLayers } = useContentStore();
   const [draft, setDraft] = useState({ ...layers, cards: [...layers.cards] });
   const [editIndex, setEditIndex] = useState<number | null>(null);
-  const [editForm, setEditForm] = useState<LayerCard>({ id: "", title: "", description: "", image: "", link: "" });
+  const [editForm, setEditForm] = useState<LayerCard>({ id: "", title: "", title_ar: "", description: "", description_ar: "", image: "", link: "" });
   const [resetOpen, setResetOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"add" | "edit">("add");
   const { toast } = useToast();
@@ -35,7 +36,7 @@ export default function LayersEditor() {
   };
 
   const openAdd = () => {
-    setEditForm({ id: "", title: "", description: "", image: "", link: "" });
+    setEditForm({ id: "", title: "", title_ar: "", description: "", description_ar: "", image: "", link: "" });
     setModalMode("add");
     setEditIndex(-1);
   };
@@ -74,23 +75,21 @@ export default function LayersEditor() {
     <div className="max-w-3xl space-y-8">
       <div className="neu-card p-6 space-y-4">
         <h3 className="font-display text-lg font-semibold">Section Header</h3>
-        <div>
-          <Label>Heading</Label>
-          <Input
-            value={draft.heading}
-            onChange={(e) => setDraft({ ...draft, heading: e.target.value })}
-            className="mt-1.5"
-          />
-        </div>
-        <div>
-          <Label>Description</Label>
-          <Textarea
-            value={draft.description}
-            onChange={(e) => setDraft({ ...draft, description: e.target.value })}
-            className="mt-1.5"
-            rows={2}
-          />
-        </div>
+        <BilingualField
+          label="Heading"
+          value={draft.heading}
+          valueAr={draft.heading_ar || ""}
+          onChange={(v) => setDraft({ ...draft, heading: v })}
+          onChangeAr={(v) => setDraft({ ...draft, heading_ar: v })}
+        />
+        <BilingualField
+          label="Description"
+          multiline rows={2}
+          value={draft.description}
+          valueAr={draft.description_ar || ""}
+          onChange={(v) => setDraft({ ...draft, description: v })}
+          onChangeAr={(v) => setDraft({ ...draft, description_ar: v })}
+        />
       </div>
 
       <div className="neu-card p-6 space-y-4">
@@ -153,32 +152,31 @@ export default function LayersEditor() {
 
       {/* Add/Edit Layer Modal */}
       <Dialog open={editIndex !== null} onOpenChange={() => setEditIndex(null)}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle className="font-display">
               {modalMode === "add" ? "Add Layer Card" : "Edit Layer Card"}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <div>
-              <Label>Title</Label>
-              <Input
-                value={editForm.title}
-                onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
-                className="mt-1.5"
-                placeholder="ADDRESSES"
-              />
-            </div>
-            <div>
-              <Label>Description</Label>
-              <Textarea
-                value={editForm.description}
-                onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
-                className="mt-1.5"
-                rows={2}
-                placeholder="Short description of this layer"
-              />
-            </div>
+            <BilingualField
+              label="Title"
+              value={editForm.title}
+              valueAr={editForm.title_ar || ""}
+              onChange={(v) => setEditForm({ ...editForm, title: v })}
+              onChangeAr={(v) => setEditForm({ ...editForm, title_ar: v })}
+              placeholder="ADDRESSES"
+              placeholderAr="العناوين"
+            />
+            <BilingualField
+              label="Description"
+              multiline rows={2}
+              value={editForm.description}
+              valueAr={editForm.description_ar || ""}
+              onChange={(v) => setEditForm({ ...editForm, description: v })}
+              onChangeAr={(v) => setEditForm({ ...editForm, description_ar: v })}
+              placeholder="Short description of this layer"
+            />
             <div>
               <Label>Image URL</Label>
               <Input
