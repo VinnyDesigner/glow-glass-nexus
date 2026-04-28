@@ -7,6 +7,7 @@ import { Save, ImagePlus, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ResetConfirmModal from "../ResetConfirmModal";
 import { BilingualField } from "../BilingualField";
+import { SectionStyleControls } from "../SectionStyleControls";
 
 export default function MapViewEditor() {
   const { mapView, updateMapView } = useContentStore();
@@ -43,6 +44,20 @@ export default function MapViewEditor() {
           valueAr={draft.description_ar || ""}
           onChange={(v) => setDraft({ ...draft, description: v })}
           onChangeAr={(v) => setDraft({ ...draft, description_ar: v })}
+        />
+        <SectionStyleControls
+          label="Heading"
+          styleEn={draft.headingStyle || {}}
+          styleAr={draft.headingStyleAr || {}}
+          onChangeEn={(s) => setDraft({ ...draft, headingStyle: s })}
+          onChangeAr={(s) => setDraft({ ...draft, headingStyleAr: s })}
+        />
+        <SectionStyleControls
+          label="Description"
+          styleEn={draft.descriptionStyle || {}}
+          styleAr={draft.descriptionStyleAr || {}}
+          onChangeEn={(s) => setDraft({ ...draft, descriptionStyle: s })}
+          onChangeAr={(s) => setDraft({ ...draft, descriptionStyleAr: s })}
         />
         <BilingualField
           label="CTA Label"

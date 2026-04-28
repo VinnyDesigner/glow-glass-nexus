@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ResetConfirmModal from "../ResetConfirmModal";
 import { BilingualField } from "../BilingualField";
+import { SectionStyleControls } from "../SectionStyleControls";
 
 interface StatEdit {
   target: string;
@@ -104,6 +105,20 @@ export default function AboutEditor() {
           valueAr={draft.description2_ar || ""}
           onChange={(v) => setDraft({ ...draft, description2: v })}
           onChangeAr={(v) => setDraft({ ...draft, description2_ar: v })}
+        />
+        <SectionStyleControls
+          label="Heading"
+          styleEn={draft.headingStyle || {}}
+          styleAr={draft.headingStyleAr || {}}
+          onChangeEn={(s) => setDraft({ ...draft, headingStyle: s })}
+          onChangeAr={(s) => setDraft({ ...draft, headingStyleAr: s })}
+        />
+        <SectionStyleControls
+          label="Descriptions"
+          styleEn={draft.descriptionStyle || {}}
+          styleAr={draft.descriptionStyleAr || {}}
+          onChangeEn={(s) => setDraft({ ...draft, descriptionStyle: s })}
+          onChangeAr={(s) => setDraft({ ...draft, descriptionStyleAr: s })}
         />
       </div>
 
