@@ -88,6 +88,10 @@ export interface NewsContent {
   description: string;
   description_ar?: string;
   items: NewsItem[];
+  headingStyle?: HeroTextStyle;
+  descriptionStyle?: HeroTextStyle;
+  headingStyleAr?: HeroTextStyle;
+  descriptionStyleAr?: HeroTextStyle;
 }
 
 export interface MapViewContent {
@@ -99,6 +103,10 @@ export interface MapViewContent {
   ctaLabel_ar?: string;
   ctaHref: string;
   previewImage: string;
+  headingStyle?: HeroTextStyle;
+  descriptionStyle?: HeroTextStyle;
+  headingStyleAr?: HeroTextStyle;
+  descriptionStyleAr?: HeroTextStyle;
 }
 
 export interface HeroContent {
@@ -116,7 +124,14 @@ export interface HeroContent {
   subtitleStyle?: HeroTextStyle;
 }
 
-export interface VisionContent {
+export interface SectionStyles {
+  headingStyle?: HeroTextStyle;
+  descriptionStyle?: HeroTextStyle;
+  headingStyleAr?: HeroTextStyle;
+  descriptionStyleAr?: HeroTextStyle;
+}
+
+export interface VisionContent extends SectionStyles {
   heading: string;
   heading_ar?: string;
   description: string;
@@ -124,7 +139,7 @@ export interface VisionContent {
   cards: VisionCard[];
 }
 
-export interface AboutContent {
+export interface AboutContent extends SectionStyles {
   heading: string;
   heading_ar?: string;
   description1: string;
@@ -134,7 +149,7 @@ export interface AboutContent {
   stats: StatCard[];
 }
 
-export interface ServicesContent {
+export interface ServicesContent extends SectionStyles {
   heading: string;
   heading_ar?: string;
   description: string;
@@ -142,7 +157,7 @@ export interface ServicesContent {
   cards: ServiceCard[];
 }
 
-export interface UsersContent {
+export interface UsersContent extends SectionStyles {
   heading: string;
   heading_ar?: string;
   description: string;
@@ -150,7 +165,7 @@ export interface UsersContent {
   cards: UserCard[];
 }
 
-export interface DataServicesContent {
+export interface DataServicesContent extends SectionStyles {
   heading: string;
   heading_ar?: string;
   description: string;
@@ -174,7 +189,7 @@ export interface LayerCard {
   link?: string;
 }
 
-export interface LayersContent {
+export interface LayersContent extends SectionStyles {
   heading: string;
   heading_ar?: string;
   description: string;
