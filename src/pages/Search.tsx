@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useContentStore } from "@/stores/contentStore";
 import { useUiStore } from "@/stores/uiStore";
-import { useT } from "@/lib/i18n";
+import { useT, useLocalizeNumber } from "@/lib/i18n";
 import { buildSearchIndex, searchHits } from "@/lib/searchIndex";
 import { Search as SearchIcon, ArrowRight } from "lucide-react";
 
@@ -14,6 +14,7 @@ export default function SearchPage() {
   const store = useContentStore();
   const { language } = useUiStore();
   const t = useT();
+  const num = useLocalizeNumber();
 
   const hits = useMemo(() => {
     const index = buildSearchIndex(store, language);
@@ -38,7 +39,7 @@ export default function SearchPage() {
             "{q}"
           </h1>
           <p className="text-muted-foreground mb-10 text-sm">
-            {hits.length} {t("search.totalFound")}
+            {num(hits.length)} {t("search.totalFound")}
           </p>
 
           {hits.length === 0 ? (
@@ -50,7 +51,7 @@ export default function SearchPage() {
               {Object.entries(grouped).map(([section, items]) => (
                 <section key={section}>
                   <h2 className="font-display text-xl font-bold text-foreground mb-5">
-                    {t(section)} <span className="text-muted-foreground text-sm">({items.length})</span>
+                    {t(section)} <span className="text-muted-foreground text-sm">({num(items.length)})</span>
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {items.map((h) => {
