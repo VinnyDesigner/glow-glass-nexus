@@ -1,83 +1,120 @@
 ## Goals
 
-1. Navbar: add a centered search box + an EN/AR language toggle after the Admin button.
-2. Landing page: add a News section above About BSDI, and a Map View section (with CTA) above Layers.
-3. Admin: add a font-family selector (placed above the existing font-size slider) for hero text styling.
-4. Maintain existing brand styling: light bg `#e8ecf0`, primary `#FF3B30`, Space Grotesk headings, Inter body, `.clean-card` aesthetic — no glassmorphism.
+1. Wire search to a live dropdown + dedicated `/search` results page.
+2. Full Arabic translation with RTL layout flip on the public site.
+3. Restructure Map View section: heading on top center (matching other sections), CTA + map below, shorter heading.
+4. Expand Admin font-family options.
+5. Replace all imagery sitewide with light-theme, data-infrastructure visuals (energy, factory, solar, road, utilities, telecom, water, etc.).
+6. **Admin split-pane editor (NEW)**: every editor renders **two side-by-side columns** — left = English, right = Arabic — sharing the same field structure, preview, image picker, and styling controls. A single **English-labeled "Update"** button at the bottom saves both languages together.
 
 ---
 
-## 1. Navbar updates (`src/components/Navbar.tsx`)
+## 1. Search — dropdown + results page
 
-Layout becomes 3 zones inside the existing container:
+**`src/lib/searchIndex.ts` (new)**: pure function that flattens `layers.cards`, `services.cards`, `users.cards`, `news.items`, `vision.cards` into `{id, type, title, description, image, link, section}` records (using current language fields).
 
-```text
-[ iGA logo ]   [   Search input (centered)   ]   [ nav links | Admin | EN/AR ]
-```
+**`src/components/Navbar.tsx`**:
+- Live filter as user types; dropdown panel below input (white card, max ~5 hits) shows icon + title + section chip; click navigates to item link or `/#section`.
+- Footer row: "See all results for '...'" → `navigate('/search?q=...')`.
+- Submit (Enter) → `/search?q=...`.
+- Closes on outside click / Esc.
 
-- Search: rounded pill input with a `Search` lucide icon, max-width ~420px, hidden on mobile (shown inside mobile menu). Cosmetic only — submit handler is a no-op stub (`onSubmit` prevents default; can be wired up later).
-- Language toggle: a small two-segment pill `EN | عربي` placed right after the Admin button. Stores selection in a new lightweight Zustand store `useUiStore` (`language: 'en' | 'ar'`, `setLanguage`). No translation work is included — toggle only switches state and the toggle's own active segment styling. Document in chat that full RTL/translation is out of scope.
-- Mobile menu: include search field at top and EN/AR toggle below the Admin button.
+**`src/pages/Search.tsx` (new)**: Navbar + Footer wrapper. Reads `q` via `useSearchParams`. Shows total count, grouped sections (Layers, Services, News, Users, Vision), each rendering `clean-card` matches. Empty state.
 
-Brand: white bg, primary red active state on toggle, subtle border, `rounded-xl`.
+**`src/App.tsx`**: register `/search` route.
 
-## 2. News section (new `src/components/NewsSection.tsx`)
+## 2. Arabic translation + RTL flip (public site)
 
-Placed in `src/pages/Index.tsx` between `AboutSection` and… actually above `AboutSection` per request. New order inside the wrapper:
-`News → About → MapView → Layers → Services → Vision → WhoCanUse → DataServices`.
+**`src/lib/i18n.ts` (new)**: dictionary `{ en, ar }` keyed by string id (`nav.about`, `nav.admin`, `search.placeholder`, `search.seeAll`, `mapView.cta`, `news.readMore`, `footer.*`, etc.). Export `useT()` hook reading `useUiStore().language`.
 
-Section structure:
-- Heading "Latest News" + short description.
-- 3-column grid (responsive: 1 / 2 / 3) of `.clean-card` items, each with image, date chip, title, 2-line excerpt, and "Read more →" using `view-details-link` style.
-- Content sourced from a new `news` slice in `contentStore.ts` (`NewsItem { id, title, excerpt, date, image, link }`) with 3 default Bahrain-themed entries using existing Unsplash light imagery already in the store style.
-- Add matching admin editor `NewsEditor.tsx` and register a "News" tab (icon `Newspaper`) in `AdminLayout.tsx`. Editor reuses the existing `CardEditorModal` pattern (add/edit/remove items, image upload via FileReader).
+**CMS-driven content**: extend each `contentStore.ts` content slice with optional `*_ar` siblings for translatable strings (`heading_ar`, `description_ar`, card `title_ar`, `description_ar`, `excerpt_ar`, `tags_ar`, etc.). Provide Arabic defaults for all built-in content. Components read `lang === 'ar' ? field_ar || field : field`.
 
-## 3. Map View section (new `src/components/MapViewSection.tsx`)
+Slices to extend with Arabic defaults: `hero`, `about`, `vision`, `services`, `users`, `dataServices`, `layers`, `news`, `mapView`, `footer`.
 
-Placed above `LayersSection`.
+**RTL flip**:
+- A `LanguageProvider` mounted in `App.tsx` sets `document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr'` and `lang` attribute via `useEffect`.
+- Tailwind logical utilities where possible; for known directional spots (hero alignment, navbar order, marquee direction) add conditional `flex-row-reverse` / `text-right` based on `useUiStore`.
+- `DataServicesSection` marquee reverses direction in RTL.
 
-Layout: two-column (stacked on mobile)
-- Left: heading "Explore Bahrain on the Map", short description, and a primary CTA button "Open Map View" using existing `Button` (variant default → primary red). Clicking navigates via `react-router-dom` `useNavigate('/map')`.
-- Right: a static map preview image (light Bahrain map from existing default imagery) with subtle `clean-card` framing.
+## 3. Map View section restructure
 
-Routing: register a new route `/map` in `src/App.tsx` pointing to a new page `src/pages/MapView.tsx`. The page renders `Navbar`, a hero strip "Map View" with a back link to `/`, a placeholder `clean-card` containing a large light-themed Bahrain map image, and `Footer`. No real map library is added — placeholder only, can be upgraded later.
+**`src/components/MapViewSection.tsx`**:
+- Replace 2-column layout with vertical, centered structure matching `NewsSection` / `LayersSection`:
+  - Centered heading + description block (`text-center max-w-3xl mx-auto mb-12`).
+  - Below: full-width `clean-card` containing the map preview image (aspect ~21/9).
+  - CTA button centered below the image.
+- Shorten default heading to `"Bahrain Map View"`.
+- Migration in `merge()`: if persisted heading equals the old long string, replace with new short one.
 
-Add a `mapView` slice to `contentStore.ts` (`heading`, `description`, `ctaLabel`, `ctaHref`, `previewImage`) and a `MapViewEditor` admin tab so content is editable.
+## 4. More font families in Admin
 
-## 4. Admin: font-family selector (`HeroEditor.tsx` + `contentStore.ts`)
+`HeroEditor.tsx` `FONT_OPTIONS` add: Outfit, Plus Jakarta Sans, DM Sans, Manrope, Work Sans, IBM Plex Sans, Raleway, Lora, Source Serif 4, Cairo (Arabic), Tajawal (Arabic). Append all to the Google Fonts `@import` in `src/index.css`.
 
-- Extend `HeroTextStyle` with `fontFamily?: string`.
-- In `TextStyleControls`, add a `Select` (existing `@/components/ui/select`) ABOVE the Font Size slider with options:
-  - Inter (default body)
-  - Space Grotesk (default heading)
-  - Montserrat
-  - Poppins
-  - Roboto
-  - Playfair Display
-  - Merriweather
-- Load the additional families by appending them to the existing Google Fonts `@import` in `src/index.css`.
-- Apply the chosen `fontFamily` inline in `HeroSection.tsx` for `title1`, `title2`, and `subtitle` spans (override `hero-display-font` when present).
-- Default values for new style fields wired in `defaultHero` and `HeroEditor` reset logic.
+## 5. Sitewide imagery refresh — light theme, infrastructure-only
 
-## 5. Index page reordering (`src/pages/Index.tsx`)
+Replace every Unsplash URL in `defaultLayers`, `defaultServices`, `defaultUsers`, `defaultVision`, `defaultNews`, `defaultMapView`, and any hero defaults that fail the brief.
 
-Final order inside the `<div className="relative z-10">` wrapper:
-1. NewsSection
-2. AboutSection
-3. MapViewSection
-4. LayersSection
-5. ServicesSection
-6. VisionSection
-7. WhoCanUseSection
-8. DataServicesSection
+Topic palette (daylight only, no neon, no dark interiors): power transmission lines/substations, solar farms, wind turbines, factories/industrial plants, oil & gas terminals, road & highway aerials, bridges, water treatment, telecom towers, daylight data centers, smart-city sensors, blueprints/CAD overlays, GIS dashboards.
 
-## Files touched
+Each card gets a topical match (e.g. `OIL_GAS` → pipeline, `ELECTRICITYANDWATER` → power lines + reservoir, `TELECOM` → telecom tower, `ROAD_*` / `STREETCENTERLINES` / `PAVEMENTS` → highway aerial, `DTM`/`TOPOGRAPHIC` → terrain, `BUILDINGS`/`CADASTRAL` → blueprint, `VEGETATION`/`BOTANICAL_ATLAS` → green farm aerial, `HEALTHSERVICES` → bright modern hospital exterior, `BUS ROUTE` → daytime transit, `CAA` → daylight runway aerial, etc.).
 
-- Edit: `src/components/Navbar.tsx`, `src/pages/Index.tsx`, `src/App.tsx`, `src/stores/contentStore.ts`, `src/components/admin/AdminLayout.tsx`, `src/components/admin/editors/HeroEditor.tsx`, `src/components/HeroSection.tsx`, `src/index.css`
-- Create: `src/components/NewsSection.tsx`, `src/components/MapViewSection.tsx`, `src/pages/MapView.tsx`, `src/components/admin/editors/NewsEditor.tsx`, `src/components/admin/editors/MapViewEditor.tsx`, `src/stores/uiStore.ts`
+Persisted-state migration: if a persisted card's `image` matches a known old URL we are replacing, swap to new URL; otherwise leave admin-customized images alone.
 
-## Out of scope (will note to user)
+## 6. Admin: side-by-side English + Arabic editor
 
-- Functional search backend / search results page.
-- Full Arabic translations and RTL layout flip — toggle only stores state for now.
-- Real interactive map (Mapbox/Leaflet) — `/map` page renders a styled placeholder image.
+**Goal**: every admin editor surfaces English fields on the left and identical Arabic fields on the right, mirroring inputs, previews, image pickers, and styling controls. Single **English** "Update" button saves both.
+
+### Shared building blocks (new)
+- `src/components/admin/BilingualField.tsx`: renders two inputs/textareas side-by-side with EN / AR labels; signature: `<BilingualField label en={...} ar={...} onChangeEn onChangeAr type="input|textarea" rows />`.
+- `src/components/admin/BilingualSection.tsx`: layout shell `<div className="grid grid-cols-1 lg:grid-cols-2 gap-6"><div>EN…</div><div dir="rtl">AR…</div></div>` with sticky language headers ("English" / "العربية") at the top of each column.
+- All Arabic textareas/inputs get `dir="rtl"` and `font-['Tajawal']` for native feel.
+
+### Editors to update (all under `src/components/admin/editors/`)
+
+For every editor, mirror existing fields into a paired `*_ar` field on the same record (already added to `contentStore.ts` in section 2). Image pickers, sliders, color pickers, and font selectors remain **single** (not duplicated) — they are shared visual properties. Only **text** is duplicated.
+
+- **HeroEditor.tsx**: 
+  - Hero Text card → bilingual title1 / title2 / subtitle.
+  - Live Preview card → split into two stacked previews (EN on top, AR below with `dir="rtl"`) using the same image, overlay, and styling.
+  - Carousel Images and Text Styling cards remain single.
+- **AboutEditor.tsx**: bilingual heading, description1, description2, stat labels. Stats `target`/`suffix` stay single (numbers).
+- **VisionEditor.tsx**: bilingual heading, description, and per-card title/description. Image and link single.
+- **ServicesEditor.tsx**: bilingual heading, description, per-card title/description, tags (each tag duplicated).
+- **WhoCanUseSection editor (`UsersEditor.tsx`)**: bilingual heading, description, per-card title/description.
+- **DataServicesEditor.tsx**: bilingual heading, description; entity name bilingual (logo and link single).
+- **FooterEditor.tsx**: bilingual link labels (hrefs single).
+- **LayersEditor.tsx**: bilingual heading, description, per-card title/description.
+- **NewsEditor.tsx**: bilingual heading, description, per-item title/excerpt; date and link single.
+- **MapViewEditor.tsx**: bilingual heading, description, ctaLabel; ctaHref and previewImage single.
+
+### Single Update button
+At the bottom of each editor, keep one **English-labeled** primary button (`Update <Section> Section`). Its handler calls the existing `updateX(draft)` once — `draft` already contains both EN and AR fields, so a single store write persists both. Reset button stays as-is and resets both languages.
+
+### Visual rules
+- Light theme preserved; no glassmorphism.
+- Arabic column inherits same `clean-card` styling, just `dir="rtl"` and right-aligned text.
+- Mobile: columns stack (EN on top, AR below) under `lg` breakpoint.
+
+---
+
+## Files
+
+**Create**: 
+- `src/lib/i18n.ts`, `src/lib/searchIndex.ts`
+- `src/pages/Search.tsx`
+- `src/components/SearchDropdown.tsx`
+- `src/components/admin/BilingualField.tsx`, `src/components/admin/BilingualSection.tsx`
+
+**Edit**: 
+- `src/App.tsx`, `src/main.tsx`
+- `src/components/Navbar.tsx`, `src/components/MapViewSection.tsx`, `src/pages/MapView.tsx`
+- `src/components/HeroSection.tsx`, `src/components/AboutSection.tsx`, `src/components/VisionSection.tsx`, `src/components/ServicesSection.tsx`, `src/components/WhoCanUseSection.tsx`, `src/components/DataServicesSection.tsx`, `src/components/LayersSection.tsx`, `src/components/NewsSection.tsx`, `src/components/Footer.tsx`
+- `src/stores/contentStore.ts` (add `*_ar` fields + Arabic defaults + migration)
+- All admin editors (bilingual layout)
+- `src/index.css` (extra fonts incl. Cairo, Tajawal)
+
+## Out of scope
+
+- Real interactive map (still placeholder image on `/map`).
+- Auto-translation: admin must enter Arabic copy manually for new items (defaults seeded for existing built-in content).
+- RBAC / auth changes.
