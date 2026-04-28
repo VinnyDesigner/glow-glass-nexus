@@ -1,5 +1,6 @@
 import { Instagram, Twitter, Facebook, Linkedin, Youtube } from "lucide-react";
 import { useContentStore } from "@/stores/contentStore";
+import { useLocalized, useT, useLocalizeNumber } from "@/lib/i18n";
 import bahrain2030 from "@/assets/bahrain-2030.png";
 import igaLogo from "@/assets/iga-logo.png";
 import bahrainSkyline from "@/assets/bahrain-skyline-footer.png";
@@ -10,6 +11,10 @@ const iconMap: Record<string, React.ElementType> = {
 
 export default function Footer() {
   const { footer } = useContentStore();
+  const L = useLocalized();
+  const t = useT();
+  const num = useLocalizeNumber();
+  const year = num(new Date().getFullYear());
 
   return (
     <footer className="border-t border-border bg-card">
@@ -23,23 +28,23 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-display font-bold text-sm text-foreground mb-5">Quick links</h4>
+            <h4 className="font-display font-bold text-sm text-foreground mb-5">{t("footer.quickLinks")}</h4>
             <ul className="space-y-3">
               {footer.quickLinks.map((link) => (
                 <li key={link.id}>
-                  <a href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">{link.label}</a>
+                  <a href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">{L(link.label, link.label_ar)}</a>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="font-display font-bold text-sm text-foreground mb-5">External links</h4>
+            <h4 className="font-display font-bold text-sm text-foreground mb-5">{t("footer.externalLinks")}</h4>
             <ul className="space-y-3">
               {footer.externalLinks.map((link) => (
                 <li key={link.id}>
                   <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200 inline-flex items-center gap-1">
-                    {link.label}
+                    {L(link.label, link.label_ar)}
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="opacity-50"><path d="M3.5 2h6.5v6.5M10 2L2 10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   </a>
                 </li>
@@ -48,7 +53,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-display font-bold text-sm text-foreground mb-5">Follow us</h4>
+            <h4 className="font-display font-bold text-sm text-foreground mb-5">{t("footer.followUs")}</h4>
             <div className="flex items-center gap-3">
               {footer.socialLinks.map((social) => {
                 const Icon = iconMap[social.platform] || Instagram;
@@ -70,7 +75,7 @@ export default function Footer() {
           </div>
           <div className="border-t border-border" />
           <p className="text-center text-xs text-muted-foreground py-[16px]">
-            © {new Date().getFullYear()} Bahrain Spatial Data Infrastructure. All rights reserved.
+            © {year} {t("footer.brand")}. {t("footer.rights")}
           </p>
         </div>
       </div>
