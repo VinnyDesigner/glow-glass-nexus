@@ -1,5 +1,3 @@
-import type { ContentStore } from "@/stores/contentStore";
-
 export interface SearchHit {
   id: string;
   type: "layer" | "service" | "news" | "user" | "vision";
