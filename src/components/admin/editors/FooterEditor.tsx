@@ -34,11 +34,11 @@ export default function FooterEditor() {
   };
 
   const addQuickLink = () => {
-    setDraft({ ...draft, quickLinks: [...draft.quickLinks, { id: `ql${Date.now()}`, label: "", href: "" }] });
+    setDraft({ ...draft, quickLinks: [...draft.quickLinks, { id: `ql${Date.now()}`, label: "", label_ar: "", href: "" }] });
   };
 
   const addExternalLink = () => {
-    setDraft({ ...draft, externalLinks: [...draft.externalLinks, { id: `el${Date.now()}`, label: "", href: "" }] });
+    setDraft({ ...draft, externalLinks: [...draft.externalLinks, { id: `el${Date.now()}`, label: "", label_ar: "", href: "" }] });
   };
 
   const updateQuickLink = (id: string, field: string, value: string) => {
@@ -64,9 +64,10 @@ export default function FooterEditor() {
           </Button>
         </div>
         {draft.quickLinks.map((link) => (
-          <div key={link.id} className="flex items-center gap-3">
-            <Input placeholder="Label" value={link.label} onChange={(e) => updateQuickLink(link.id, "label", e.target.value)} className="flex-1" />
-            <Input placeholder="URL" value={link.href} onChange={(e) => updateQuickLink(link.id, "href", e.target.value)} className="flex-1" />
+          <div key={link.id} className="grid grid-cols-1 md:grid-cols-[1fr_1fr_1.2fr_auto] items-center gap-3">
+            <Input placeholder="Label (EN)" value={link.label} onChange={(e) => updateQuickLink(link.id, "label", e.target.value)} />
+            <Input dir="rtl" placeholder="التسمية (AR)" value={link.label_ar || ""} onChange={(e) => updateQuickLink(link.id, "label_ar", e.target.value)} style={{ fontFamily: "'Cairo','Tajawal',sans-serif" }} />
+            <Input placeholder="URL" value={link.href} onChange={(e) => updateQuickLink(link.id, "href", e.target.value)} />
             <Button variant="ghost" size="icon" onClick={() => setDraft({ ...draft, quickLinks: draft.quickLinks.filter((l) => l.id !== link.id) })} className="text-destructive">
               <Trash2 size={16} />
             </Button>
@@ -83,9 +84,10 @@ export default function FooterEditor() {
           </Button>
         </div>
         {draft.externalLinks.map((link) => (
-          <div key={link.id} className="flex items-center gap-3">
-            <Input placeholder="Label" value={link.label} onChange={(e) => updateExternalLink(link.id, "label", e.target.value)} className="flex-1" />
-            <Input placeholder="URL" value={link.href} onChange={(e) => updateExternalLink(link.id, "href", e.target.value)} className="flex-1" />
+          <div key={link.id} className="grid grid-cols-1 md:grid-cols-[1fr_1fr_1.2fr_auto] items-center gap-3">
+            <Input placeholder="Label (EN)" value={link.label} onChange={(e) => updateExternalLink(link.id, "label", e.target.value)} />
+            <Input dir="rtl" placeholder="التسمية (AR)" value={link.label_ar || ""} onChange={(e) => updateExternalLink(link.id, "label_ar", e.target.value)} style={{ fontFamily: "'Cairo','Tajawal',sans-serif" }} />
+            <Input placeholder="URL" value={link.href} onChange={(e) => updateExternalLink(link.id, "href", e.target.value)} />
             <Button variant="ghost" size="icon" onClick={() => setDraft({ ...draft, externalLinks: draft.externalLinks.filter((l) => l.id !== link.id) })} className="text-destructive">
               <Trash2 size={16} />
             </Button>
