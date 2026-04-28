@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore, type LayerCard as LayerCardType } from "@/stores/contentStore";
-import { useLocalized, useT } from "@/lib/i18n";
+import { useLocalized, useT, useSectionStyles } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ArrowRight } from "lucide-react";
@@ -49,6 +49,7 @@ export default function LayersSection() {
   const L = useLocalized();
   const t = useT();
   const [open, setOpen] = useState(false);
+  const styles = useSectionStyles(layers);
 
   const previewCards = layers.cards.slice(0, 5);
 
@@ -59,10 +60,10 @@ export default function LayersSection() {
           className="text-center max-w-3xl mx-auto mb-12"
           style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? "fadeBlurUp 0.6s ease-out forwards" : "none" }}
         >
-          <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+          <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground" style={styles.heading}>
             {L(layers.heading, layers.heading_ar)}
           </h2>
-          <p className="mt-5 text-muted-foreground text-base leading-relaxed">
+          <p className="mt-5 text-muted-foreground text-base leading-relaxed" style={styles.description}>
             {L(layers.description, layers.description_ar)}
           </p>
         </div>

@@ -1,7 +1,7 @@
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
 import { useUiStore } from "@/stores/uiStore";
-import { toArabicDigits } from "@/lib/i18n";
+import { toArabicDigits, useSectionStyles } from "@/lib/i18n";
 import { useEffect, useState, useRef } from "react";
 
 function AnimatedCounter({ target, suffix = "", label }: { target: string; suffix?: string; label: string }) {
@@ -53,14 +53,15 @@ export default function AboutSection() {
   const { about } = useContentStore();
   const { language } = useUiStore();
   const L = (en: string, ar?: string) => (language === "ar" && ar ? ar : en);
+  const styles = useSectionStyles(about);
 
   return (
     <section id="about" className="section-padding my-0 py-[80px]">
       <div ref={ref} className="container mx-auto">
         <div className="max-w-3xl mx-auto text-center" style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? 'fadeBlurUp 0.6s ease-out forwards' : 'none' }}>
-          <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground">{L(about.heading, about.heading_ar)}</h2>
-          <p className="mt-5 text-muted-foreground text-base leading-relaxed">{L(about.description1, about.description1_ar)}</p>
-          <p className="mt-4 text-muted-foreground text-sm leading-relaxed">{L(about.description2, about.description2_ar)}</p>
+          <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground" style={styles.heading}>{L(about.heading, about.heading_ar)}</h2>
+          <p className="mt-5 text-muted-foreground text-base leading-relaxed" style={styles.description}>{L(about.description1, about.description1_ar)}</p>
+          <p className="mt-4 text-muted-foreground text-sm leading-relaxed" style={styles.description}>{L(about.description2, about.description2_ar)}</p>
         </div>
 
         <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto mt-12" style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? 'fadeBlurUp 0.6s ease-out 0.2s forwards' : 'none' }}>

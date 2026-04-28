@@ -7,6 +7,7 @@ import { Save, Plus, Trash2, ImagePlus, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ResetConfirmModal from "../ResetConfirmModal";
 import { BilingualField } from "../BilingualField";
+import { SectionStyleControls } from "../SectionStyleControls";
 
 export default function NewsEditor() {
   const { news, updateNews } = useContentStore();
@@ -68,6 +69,20 @@ export default function NewsEditor() {
           valueAr={draft.description_ar || ""}
           onChange={(v) => setDraft({ ...draft, description: v })}
           onChangeAr={(v) => setDraft({ ...draft, description_ar: v })}
+        />
+        <SectionStyleControls
+          label="Heading"
+          styleEn={draft.headingStyle || {}}
+          styleAr={draft.headingStyleAr || {}}
+          onChangeEn={(s) => setDraft({ ...draft, headingStyle: s })}
+          onChangeAr={(s) => setDraft({ ...draft, headingStyleAr: s })}
+        />
+        <SectionStyleControls
+          label="Description"
+          styleEn={draft.descriptionStyle || {}}
+          styleAr={draft.descriptionStyleAr || {}}
+          onChangeEn={(s) => setDraft({ ...draft, descriptionStyle: s })}
+          onChangeAr={(s) => setDraft({ ...draft, descriptionStyleAr: s })}
         />
       </div>
 

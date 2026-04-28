@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import CardEditorModal from "./CardEditorModal";
 import ResetConfirmModal from "../ResetConfirmModal";
 import { BilingualField } from "../BilingualField";
+import { SectionStyleControls } from "../SectionStyleControls";
 
 export default function ServicesEditor() {
   const { services, updateServices } = useContentStore();
@@ -52,6 +53,20 @@ export default function ServicesEditor() {
           valueAr={draft.description_ar || ""}
           onChange={(v) => setDraft({ ...draft, description: v })}
           onChangeAr={(v) => setDraft({ ...draft, description_ar: v })}
+        />
+        <SectionStyleControls
+          label="Heading"
+          styleEn={draft.headingStyle || {}}
+          styleAr={draft.headingStyleAr || {}}
+          onChangeEn={(s) => setDraft({ ...draft, headingStyle: s })}
+          onChangeAr={(s) => setDraft({ ...draft, headingStyleAr: s })}
+        />
+        <SectionStyleControls
+          label="Description"
+          styleEn={draft.descriptionStyle || {}}
+          styleAr={draft.descriptionStyleAr || {}}
+          onChangeEn={(s) => setDraft({ ...draft, descriptionStyle: s })}
+          onChangeAr={(s) => setDraft({ ...draft, descriptionStyleAr: s })}
         />
       </div>
 

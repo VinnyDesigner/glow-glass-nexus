@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
-import { useLocalized, useT } from "@/lib/i18n";
+import { useLocalized, useT, useSectionStyles } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { MapPin, ArrowRight } from "lucide-react";
 
@@ -11,6 +11,7 @@ export default function MapViewSection() {
   const navigate = useNavigate();
   const L = useLocalized();
   const t = useT();
+  const styles = useSectionStyles(mapView);
 
   const handleCta = () => {
     if (mapView.ctaHref?.startsWith("http")) {
@@ -30,10 +31,10 @@ export default function MapViewSection() {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-4">
             <MapPin size={13} /> {t("mapView.badge")}
           </div>
-          <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+          <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground" style={styles.heading}>
             {L(mapView.heading, mapView.heading_ar)}
           </h2>
-          <p className="mt-5 text-muted-foreground text-base leading-relaxed">
+          <p className="mt-5 text-muted-foreground text-base leading-relaxed" style={styles.description}>
             {L(mapView.description, mapView.description_ar)}
           </p>
         </div>

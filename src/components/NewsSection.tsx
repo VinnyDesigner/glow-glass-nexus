@@ -1,6 +1,6 @@
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
-import { useLocalized, useLocalizeDate, useT } from "@/lib/i18n";
+import { useLocalized, useLocalizeDate, useT, useSectionStyles } from "@/lib/i18n";
 import { ArrowRight, Calendar } from "lucide-react";
 
 export default function NewsSection() {
@@ -9,6 +9,7 @@ export default function NewsSection() {
   const L = useLocalized();
   const t = useT();
   const fmtDate = useLocalizeDate();
+  const styles = useSectionStyles(news);
 
   return (
     <section id="news" className="section-padding py-[80px]">
@@ -17,10 +18,10 @@ export default function NewsSection() {
           className="text-center max-w-3xl mx-auto mb-12"
           style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? "fadeBlurUp 0.6s ease-out forwards" : "none" }}
         >
-          <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+          <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground" style={styles.heading}>
             {L(news.heading, news.heading_ar)}
           </h2>
-          <p className="mt-5 text-muted-foreground text-base leading-relaxed">
+          <p className="mt-5 text-muted-foreground text-base leading-relaxed" style={styles.description}>
             {L(news.description, news.description_ar)}
           </p>
         </div>
