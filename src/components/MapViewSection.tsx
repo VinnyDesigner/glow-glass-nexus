@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
-import { useLocalized } from "@/lib/i18n";
+import { useLocalized, useT } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { MapPin, ArrowRight } from "lucide-react";
 
@@ -10,6 +10,7 @@ export default function MapViewSection() {
   const { mapView } = useContentStore();
   const navigate = useNavigate();
   const L = useLocalized();
+  const t = useT();
 
   const handleCta = () => {
     if (mapView.ctaHref?.startsWith("http")) {
@@ -27,7 +28,7 @@ export default function MapViewSection() {
           style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? "fadeBlurUp 0.6s ease-out forwards" : "none" }}
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-4">
-            <MapPin size={13} /> Interactive Map
+            <MapPin size={13} /> {t("mapView.badge")}
           </div>
           <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground">
             {L(mapView.heading, mapView.heading_ar)}
