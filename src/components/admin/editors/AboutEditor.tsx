@@ -3,17 +3,18 @@ import { useContentStore, defaultAbout } from "@/stores/contentStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
 import { Save, Plus, Trash2, Pencil, Bold, Italic, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ResetConfirmModal from "../ResetConfirmModal";
+import { BilingualField } from "../BilingualField";
 
 interface StatEdit {
   target: string;
   suffix: string;
   label: string;
+  label_ar?: string;
   fontSize?: number;
   fontWeight?: string;
   italic?: boolean;
@@ -25,9 +26,9 @@ export default function AboutEditor() {
   const { about, updateAbout } = useContentStore();
   const [draft, setDraft] = useState({ ...about, stats: [...about.stats] });
   const [modalOpen, setModalOpen] = useState(false);
-  const [newStat, setNewStat] = useState({ target: "", suffix: "", label: "" });
+  const [newStat, setNewStat] = useState({ target: "", suffix: "", label: "", label_ar: "" });
   const [editIndex, setEditIndex] = useState<number | null>(null);
-  const [editForm, setEditForm] = useState<StatEdit>({ target: "", suffix: "", label: "" });
+  const [editForm, setEditForm] = useState<StatEdit>({ target: "", suffix: "", label: "", label_ar: "" });
   const [resetOpen, setResetOpen] = useState(false);
   const { toast } = useToast();
 
@@ -53,6 +54,7 @@ export default function AboutEditor() {
       target: s.target,
       suffix: s.suffix || "",
       label: s.label,
+      label_ar: (s as any).label_ar || "",
       fontSize: (s as any).fontSize || 40,
       fontWeight: (s as any).fontWeight || "bold",
       italic: (s as any).italic || false,
@@ -77,21 +79,32 @@ export default function AboutEditor() {
   const weightLabel = editForm.fontWeight === "300" ? "Light" : editForm.fontWeight === "bold" ? "Bold" : "Regular";
 
   return (
-    <div className="max-w-3xl space-y-8">
+    <div className="max-w-5xl space-y-8">
       <div className="neu-card p-6 space-y-4">
         <h3 className="font-display text-lg font-semibold">Section Content</h3>
-        <div>
-          <Label>Heading</Label>
-          <Input value={draft.heading} onChange={(e) => setDraft({ ...draft, heading: e.target.value })} className="mt-1.5" />
-        </div>
-        <div>
-          <Label>Description (Paragraph 1)</Label>
-          <Textarea value={draft.description1} onChange={(e) => setDraft({ ...draft, description1: e.target.value })} className="mt-1.5" rows={3} />
-        </div>
-        <div>
-          <Label>Description (Paragraph 2)</Label>
-          <Textarea value={draft.description2} onChange={(e) => setDraft({ ...draft, description2: e.target.value })} className="mt-1.5" rows={3} />
-        </div>
+        <BilingualField
+          label="Heading"
+          value={draft.heading}
+          valueAr={draft.heading_ar || ""}
+          onChange={(v) => setDraft({ ...draft, heading: v })}
+          onChangeAr={(v) => setDraft({ ...draft, heading_ar: v })}
+        />
+        <BilingualField
+          label="Description (Paragraph 1)"
+          multiline rows={3}
+          value={draft.description1}
+          valueAr={draft.description1_ar || ""}
+          onChange={(v) => setDraft({ ...draft, description1: v })}
+          onChangeAr={(v) => setDraft({ ...draft, description1_ar: v })}
+        />
+        <BilingualField
+          label="Description (Paragraph 2)"
+          multiline rows={3}
+          value={draft.description2}
+          valueAr={draft.description2_ar || ""}
+          onChange={(v) => setDraft({ ...draft, description2: v })}
+          onChangeAr={(v) => setDraft({ ...draft, description2_ar: v })}
+        />
       </div>
 
       <div className="neu-card p-6 space-y-4">
