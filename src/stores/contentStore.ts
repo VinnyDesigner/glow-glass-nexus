@@ -56,6 +56,30 @@ export interface HeroTextStyle {
   fontWeight?: string;
   italic?: boolean;
   color?: string;
+  fontFamily?: string;
+}
+
+export interface NewsItem {
+  id: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  image: string;
+  link?: string;
+}
+
+export interface NewsContent {
+  heading: string;
+  description: string;
+  items: NewsItem[];
+}
+
+export interface MapViewContent {
+  heading: string;
+  description: string;
+  ctaLabel: string;
+  ctaHref: string;
+  previewImage: string;
 }
 
 export interface HeroContent {
@@ -130,6 +154,8 @@ interface ContentStore {
   dataServices: DataServicesContent;
   footer: FooterContent;
   layers: LayersContent;
+  news: NewsContent;
+  mapView: MapViewContent;
   updateHero: (data: Partial<HeroContent>) => void;
   updateVision: (data: Partial<VisionContent>) => void;
   updateAbout: (data: Partial<AboutContent>) => void;
@@ -138,6 +164,8 @@ interface ContentStore {
   updateDataServices: (data: Partial<DataServicesContent>) => void;
   updateFooter: (data: Partial<FooterContent>) => void;
   updateLayers: (data: Partial<LayersContent>) => void;
+  updateNews: (data: Partial<NewsContent>) => void;
+  updateMapView: (data: Partial<MapViewContent>) => void;
 }
 
 export const defaultHero: HeroContent = {
@@ -265,6 +293,24 @@ export const defaultLayers: LayersContent = {
   ],
 };
 
+export const defaultNews: NewsContent = {
+  heading: "Latest News",
+  description: "Stay informed with the latest updates, announcements and milestones from BSDI and the Information & eGovernment Authority.",
+  items: [
+    { id: "n1", title: "BSDI launches unified geospatial portal", excerpt: "A new unified portal centralises spatial datasets across all government entities for streamlined access and analytics.", date: "Apr 22, 2026", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80", link: "#" },
+    { id: "n2", title: "Bahrain advances Smart City initiative", excerpt: "Smart city programmes accelerate as new 3D mapping and IoT integration come online across key urban districts.", date: "Apr 10, 2026", image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&q=80", link: "#" },
+    { id: "n3", title: "New partnership for open spatial data", excerpt: "BSDI partners with national agencies to expand the open data catalogue and improve cross-sector collaboration.", date: "Mar 28, 2026", image: "https://images.unsplash.com/photo-1620662892011-f5c2d523fae2?w=800&q=80", link: "#" },
+  ],
+};
+
+export const defaultMapView: MapViewContent = {
+  heading: "Explore Bahrain on the Map",
+  description: "Visualise spatial datasets, infrastructure and zones interactively. Open the full Map View to navigate Bahrain's geospatial ecosystem.",
+  ctaLabel: "Open Map View",
+  ctaHref: "/map",
+  previewImage: "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1200&q=80",
+};
+
 export const useContentStore = create<ContentStore>()(
   persist(
     (set) => ({
@@ -276,6 +322,8 @@ export const useContentStore = create<ContentStore>()(
       dataServices: defaultDataServices,
       footer: defaultFooter,
       layers: defaultLayers,
+      news: defaultNews,
+      mapView: defaultMapView,
       updateHero: (data) => set((s) => ({ hero: { ...s.hero, ...data } })),
       updateVision: (data) => set((s) => ({ vision: { ...s.vision, ...data } })),
       updateAbout: (data) => set((s) => ({ about: { ...s.about, ...data } })),
@@ -284,6 +332,8 @@ export const useContentStore = create<ContentStore>()(
       updateDataServices: (data) => set((s) => ({ dataServices: { ...s.dataServices, ...data } })),
       updateFooter: (data) => set((s) => ({ footer: { ...s.footer, ...data } })),
       updateLayers: (data) => set((s) => ({ layers: { ...s.layers, ...data } })),
+      updateNews: (data) => set((s) => ({ news: { ...s.news, ...data } })),
+      updateMapView: (data) => set((s) => ({ mapView: { ...s.mapView, ...data } })),
     }),
     {
       name: "bsdi-content",
@@ -299,6 +349,8 @@ export const useContentStore = create<ContentStore>()(
         if (!persisted?.layers) {
           merged.layers = defaultLayers;
         }
+        if (!persisted?.news) merged.news = defaultNews;
+        if (!persisted?.mapView) merged.mapView = defaultMapView;
         return merged;
       },
     }
