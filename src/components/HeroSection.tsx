@@ -38,9 +38,10 @@ export default function HeroSection() {
     };
   }, [slides.length]);
 
-  const t1 = hero.title1Style || {};
-  const t2 = hero.title2Style || {};
-  const sub = hero.subtitleStyle || {};
+  const isAr = language === "ar";
+  const t1 = (isAr ? hero.title1StyleAr : undefined) || hero.title1Style || {};
+  const t2 = (isAr ? hero.title2StyleAr : undefined) || hero.title2Style || {};
+  const sub = (isAr ? hero.subtitleStyleAr : undefined) || hero.subtitleStyle || {};
 
   return (
     <section
