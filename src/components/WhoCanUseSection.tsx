@@ -1,5 +1,6 @@
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
+import { useLocalized } from "@/lib/i18n";
 
 import usersGovernment from "@/assets/users-government.jpg";
 import usersUrbanPlanning from "@/assets/users-urban-planning.jpg";
@@ -24,6 +25,7 @@ const userImages = [
 export default function WhoCanUseSection() {
   const { ref, isVisible } = useScrollAnimation();
   const { users } = useContentStore();
+  const L = useLocalized();
 
   return (
     <section id="who-can-use" className="relative overflow-hidden py-20 md:py-32 px-4 md:px-6 lg:py-0">
@@ -39,10 +41,10 @@ export default function WhoCanUseSection() {
         {/* Header */}
         <div className={`text-center mb-20 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
-            {users.heading}
+            {L(users.heading, users.heading_ar)}
           </h2>
           <p className="max-w-3xl mx-auto mt-5 text-muted-foreground text-base md:text-lg leading-relaxed">
-            {users.description}
+            {L(users.description, users.description_ar)}
           </p>
         </div>
 
@@ -67,7 +69,7 @@ export default function WhoCanUseSection() {
                 {/* Image — 70% */}
                 <img
                   src={userImages[i % userImages.length]}
-                  alt={user.title}
+                  alt={L(user.title, user.title_ar)}
                   loading="lazy"
                   width={800}
                   height={1024}
@@ -84,10 +86,10 @@ export default function WhoCanUseSection() {
                   }}
                 >
                   <h3 className="font-display text-sm md:text-base font-semibold mb-1.5 text-secondary-foreground">
-                    {user.title}
+                    {L(user.title, user.title_ar)}
                   </h3>
                   <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2">
-                    {user.description}
+                    {L(user.description, user.description_ar)}
                   </p>
                 </div>
 
