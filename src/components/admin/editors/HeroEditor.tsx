@@ -48,6 +48,9 @@ export default function HeroEditor() {
       title1Style: { fontSize: 72, fontWeight: "bold", italic: false, color: "#ffffff" },
       title2Style: { fontSize: 72, fontWeight: "bold", italic: false, color: "#FF3B30" },
       subtitleStyle: { fontSize: 20, fontWeight: "normal", italic: false, color: "#ffffffcc" },
+      title1StyleAr: {} as HeroTextStyle,
+      title2StyleAr: {} as HeroTextStyle,
+      subtitleStyleAr: {} as HeroTextStyle,
     };
     setDraft(resetData);
     updateHero(defaultHero);
