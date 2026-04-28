@@ -1,6 +1,6 @@
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
-import { useLocalized } from "@/lib/i18n";
+import { useLocalized, useSectionStyles } from "@/lib/i18n";
 
 import usersGovernment from "@/assets/users-government.jpg";
 import usersUrbanPlanning from "@/assets/users-urban-planning.jpg";
@@ -26,6 +26,7 @@ export default function WhoCanUseSection() {
   const { ref, isVisible } = useScrollAnimation();
   const { users } = useContentStore();
   const L = useLocalized();
+  const styles = useSectionStyles(users);
 
   return (
     <section id="who-can-use" className="relative overflow-hidden py-20 md:py-32 px-4 md:px-6 lg:py-0">
@@ -40,10 +41,10 @@ export default function WhoCanUseSection() {
       <div ref={ref} className="container mx-auto relative z-10">
         {/* Header */}
         <div className={`text-center mb-20 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground" style={styles.heading}>
             {L(users.heading, users.heading_ar)}
           </h2>
-          <p className="max-w-3xl mx-auto mt-5 text-muted-foreground text-base md:text-lg leading-relaxed">
+          <p className="max-w-3xl mx-auto mt-5 text-muted-foreground text-base md:text-lg leading-relaxed" style={styles.description}>
             {L(users.description, users.description_ar)}
           </p>
         </div>

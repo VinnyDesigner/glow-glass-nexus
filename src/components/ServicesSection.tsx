@@ -1,6 +1,6 @@
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
-import { useLocalized, useT } from "@/lib/i18n";
+import { useLocalized, useT, useSectionStyles } from "@/lib/i18n";
 
 import serviceAdminConsole from "@/assets/service-admin-console.jpg";
 import serviceGeocatalog from "@/assets/service-geocatalog.jpg";
@@ -27,13 +27,14 @@ export default function ServicesSection() {
   const { services } = useContentStore();
   const L = useLocalized();
   const t = useT();
+  const styles = useSectionStyles(services);
 
   return (
     <section id="services" className="section-padding">
       <div ref={ref} className="container mx-auto">
         <div className="text-center mb-14" style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? 'fadeBlurUp 0.6s ease-out forwards' : 'none' }}>
-          <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground">{L(services.heading, services.heading_ar)}</h2>
-          <p className="max-w-2xl mx-auto mt-4 text-muted-foreground text-base leading-relaxed">{L(services.description, services.description_ar)}</p>
+          <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground" style={styles.heading}>{L(services.heading, services.heading_ar)}</h2>
+          <p className="max-w-2xl mx-auto mt-4 text-muted-foreground text-base leading-relaxed" style={styles.description}>{L(services.description, services.description_ar)}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
