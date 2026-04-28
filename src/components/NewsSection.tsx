@@ -1,6 +1,6 @@
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
-import { useLocalized, useT } from "@/lib/i18n";
+import { useLocalized, useLocalizeDate, useT } from "@/lib/i18n";
 import { ArrowRight, Calendar } from "lucide-react";
 
 export default function NewsSection() {
@@ -8,6 +8,7 @@ export default function NewsSection() {
   const { news } = useContentStore();
   const L = useLocalized();
   const t = useT();
+  const fmtDate = useLocalizeDate();
 
   return (
     <section id="news" className="section-padding py-[80px]">
@@ -44,7 +45,7 @@ export default function NewsSection() {
                 <div className="p-5 flex-1 flex flex-col">
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
                     <Calendar size={13} />
-                    <span>{item.date}</span>
+                    <span>{fmtDate(item.date)}</span>
                   </div>
                   <h3 className="font-display text-lg font-semibold text-foreground leading-snug">
                     {title}
