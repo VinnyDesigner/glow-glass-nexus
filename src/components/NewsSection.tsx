@@ -17,10 +17,10 @@ export default function NewsSection() {
           style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? "fadeBlurUp 0.6s ease-out forwards" : "none" }}
         >
           <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground">
-            {news.heading}
+            {L(news.heading, news.heading_ar)}
           </h2>
           <p className="mt-5 text-muted-foreground text-base leading-relaxed">
-            {news.description}
+            {L(news.description, news.description_ar)}
           </p>
         </div>
 
@@ -29,12 +29,14 @@ export default function NewsSection() {
           style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? "fadeBlurUp 0.6s ease-out 0.15s forwards" : "none" }}
         >
           {news.items.map((item) => {
+            const title = L(item.title, item.title_ar);
+            const excerpt = L(item.excerpt, item.excerpt_ar);
             const card = (
               <article className="clean-card h-full flex flex-col">
                 <div className="card-image aspect-[16/10]">
                   <img
                     src={item.image}
-                    alt={item.title}
+                    alt={title}
                     loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                   />
@@ -45,13 +47,13 @@ export default function NewsSection() {
                     <span>{item.date}</span>
                   </div>
                   <h3 className="font-display text-lg font-semibold text-foreground leading-snug">
-                    {item.title}
+                    {title}
                   </h3>
                   <p className="mt-2 text-sm text-muted-foreground leading-relaxed line-clamp-2 flex-1">
-                    {item.excerpt}
+                    {excerpt}
                   </p>
                   <span className="view-details-link mt-4">
-                    Read more <ArrowRight size={14} />
+                    {t("news.readMore")} <ArrowRight size={14} />
                   </span>
                 </div>
               </article>
