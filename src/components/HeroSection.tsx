@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
+import { useUiStore } from "@/stores/uiStore";
 import heroSlide1 from "@/assets/hero-slide-1.png";
 import heroSlide2 from "@/assets/hero-slide-2.png";
 import heroSlide3 from "@/assets/hero-slide-3.png";
@@ -19,7 +20,7 @@ export default function HeroSection() {
   const slides = hero.heroImages && hero.heroImages.length > 0 ? hero.heroImages : DEFAULT_SLIDES;
 
   // language-aware getters via dynamic import to avoid stale render
-  const language = (typeof document !== "undefined" && document.documentElement.lang === "ar") ? "ar" : "en";
+  const { language } = useUiStore();
   const title1 = language === "ar" && hero.title1_ar ? hero.title1_ar : hero.title1;
   const title2 = language === "ar" && hero.title2_ar ? hero.title2_ar : hero.title2;
   const subtitle = language === "ar" && hero.subtitle_ar ? hero.subtitle_ar : hero.subtitle;
@@ -91,7 +92,7 @@ export default function HeroSection() {
                     }}
                     className={`block ${!t1.fontSize ? "text-4xl sm:text-5xl md:text-6xl lg:text-7xl" : ""} ${!t1.color ? "hero-title-gradient" : ""}`}
                   >
-                    {hero.title1}
+                    {title1}
                   </span>
                 </h1>
                 <h1 className="hero-display-font leading-[1.02] mb-6">
@@ -105,7 +106,7 @@ export default function HeroSection() {
                     }}
                     className="block text-5xl font-extrabold text-[#ff9494]"
                   >
-                    {hero.title2}
+                    {title2}
                   </span>
                 </h1>
                 <p
@@ -119,7 +120,7 @@ export default function HeroSection() {
                     letterSpacing: "0.01em",
                   }}
                 >
-                  {hero.subtitle}
+                  {subtitle}
                 </p>
               </div>
             </div>
