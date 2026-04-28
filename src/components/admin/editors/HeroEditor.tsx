@@ -27,6 +27,9 @@ export default function HeroEditor() {
     title1Style: hero.title1Style || { fontSize: 72, fontWeight: "bold", italic: false, color: "#ffffff" },
     title2Style: hero.title2Style || { fontSize: 72, fontWeight: "bold", italic: false, color: "#FF3B30" },
     subtitleStyle: hero.subtitleStyle || { fontSize: 20, fontWeight: "normal", italic: false, color: "#ffffffcc" },
+    title1StyleAr: hero.title1StyleAr || {},
+    title2StyleAr: hero.title2StyleAr || {},
+    subtitleStyleAr: hero.subtitleStyleAr || {},
   });
   const [resetOpen, setResetOpen] = useState(false);
   const { toast } = useToast();
@@ -198,26 +201,57 @@ export default function HeroEditor() {
         {/* Hero Text */}
         <div className="neu-card p-6 space-y-4">
           <h3 className="font-display text-lg font-semibold text-foreground">Hero Text</h3>
-          <div>
-            <Label>Title Line 1</Label>
-            <Input value={draft.title1} onChange={(e) => setDraft({ ...draft, title1: e.target.value })} className="mt-1.5" />
-          </div>
-          <div>
-            <Label>Title Line 2</Label>
-            <Input value={draft.title2} onChange={(e) => setDraft({ ...draft, title2: e.target.value })} className="mt-1.5" />
-          </div>
-          <div>
-            <Label>Subtitle</Label>
-            <Textarea value={draft.subtitle} onChange={(e) => setDraft({ ...draft, subtitle: e.target.value })} className="mt-1.5" rows={3} />
-          </div>
+          <BilingualField
+            label="Title Line 1"
+            value={draft.title1}
+            valueAr={draft.title1_ar || ""}
+            onChange={(v) => setDraft({ ...draft, title1: v })}
+            onChangeAr={(v) => setDraft({ ...draft, title1_ar: v })}
+          />
+          <BilingualField
+            label="Title Line 2"
+            value={draft.title2}
+            valueAr={draft.title2_ar || ""}
+            onChange={(v) => setDraft({ ...draft, title2: v })}
+            onChangeAr={(v) => setDraft({ ...draft, title2_ar: v })}
+          />
+          <BilingualField
+            label="Subtitle"
+            multiline rows={3}
+            value={draft.subtitle}
+            valueAr={draft.subtitle_ar || ""}
+            onChange={(v) => setDraft({ ...draft, subtitle: v })}
+            onChangeAr={(v) => setDraft({ ...draft, subtitle_ar: v })}
+          />
         </div>
 
-        {/* Text Style Controls */}
+        {/* Text Style Controls (EN + AR side-by-side) */}
         <div className="neu-card p-6 space-y-4">
           <h3 className="font-display text-lg font-semibold text-foreground">Text Styling</h3>
-          <TextStyleControls label="Title Line 1" style={draft.title1Style} onChange={(s) => setDraft({ ...draft, title1Style: s })} />
-          <TextStyleControls label="Title Line 2" style={draft.title2Style} onChange={(s) => setDraft({ ...draft, title2Style: s })} />
-          <TextStyleControls label="Subtitle" style={draft.subtitleStyle} onChange={(s) => setDraft({ ...draft, subtitleStyle: s })} />
+          <SectionStyleControls
+            label="Title Line 1"
+            styleEn={draft.title1Style}
+            styleAr={draft.title1StyleAr}
+            onChangeEn={(s) => setDraft({ ...draft, title1Style: s })}
+            onChangeAr={(s) => setDraft({ ...draft, title1StyleAr: s })}
+            defaultColor="#ffffff"
+          />
+          <SectionStyleControls
+            label="Title Line 2"
+            styleEn={draft.title2Style}
+            styleAr={draft.title2StyleAr}
+            onChangeEn={(s) => setDraft({ ...draft, title2Style: s })}
+            onChangeAr={(s) => setDraft({ ...draft, title2StyleAr: s })}
+            defaultColor="#FF3B30"
+          />
+          <SectionStyleControls
+            label="Subtitle"
+            styleEn={draft.subtitleStyle}
+            styleAr={draft.subtitleStyleAr}
+            onChangeEn={(s) => setDraft({ ...draft, subtitleStyle: s })}
+            onChangeAr={(s) => setDraft({ ...draft, subtitleStyleAr: s })}
+            defaultColor="#ffffffcc"
+          />
         </div>
 
         <div className="flex items-center gap-3">
