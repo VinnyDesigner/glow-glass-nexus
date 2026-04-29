@@ -36,6 +36,7 @@ const tabs = [
 export default function AdminLayout() {
   const [activeTab, setActiveTab] = useState("hero");
   const navigate = useNavigate();
+  const logout = useAuthStore((s) => s.logout);
 
   const renderEditor = () => {
     switch (activeTab) {
@@ -48,6 +49,7 @@ export default function AdminLayout() {
       case "users": return <UsersEditor />;
       case "layers": return <LayersEditor />;
       case "data": return <DataServicesEditor />;
+      case "login": return <LoginEditor />;
       case "footer": return <FooterEditor />;
       default: return null;
     }
