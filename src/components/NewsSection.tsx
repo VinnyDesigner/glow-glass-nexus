@@ -51,7 +51,7 @@ export default function NewsSection() {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? "fadeBlurUp 0.6s ease-out 0.15s forwards" : "none" }}
         >
-          {news.items.map((item) => {
+          {sortedItems.slice(0, 4).map((item) => {
             const title = L(item.title, item.title_ar);
             const excerpt = L(item.excerpt, item.excerpt_ar);
             const card = (
