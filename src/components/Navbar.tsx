@@ -178,12 +178,14 @@ export default function Navbar() {
         </div>
 
         <div className="hidden lg:flex items-center gap-2 shrink-0">
-          {/* Collapsible circular search */}
-          <div ref={searchWrapRef} className="relative">
+          {/* Collapsible circular search (overlay expand) */}
+          <div ref={searchWrapRef} className="relative w-10 h-10">
             <form
               onSubmit={handleSearch}
-              className={`flex items-center h-10 rounded-full border border-border bg-secondary/50 transition-[width,background-color] duration-300 ease-out overflow-hidden ${
-                searchOpen ? "w-64 bg-background" : "w-10"
+              className={`absolute right-0 top-0 z-20 flex items-center h-10 rounded-full border transition-[width,background-color,box-shadow] duration-300 ease-out overflow-hidden ${
+                searchOpen
+                  ? "w-72 bg-background border-border shadow-[0_4px_16px_hsla(210,20%,50%,0.15)]"
+                  : "w-10 bg-secondary/50 border-border"
               }`}
             >
               <button
