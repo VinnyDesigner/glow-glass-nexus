@@ -17,7 +17,7 @@ export default function Footer() {
   const year = num(new Date().getFullYear());
 
   return (
-    <footer className="border-t border-border bg-card">
+    <footer id="footer" className="border-t border-border bg-card">
       <div className="container mx-auto px-4 md:px-8 py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_1fr] gap-10 items-start">
           <div className="flex items-center justify-center">
