@@ -32,14 +32,32 @@ export default function Navbar() {
   const [query, setQuery] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [loginRole, setLoginRole] = useState<"admin" | "user">("user");
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const t = useT();
   const { language } = useUiStore();
   const store = useContentStore();
+  const { user, logout } = useAuthStore();
   const containerRef = useRef<HTMLDivElement>(null);
   const searchWrapRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // Auto-open login modal if redirected with ?login=admin|user
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const which = params.get("login");
+    if (which === "admin" || which === "user") {
+      setLoginRole(which);
+      setLoginOpen(true);
+      // Clean the URL
+      navigate(location.pathname, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search]);
 
   const navLinks = [
     { label: t("nav.news"), href: "#news" },
@@ -235,12 +253,45 @@ export default function Navbar() {
             )}
           </div>
 
-          <button
-            onClick={() => navigate("/admin-crm")}
-            className="px-4 py-2 rounded-xl text-xs xl:text-sm font-semibold bg-primary text-primary-foreground transition-all duration-200 hover:opacity-90 whitespace-nowrap"
-          >
-            {t("nav.admin")}
-          </button>
+          {user ? (
+            <div ref={userMenuRef} className="relative">
+              <button
+                onClick={() => setUserMenuOpen((v) => !v)}
+                className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs xl:text-sm font-semibold border border-border bg-secondary/50 hover:bg-secondary text-foreground"
+              >
+                <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-[10px] font-bold">
+                  {user.name.charAt(0)}
+                </span>
+                <span className="hidden xl:inline truncate max-w-[100px]">{user.name}</span>
+                <ChevronDown size={14} />
+              </button>
+              {userMenuOpen && (
+                <div className="absolute top-full mt-2 right-0 w-48 bg-card border border-border rounded-xl shadow-lg overflow-hidden z-50">
+                  {user.role === "admin" && (
+                    <button
+                      onClick={() => { setUserMenuOpen(false); navigate("/admin-crm"); }}
+                      className="w-full flex items-center gap-2 px-3 py-2.5 text-sm hover:bg-accent text-left"
+                    >
+                      <ShieldCheck size={14} /> {t("auth.adminPanel")}
+                    </button>
+                  )}
+                  <button
+                    onClick={() => { setUserMenuOpen(false); logout(); }}
+                    className="w-full flex items-center gap-2 px-3 py-2.5 text-sm hover:bg-accent text-left text-destructive border-t border-border"
+                  >
+                    <LogOut size={14} /> {t("auth.logout")}
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={() => { setLoginRole("user"); setLoginOpen(true); }}
+              className="px-4 py-2 rounded-xl text-xs xl:text-sm font-semibold bg-primary text-primary-foreground transition-all duration-200 hover:opacity-90 whitespace-nowrap"
+            >
+              {t("nav.login")}
+            </button>
+          )}
           <LangToggle />
         </div>
 
