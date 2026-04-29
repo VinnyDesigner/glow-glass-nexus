@@ -51,7 +51,7 @@ export default function Navbar() {
     { label: t("nav.about"), href: "#about" },
     { label: t("nav.map"), href: "#map-view" },
     { label: t("nav.layers"), href: "#layers" },
-    { label: t("nav.bsdiProvides"), href: "#contact" },
+    { label: t("nav.bsdiProvides"), href: "#services" },
     { label: t("nav.vision"), href: "#vision" },
     { label: t("nav.whoCanUse"), href: "#who-can-use" },
     { label: t("nav.contact"), href: "#footer" },
