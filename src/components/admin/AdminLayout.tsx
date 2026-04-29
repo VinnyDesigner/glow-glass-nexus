@@ -53,7 +53,7 @@ export default function AdminLayout() {
   const currentTab = tabs.find((t) => t.id === activeTab);
 
   return (
-    <div className="h-screen bg-background flex overflow-hidden">
+    <div dir="ltr" className="h-screen bg-background flex overflow-hidden">
       {/* Sidebar */}
       <aside className="w-64 border-r border-sidebar-border flex flex-col shrink-0" style={{ background: 'linear-gradient(180deg, hsl(215 50% 22%) 0%, hsl(215 50% 14%) 100%)' }}>
         <div className="p-5 border-b border-sidebar-border flex items-center gap-3">
