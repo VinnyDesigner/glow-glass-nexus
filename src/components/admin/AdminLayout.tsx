@@ -97,6 +97,10 @@ export default function AdminLayout() {
               <ExternalLink size={14} />
               Portal Page
             </Button>
+            <Button variant="default" size="sm" className="gap-2 border border-white/20 text-white hover:text-white" onClick={() => { logout(); navigate("/"); }}>
+              <LogOut size={14} />
+              Logout
+            </Button>
           </div>
         </header>
 
