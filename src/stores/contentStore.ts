@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import bahrainMapView from "@/assets/bahrain-map-view.png";
 
 // ============= Types =============
 
@@ -253,11 +254,12 @@ const IMG = {
   research: "https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=800&q=80",
   developers: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&q=80",
   emergency: "https://images.unsplash.com/photo-1599301715049-72366c8a9e3a?w=800&q=80",
-  bahrainMap: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Bahrain_location_map.svg/1024px-Bahrain_location_map.svg.png",
+  bahrainMap: bahrainMapView,
 };
 
 const OLD_BAHRAIN_MAP_URLS = [
   "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1200&q=80",
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Bahrain_location_map.svg/1024px-Bahrain_location_map.svg.png",
 ];
 
 // ============= Defaults =============
