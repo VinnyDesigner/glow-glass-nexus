@@ -474,6 +474,10 @@ export const defaultMapView: MapViewContent = {
   previewImage: IMG.bahrainMap,
 };
 
+export const defaultAuth: AuthContent = {
+  loginBackground: IMG.loginBg,
+};
+
 const OLD_MAP_HEADINGS = ["Explore Bahrain on the Map"];
 
 export const useContentStore = create<ContentStore>()(
@@ -489,6 +493,7 @@ export const useContentStore = create<ContentStore>()(
       layers: defaultLayers,
       news: defaultNews,
       mapView: defaultMapView,
+      auth: defaultAuth,
       updateHero: (data) => set((s) => ({ hero: { ...s.hero, ...data } })),
       updateVision: (data) => set((s) => ({ vision: { ...s.vision, ...data } })),
       updateAbout: (data) => set((s) => ({ about: { ...s.about, ...data } })),
@@ -499,14 +504,22 @@ export const useContentStore = create<ContentStore>()(
       updateLayers: (data) => set((s) => ({ layers: { ...s.layers, ...data } })),
       updateNews: (data) => set((s) => ({ news: { ...s.news, ...data } })),
       updateMapView: (data) => set((s) => ({ mapView: { ...s.mapView, ...data } })),
+      updateAuth: (data) => set((s) => ({ auth: { ...s.auth, ...data } })),
     }),
     {
       name: "bsdi-content",
-      version: 5,
+      version: 6,
       migrate: (persisted: any, version: number) => {
         if (persisted?.hero && version < 5) {
-          // Clear cached custom hero images so new defaults take effect
           persisted.hero.heroImages = [];
+        }
+        if (version < 6) {
+          // Force refresh of card images: drop cached cards so new descriptive defaults take over
+          if (persisted?.services) delete persisted.services.cards;
+          if (persisted?.layers) delete persisted.layers.cards;
+          if (persisted?.news) delete persisted.news.items;
+          if (persisted?.users) delete persisted.users.cards;
+          if (persisted?.vision) delete persisted.vision.cards;
         }
         return persisted;
       },
@@ -517,10 +530,12 @@ export const useContentStore = create<ContentStore>()(
           const newDefaults = defaultVision.cards.filter((c) => !persistedIds.has(c.id));
           merged.vision = { ...defaultVision, ...persisted.vision, cards: [...persisted.vision.cards, ...newDefaults] };
         }
-        if (!persisted?.layers) merged.layers = defaultLayers;
-        if (!persisted?.news) {
-          merged.news = defaultNews;
-        } else if (persisted.news.items) {
+        if (!persisted?.services?.cards) merged.services = { ...defaultServices, ...(persisted?.services || {}), cards: defaultServices.cards };
+        if (!persisted?.users?.cards) merged.users = { ...defaultUsers, ...(persisted?.users || {}), cards: defaultUsers.cards };
+        if (!persisted?.layers?.cards) merged.layers = { ...defaultLayers, ...(persisted?.layers || {}), cards: defaultLayers.cards };
+        if (!persisted?.news?.items) {
+          merged.news = { ...defaultNews, ...(persisted?.news || {}), items: defaultNews.items };
+        } else {
           const persistedIds = new Set(persisted.news.items.map((i: any) => i.id));
           const newItems = defaultNews.items.filter((i) => !persistedIds.has(i.id));
           merged.news = { ...defaultNews, ...persisted.news, items: [...persisted.news.items, ...newItems] };
@@ -532,6 +547,7 @@ export const useContentStore = create<ContentStore>()(
         if (persisted?.mapView && OLD_BAHRAIN_MAP_URLS.includes(persisted.mapView.previewImage)) {
           merged.mapView = { ...merged.mapView, previewImage: defaultMapView.previewImage };
         }
+        if (!persisted?.auth) merged.auth = defaultAuth;
         return merged;
       },
     }
