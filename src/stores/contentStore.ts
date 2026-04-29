@@ -201,6 +201,10 @@ export interface LayersContent extends SectionStyles {
   cards: LayerCard[];
 }
 
+export interface AuthContent {
+  loginBackground: string;
+}
+
 interface ContentStore {
   hero: HeroContent;
   vision: VisionContent;
@@ -212,6 +216,7 @@ interface ContentStore {
   layers: LayersContent;
   news: NewsContent;
   mapView: MapViewContent;
+  auth: AuthContent;
   updateHero: (data: Partial<HeroContent>) => void;
   updateVision: (data: Partial<VisionContent>) => void;
   updateAbout: (data: Partial<AboutContent>) => void;
@@ -222,6 +227,7 @@ interface ContentStore {
   updateLayers: (data: Partial<LayersContent>) => void;
   updateNews: (data: Partial<NewsContent>) => void;
   updateMapView: (data: Partial<MapViewContent>) => void;
+  updateAuth: (data: Partial<AuthContent>) => void;
 }
 
 // ============= Light, infrastructure-themed imagery (curated to match descriptions) =============
