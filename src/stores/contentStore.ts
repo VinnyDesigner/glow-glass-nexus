@@ -261,7 +261,7 @@ const IMG = {
   zones: "https://images.unsplash.com/photo-1494522358652-f30e61a60313?w=800&q=80",
   addresses: "https://images.unsplash.com/photo-1524813686514-a57563d77965?w=800&q=80",
   cadastral: "https://images.unsplash.com/photo-1448630360428-65456885c650?w=800&q=80",
-  adminBoundary: "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&q=80",
+  adminBoundary: bahrainMapView,
   heritage: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800&q=80",
   university: "https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80",
 
@@ -508,18 +508,21 @@ export const useContentStore = create<ContentStore>()(
     }),
     {
       name: "bsdi-content",
-      version: 6,
+      version: 7,
       migrate: (persisted: any, version: number) => {
         if (persisted?.hero && version < 5) {
           persisted.hero.heroImages = [];
         }
         if (version < 6) {
-          // Force refresh of card images: drop cached cards so new descriptive defaults take over
           if (persisted?.services) delete persisted.services.cards;
           if (persisted?.layers) delete persisted.layers.cards;
           if (persisted?.news) delete persisted.news.items;
           if (persisted?.users) delete persisted.users.cards;
           if (persisted?.vision) delete persisted.vision.cards;
+        }
+        if (version < 7) {
+          // Refresh layers cards so ADMINBOUNDRY uses Bahrain map image
+          if (persisted?.layers) delete persisted.layers.cards;
         }
         return persisted;
       },
