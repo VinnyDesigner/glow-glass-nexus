@@ -455,8 +455,14 @@ export const useContentStore = create<ContentStore>()(
     }),
     {
       name: "bsdi-content",
-      version: 4,
-      migrate: (persisted: any) => persisted,
+      version: 5,
+      migrate: (persisted: any, version: number) => {
+        if (persisted?.hero && version < 5) {
+          // Clear cached custom hero images so new defaults take effect
+          persisted.hero.heroImages = [];
+        }
+        return persisted;
+      },
       merge: (persisted: any, current: any) => {
         const merged = { ...current, ...(persisted || {}) };
         if (persisted?.vision?.cards) {
