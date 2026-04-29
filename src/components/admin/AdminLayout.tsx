@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   LayoutDashboard, Eye, Globe, Info, Grid3X3, Users, Building2, FileText, Layers,
-  ChevronLeft, Save, ExternalLink, Newspaper, MapPin
+  ChevronLeft, Save, ExternalLink, Newspaper, MapPin, LogIn, LogOut
 } from "lucide-react";
 import dashLogo from "@/assets/dashLogo.png";
 import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/stores/authStore";
 import HeroEditor from "./editors/HeroEditor";
 import VisionEditor from "./editors/VisionEditor";
 import AboutEditor from "./editors/AboutEditor";
@@ -16,6 +17,7 @@ import FooterEditor from "./editors/FooterEditor";
 import LayersEditor from "./editors/LayersEditor";
 import NewsEditor from "./editors/NewsEditor";
 import MapViewEditor from "./editors/MapViewEditor";
+import LoginEditor from "./editors/LoginEditor";
 
 const tabs = [
   { id: "hero", label: "Hero Section", icon: LayoutDashboard },
@@ -27,12 +29,14 @@ const tabs = [
   { id: "vision", label: "BSDI Vision", icon: Eye },
   { id: "users", label: "Who Can Use BSDI", icon: Users },
   { id: "data", label: "Data Services", icon: Building2 },
+  { id: "login", label: "Login Page", icon: LogIn },
   { id: "footer", label: "Footer", icon: FileText },
 ];
 
 export default function AdminLayout() {
   const [activeTab, setActiveTab] = useState("hero");
   const navigate = useNavigate();
+  const logout = useAuthStore((s) => s.logout);
 
   const renderEditor = () => {
     switch (activeTab) {
@@ -45,6 +49,7 @@ export default function AdminLayout() {
       case "users": return <UsersEditor />;
       case "layers": return <LayersEditor />;
       case "data": return <DataServicesEditor />;
+      case "login": return <LoginEditor />;
       case "footer": return <FooterEditor />;
       default: return null;
     }
@@ -91,6 +96,10 @@ export default function AdminLayout() {
             <Button variant="default" size="sm" className="gap-2 border border-white/20 text-white hover:text-white" onClick={() => navigate("/")}>
               <ExternalLink size={14} />
               Portal Page
+            </Button>
+            <Button variant="default" size="sm" className="gap-2 border border-white/20 text-white hover:text-white" onClick={() => { logout(); navigate("/"); }}>
+              <LogOut size={14} />
+              Logout
             </Button>
           </div>
         </header>

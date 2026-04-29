@@ -43,6 +43,18 @@ const en: Dict = {
   "footer.contact": "Contact",
   "footer.rights": "All rights reserved.",
   "footer.brand": "Bahrain Spatial Data Infrastructure",
+  "auth.signIn": "Sign in",
+  "auth.login": "Login",
+  "auth.logout": "Logout",
+  "auth.username": "Username",
+  "auth.password": "Password",
+  "auth.admin": "Admin",
+  "auth.user": "User",
+  "auth.welcome": "Welcome back",
+  "auth.invalid": "Invalid username or password",
+  "auth.loginSubtitle": "Sign in to continue to BSDI",
+  "auth.adminPanel": "Admin Panel",
+  "nav.login": "Login",
 };
 
 const ar: Dict = {
@@ -86,6 +98,18 @@ const ar: Dict = {
   "footer.contact": "اتصل بنا",
   "footer.rights": "جميع الحقوق محفوظة.",
   "footer.brand": "البنية التحتية للبيانات المكانية في البحرين",
+  "auth.signIn": "تسجيل الدخول",
+  "auth.login": "دخول",
+  "auth.logout": "تسجيل الخروج",
+  "auth.username": "اسم المستخدم",
+  "auth.password": "كلمة المرور",
+  "auth.admin": "مشرف",
+  "auth.user": "مستخدم",
+  "auth.welcome": "مرحباً بعودتك",
+  "auth.invalid": "اسم المستخدم أو كلمة المرور غير صحيحة",
+  "auth.loginSubtitle": "سجّل الدخول للمتابعة إلى BSDI",
+  "auth.adminPanel": "لوحة التحكم",
+  "nav.login": "دخول",
 };
 
 const dictionaries: Record<string, Dict> = { en, ar };
