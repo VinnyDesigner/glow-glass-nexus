@@ -87,56 +87,84 @@ export default function HeroEditor() {
 
   return (
     <div className="max-w-4xl">
-      {/* Sticky Live Preview */}
+      {/* Sticky Dual Live Preview (EN + AR) */}
       <div className="sticky top-0 z-20 pb-6 backdrop-blur-xl bg-background/80 -mx-6 px-6 pt-6 rounded-b-2xl">
-        <div className="neu-card p-6 space-y-4 shadow-lg">
-          <h3 className="font-display text-lg font-semibold text-foreground">Live Preview</h3>
-          <div className="relative rounded-xl overflow-hidden" style={{ height: 320 }}>
-            <img src={currentSlides[0]} alt="" className="absolute inset-0 w-full h-full object-cover" />
-            <div className="absolute inset-0" style={{ background: `rgba(0,0,0,${draft.overlayOpacity / 100})` }} />
-            <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-              <div className="backdrop-blur-md bg-white/[0.06] border border-white/[0.12] rounded-xl px-6 py-8">
-                <h1
-                  style={{
-                    fontSize: `${Math.min(draft.title1Style.fontSize || 72, 48)}px`,
-                    fontWeight: draft.title1Style.fontWeight || "bold",
-                    fontStyle: draft.title1Style.italic ? "italic" : "normal",
-                    color: draft.title1Style.color || "#ffffff",
-                  }}
-                  className="font-display leading-tight"
-                >
-                  {draft.title1}
-                </h1>
-                <h1
-                  style={{
-                    fontSize: `${Math.min(draft.title2Style.fontSize || 72, 48)}px`,
-                    fontWeight: draft.title2Style.fontWeight || "bold",
-                    fontStyle: draft.title2Style.italic ? "italic" : "normal",
-                    color: draft.title2Style.color || "#FF3B30",
-                  }}
-                  className="font-display leading-tight"
-                >
-                  {draft.title2}
-                </h1>
-                <p
-                  className="max-w-md mt-3 leading-relaxed"
-                  style={{
-                    fontSize: `${Math.min(draft.subtitleStyle.fontSize || 20, 16)}px`,
-                    fontWeight: draft.subtitleStyle.fontWeight || "normal",
-                    fontStyle: draft.subtitleStyle.italic ? "italic" : "normal",
-                    color: draft.subtitleStyle.color || "#ffffffcc",
-                  }}
-                >
-                  {draft.subtitle}
-                </p>
-              </div>
-            </div>
-            {/* Preview dots */}
-            <div className="absolute bottom-3 right-3 flex gap-1.5">
-              {currentSlides.map((_, i) => (
-                <div key={i} className="w-2 h-2 rounded-full" style={{ background: i === 0 ? "hsl(348, 83%, 40%)" : "rgba(255,255,255,0.4)" }} />
-              ))}
-            </div>
+        <div className="neu-card p-5 space-y-3 shadow-lg">
+          <div className="flex items-center justify-between">
+            <h3 className="font-display text-lg font-semibold text-foreground">Live Preview</h3>
+            <span className="text-xs text-muted-foreground">Unsaved changes preview · Click "Update" to publish</span>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {(["en", "ar"] as const).map((lang) => {
+              const isAr = lang === "ar";
+              const t1Style = isAr ? { ...draft.title1Style, ...draft.title1StyleAr } : draft.title1Style;
+              const t2Style = isAr ? { ...draft.title2Style, ...draft.title2StyleAr } : draft.title2Style;
+              const subStyle = isAr ? { ...draft.subtitleStyle, ...draft.subtitleStyleAr } : draft.subtitleStyle;
+              const t1 = isAr ? (draft.title1_ar || draft.title1) : draft.title1;
+              const t2 = isAr ? (draft.title2_ar || draft.title2) : draft.title2;
+              const sub = isAr ? (draft.subtitle_ar || draft.subtitle) : draft.subtitle;
+              const arFont = isAr ? "'Cairo', 'Tajawal', sans-serif" : undefined;
+              return (
+                <div key={lang} className="space-y-2">
+                  <div className="flex items-center justify-between px-1">
+                    <span className="text-[10px] uppercase font-semibold tracking-wider text-muted-foreground">
+                      {isAr ? "AR · العربية (RTL)" : "EN · English (LTR)"}
+                    </span>
+                  </div>
+                  <div
+                    className="relative rounded-xl overflow-hidden border border-border"
+                    style={{ height: 260 }}
+                    dir={isAr ? "rtl" : "ltr"}
+                  >
+                    <img src={currentSlides[0]} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                    <div className="absolute inset-0" style={{ background: `rgba(0,0,0,${draft.overlayOpacity / 100})` }} />
+                    <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+                      <h1
+                        style={{
+                          fontSize: `${Math.min(t1Style.fontSize || 72, 36)}px`,
+                          fontWeight: t1Style.fontWeight || "bold",
+                          fontStyle: t1Style.italic ? "italic" : "normal",
+                          color: t1Style.color || "#ffffff",
+                          fontFamily: t1Style.fontFamily || arFont,
+                        }}
+                        className="font-display leading-tight"
+                      >
+                        {t1}
+                      </h1>
+                      <h1
+                        style={{
+                          fontSize: `${Math.min(t2Style.fontSize || 72, 36)}px`,
+                          fontWeight: t2Style.fontWeight || "bold",
+                          fontStyle: t2Style.italic ? "italic" : "normal",
+                          color: t2Style.color || "#FF3B30",
+                          fontFamily: t2Style.fontFamily || arFont,
+                        }}
+                        className="font-display leading-tight"
+                      >
+                        {t2}
+                      </h1>
+                      <p
+                        className="max-w-md mt-3 leading-relaxed"
+                        style={{
+                          fontSize: `${Math.min(subStyle.fontSize || 20, 14)}px`,
+                          fontWeight: subStyle.fontWeight || "normal",
+                          fontStyle: subStyle.italic ? "italic" : "normal",
+                          color: subStyle.color || "#ffffffcc",
+                          fontFamily: subStyle.fontFamily || arFont,
+                        }}
+                      >
+                        {sub}
+                      </p>
+                    </div>
+                    <div className={`absolute bottom-3 ${isAr ? "left-3" : "right-3"} flex gap-1.5`}>
+                      {currentSlides.map((_, i) => (
+                        <div key={i} className="w-2 h-2 rounded-full" style={{ background: i === 0 ? "hsl(348, 83%, 40%)" : "rgba(255,255,255,0.4)" }} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
