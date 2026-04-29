@@ -82,6 +82,9 @@ export default function Navbar() {
       if (!searchWrapRef.current?.contains(e.target as Node)) {
         if (!query.trim()) setSearchOpen(false);
       }
+      if (!userMenuRef.current?.contains(e.target as Node)) {
+        setUserMenuOpen(false);
+      }
     };
     const onEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -328,12 +331,26 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
-          <button onClick={() => { setMobileOpen(false); navigate("/admin-crm"); }} className="block w-full text-center px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground">
-            {t("nav.admin")}
-          </button>
+          {user ? (
+            <div className="space-y-2">
+              {user.role === "admin" && (
+                <button onClick={() => { setMobileOpen(false); navigate("/admin-crm"); }} className="block w-full text-center px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground">
+                  {t("auth.adminPanel")}
+                </button>
+              )}
+              <button onClick={() => { setMobileOpen(false); logout(); }} className="block w-full text-center px-5 py-2.5 rounded-xl text-sm font-semibold border border-border text-destructive">
+                {t("auth.logout")}
+              </button>
+            </div>
+          ) : (
+            <button onClick={() => { setMobileOpen(false); setLoginRole("user"); setLoginOpen(true); }} className="block w-full text-center px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-foreground">
+              {t("nav.login")}
+            </button>
+          )}
           <div className="flex justify-center"><LangToggle /></div>
         </div>
       )}
+      <LoginModal open={loginOpen} onOpenChange={setLoginOpen} defaultRole={loginRole} />
     </nav>
   );
 }
