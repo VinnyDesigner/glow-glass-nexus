@@ -1,31 +1,26 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-import { Search, X } from "lucide-react";
+import { Search, X, LogOut, ShieldCheck, ChevronDown } from "lucide-react";
 import igaHeaderLogo from "@/assets/iga-header-logo.png";
 import { useUiStore } from "@/stores/uiStore";
 import { useContentStore } from "@/stores/contentStore";
+import { useAuthStore } from "@/stores/authStore";
 import { useT } from "@/lib/i18n";
 import { buildSearchIndex, searchHits } from "@/lib/searchIndex";
+import LoginModal from "@/components/LoginModal";
 
 function LangToggle({ className = "" }: { className?: string }) {
   const { language, setLanguage } = useUiStore();
+  const next = language === "en" ? "ar" : "en";
+  const label = language === "en" ? "عربي" : "EN";
   return (
-    <div className={`inline-flex items-center rounded-xl border border-border bg-background p-0.5 ${className}`}>
-      <button
-        onClick={() => setLanguage("en")}
-        className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-          language === "en" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-        }`}
-        aria-pressed={language === "en"}
-      >EN</button>
-      <button
-        onClick={() => setLanguage("ar")}
-        className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-          language === "ar" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-        }`}
-        aria-pressed={language === "ar"}
-      >عربي</button>
-    </div>
+    <button
+      onClick={() => setLanguage(next)}
+      className={`h-10 min-w-10 px-3 rounded-full border border-border bg-secondary/50 text-xs font-semibold text-foreground hover:bg-secondary transition-colors ${className}`}
+      aria-label={`Switch to ${next === "ar" ? "Arabic" : "English"}`}
+    >
+      {label}
+    </button>
   );
 }
 
