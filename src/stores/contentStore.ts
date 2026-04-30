@@ -532,6 +532,8 @@ export const useContentStore = create<ContentStore>()(
           const persistedIds = new Set(persisted.vision.cards.map((c: any) => c.id));
           const newDefaults = defaultVision.cards.filter((c) => !persistedIds.has(c.id));
           merged.vision = { ...defaultVision, ...persisted.vision, cards: [...persisted.vision.cards, ...newDefaults] };
+        } else {
+          merged.vision = { ...defaultVision, ...(persisted?.vision || {}), cards: defaultVision.cards };
         }
         if (!persisted?.services?.cards) merged.services = { ...defaultServices, ...(persisted?.services || {}), cards: defaultServices.cards };
         if (!persisted?.users?.cards) merged.users = { ...defaultUsers, ...(persisted?.users || {}), cards: defaultUsers.cards };
