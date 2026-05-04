@@ -182,7 +182,9 @@ export default function Navbar() {
           <div ref={searchWrapRef} className="relative w-10 h-10">
             <form
               onSubmit={handleSearch}
-              className={`absolute right-0 top-0 z-20 flex items-center h-10 rounded-full border transition-[width,background-color,box-shadow] duration-300 ease-out overflow-hidden ${
+              className={`absolute top-0 z-20 flex items-center h-10 rounded-full border transition-[width,background-color,box-shadow] duration-300 ease-out overflow-hidden ${
+                language === "ar" ? "left-0" : "right-0"
+              } ${
                 searchOpen
                   ? "w-72 bg-background border-border shadow-[0_4px_16px_hsla(210,20%,50%,0.15)]"
                   : "w-10 bg-secondary/50 border-border"
