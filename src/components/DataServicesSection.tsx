@@ -35,7 +35,7 @@ export default function DataServicesSection() {
       ro.disconnect();
       window.removeEventListener("resize", measure);
     };
-  }, [dataServices.entities.length]);
+  }, [entities.length]);
 
   // Continuous animation loop
   useEffect(() => {
