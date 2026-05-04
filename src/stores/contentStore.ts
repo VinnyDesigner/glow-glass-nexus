@@ -508,7 +508,7 @@ export const useContentStore = create<ContentStore>()(
     }),
     {
       name: "bsdi-content",
-      version: 7,
+      version: 8,
       migrate: (persisted: any, version: number) => {
         if (persisted?.hero && version < 5) {
           persisted.hero.heroImages = [];
@@ -521,8 +521,20 @@ export const useContentStore = create<ContentStore>()(
           if (persisted?.vision) delete persisted.vision.cards;
         }
         if (version < 7) {
-          // Refresh layers cards so ADMINBOUNDRY uses Bahrain map image
           if (persisted?.layers) delete persisted.layers.cards;
+        }
+        if (version < 8) {
+          // Force refresh of localized strings (hero/about/footer/etc) for older state
+          // by clearing top-level scalar fields so defaults are used; cards/items kept.
+          ["hero", "about", "vision", "services", "users", "layers", "news", "mapView", "dataServices", "footer"].forEach((k) => {
+            if (persisted?.[k]) {
+              // remove only string scalar fields so arrays/objects (cards, items, entities, links) survive
+              Object.keys(persisted[k]).forEach((field) => {
+                const v = persisted[k][field];
+                if (typeof v === "string") delete persisted[k][field];
+              });
+            }
+          });
         }
         return persisted;
       },
