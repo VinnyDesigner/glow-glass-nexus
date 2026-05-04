@@ -80,8 +80,8 @@ export default function DataServicesSection() {
   };
 
   return (
-    <section id="contact" className="section-padding py-0">
-      <div ref={ref} className="container mx-auto py-[60px]">
+    <section id="contact" className="section-padding py-[80px]">
+      <div ref={ref} className="container mx-auto">
         <div className="text-center mb-14" style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? 'fadeBlurUp 0.6s ease-out forwards' : 'none' }}>
           <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground" style={styles.heading}>{L(dataServices.heading, dataServices.heading_ar)}</h2>
           <p className="max-w-2xl mx-auto mt-4 text-muted-foreground text-base leading-relaxed" style={styles.description}>{L(dataServices.description, dataServices.description_ar)}</p>
