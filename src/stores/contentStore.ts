@@ -231,93 +231,75 @@ interface ContentStore {
 }
 
 // ============= Light, infrastructure-themed imagery (curated to match descriptions) =============
-// All imagery sourced from Bahrain (Manama skyline, World Trade Center, Bahrain Bay,
-// Bahrain Fort, Tree of Life, King Fahd Causeway, etc.) so every card stays on-brand
-// for Bahrain infrastructure.
-const BH = {
-  manamaSkyline: "https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=800&q=80", // Manama skyline
-  bahrainWtc: "https://images.unsplash.com/photo-1583089892943-e02e5b017b6a?w=800&q=80",   // Bahrain WTC towers
-  bahrainBay: "https://images.unsplash.com/photo-1580752300992-559f8e0734e8?w=800&q=80",    // Bahrain Bay
-  manamaNight: "https://images.unsplash.com/photo-1605281317010-fe5ffe798166?w=800&q=80",   // Manama at night
-  bahrainFort: "https://images.unsplash.com/photo-1591019479261-1a103585c559?w=800&q=80",   // Qal'at al-Bahrain
-  treeOfLife: "https://images.unsplash.com/photo-1602082626675-b9d1147c8424?w=800&q=80",    // Tree of Life Bahrain
-  causeway: "https://images.unsplash.com/photo-1568871391420-9b6e0fc1d6f3?w=800&q=80",      // King Fahd Causeway
-  bahrainAerial: "https://images.unsplash.com/photo-1579014755390-1e5f5ee23a02?w=800&q=80", // Aerial Bahrain
-  bahrainMosque: "https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=800&q=80", // Al Fateh Mosque
-  bahrainDesert: "https://images.unsplash.com/photo-1518562180175-34a163b1a9a6?w=800&q=80", // Bahrain landscape
-  manamaStreet: "https://images.unsplash.com/photo-1577127294916-89572a9bcc7a?w=800&q=80",  // Manama street
-  bahrainCorniche: "https://images.unsplash.com/photo-1548013146-72479768bada?w=800&q=80",  // Corniche / sea front
-};
-
 const IMG = {
-  // Energy / utilities — Bahrain context
-  solar: BH.bahrainDesert,
-  windTurbines: BH.bahrainAerial,
-  powerLines: BH.bahrainAerial,
-  pipeline: BH.bahrainAerial,
-  oilGas: BH.bahrainDesert,
-  waterTreatment: BH.bahrainBay,
-  districtCooling: BH.bahrainWtc,
+  // Energy / utilities
+  solar: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80",
+  windTurbines: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80",
+  powerLines: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80",
+  pipeline: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&q=80",
+  oilGas: "https://images.unsplash.com/photo-1518306727298-4c17e1bf6e67?w=800&q=80",
+  waterTreatment: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80",
+  districtCooling: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&q=80",
 
-  // Roads / transport — Bahrain
-  highway: BH.causeway,
-  aerialRoad: BH.bahrainAerial,
-  bridge: BH.causeway,
-  bus: BH.manamaStreet,
-  airport: BH.bahrainAerial,
-  pavement: BH.manamaStreet,
-  underground: BH.manamaStreet,
+  // Roads / transport
+  highway: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&q=80",
+  aerialRoad: "https://images.unsplash.com/photo-1494522855154-9297ac14b55f?w=800&q=80",
+  bridge: "https://images.unsplash.com/photo-1473073898421-f0fa0fffd5b8?w=800&q=80",
+  bus: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=800&q=80",
+  airport: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=80",
+  pavement: "https://images.unsplash.com/photo-1515162305285-0293e4767cc2?w=800&q=80",
+  underground: "https://images.unsplash.com/photo-1558981852-426c6c22a060?w=800&q=80",
 
-  // Buildings / urban — Bahrain
-  industrialPlant: BH.bahrainAerial,
-  factory: BH.bahrainAerial,
-  smartCity: BH.manamaSkyline,
-  blueprint: bahrainMapView,
-  cityPlan: bahrainMapView,
-  buildings: BH.manamaSkyline,
-  urbanPlan: BH.bahrainBay,
-  zones: bahrainMapView,
-  addresses: BH.manamaStreet,
-  cadastral: bahrainMapView,
+  // Buildings / urban
+  industrialPlant: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&q=80",
+  factory: "https://images.unsplash.com/photo-1581091012184-5c8c8d04bf2e?w=800&q=80",
+  smartCity: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80",
+  blueprint: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80",
+  cityPlan: "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800&q=80",
+  buildings: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80",
+  urbanPlan: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&q=80",
+  zones: "https://images.unsplash.com/photo-1494522358652-f30e61a60313?w=800&q=80",
+  addresses: "https://images.unsplash.com/photo-1524813686514-a57563d77965?w=800&q=80",
+  cadastral: "https://images.unsplash.com/photo-1448630360428-65456885c650?w=800&q=80",
   adminBoundary: bahrainMapView,
-  heritage: BH.bahrainFort,
-  university: BH.bahrainWtc,
+  heritage: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800&q=80",
+  university: "https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80",
 
-  // Tech / data — neutral Bahrain skyline (no generic world tech imagery)
-  telecomTower: BH.manamaSkyline,
-  dataCenter: BH.bahrainWtc,
-  serverNetwork: BH.bahrainWtc,
-  apiCode: BH.manamaNight,
-  analyticsDashboard: bahrainMapView,
-  geoDashboard: bahrainMapView,
-  decisionSupport: BH.manamaSkyline,
-  governance: BH.bahrainFort,
-  consoleAdmin: bahrainMapView,
-  geoCatalog: bahrainMapView,
-  smartMap: bahrainMapView,
-  geoIntelligence: bahrainMapView,
-  partnership: BH.bahrainWtc,
-  unifiedPortal: bahrainMapView,
+  // Tech / data
+  telecomTower: "https://images.unsplash.com/photo-1532093268420-c391bccc8d6d?w=800&q=80",
+  dataCenter: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
+  serverNetwork: "https://images.unsplash.com/photo-1597852074816-d933c7d2b988?w=800&q=80",
+  apiCode: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=800&q=80",
+  analyticsDashboard: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
+  geoDashboard: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
+  decisionSupport: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",
+  governance: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80",
+  consoleAdmin: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
+  geoCatalog: "https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?w=800&q=80",
+  smartMap: "https://images.unsplash.com/photo-1569336415962-a4bd9f69c07a?w=800&q=80",
+  geoIntelligence: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
+  partnership: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80",
+  unifiedPortal: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
 
-  // Geo / nature — Bahrain
-  satellite: bahrainMapView,
-  satelliteImagery: bahrainMapView,
-  terrain: BH.bahrainDesert,
-  topographic: bahrainMapView,
-  vegetation: BH.treeOfLife,
-  greenspace: BH.treeOfLife,
+  // Geo / nature
+  satellite: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&q=80",
+  satelliteImagery: "https://images.unsplash.com/photo-1564053489984-317bbd824340?w=800&q=80",
+  terrain: "https://images.unsplash.com/photo-1547234935-80c7145ec969?w=800&q=80",
+  topographic: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&q=80",
+  vegetation: "https://images.unsplash.com/photo-1597177884890-ed40ee93f0c6?w=800&q=80",
+  greenspace: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80",
 
-  // People / institutions — Bahrain
-  govtBuilding: BH.bahrainMosque,
-  hospital: BH.bahrainWtc,
-  research: BH.bahrainWtc,
-  developers: BH.manamaSkyline,
-  emergency: BH.manamaStreet,
-  population: BH.manamaSkyline,
-  construction: BH.bahrainAerial,
+  // People / institutions
+  govtBuilding: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+  hospital: "https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=800&q=80",
+  research: "https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=800&q=80",
+  developers: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&q=80",
+  emergency: "https://images.unsplash.com/photo-1599301715049-72366c8a9e3a?w=800&q=80",
+  population: "https://images.unsplash.com/photo-1519074069390-98277fc02a5c?w=800&q=80",
+  construction: "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=800&q=80",
 
   bahrainMap: bahrainMapView,
-  loginBg: BH.manamaNight,
+  loginBg: "https://images.unsplash.com/photo-1518684079-3c830dcef090?w=1600&q=80",
 };
 
 const OLD_BAHRAIN_MAP_URLS = [
@@ -526,7 +508,7 @@ export const useContentStore = create<ContentStore>()(
     }),
     {
       name: "bsdi-content",
-      version: 8,
+      version: 7,
       migrate: (persisted: any, version: number) => {
         if (persisted?.hero && version < 5) {
           persisted.hero.heroImages = [];
@@ -539,25 +521,8 @@ export const useContentStore = create<ContentStore>()(
           if (persisted?.vision) delete persisted.vision.cards;
         }
         if (version < 7) {
+          // Refresh layers cards so ADMINBOUNDRY uses Bahrain map image
           if (persisted?.layers) delete persisted.layers.cards;
-        }
-        if (version < 8) {
-          // Refresh all card imagery to Bahrain-specific images while keeping user text edits.
-          const remap = (arr: any[] | undefined, defaults: any[], key: string = "image") => {
-            if (!Array.isArray(arr)) return;
-            const byId = new Map(defaults.map((d) => [d.id, d]));
-            arr.forEach((c) => {
-              const d: any = byId.get(c.id);
-              if (d && d[key]) c[key] = d[key];
-            });
-          };
-          remap(persisted?.layers?.cards, defaultLayers.cards);
-          remap(persisted?.users?.cards, defaultUsers.cards);
-          remap(persisted?.vision?.cards, defaultVision.cards);
-          remap(persisted?.services?.cards, defaultServices.cards);
-          remap(persisted?.news?.items, defaultNews.items);
-          if (persisted?.mapView) persisted.mapView.previewImage = defaultMapView.previewImage;
-          if (persisted?.auth) persisted.auth.loginBackground = defaultAuth.loginBackground;
         }
         return persisted;
       },
