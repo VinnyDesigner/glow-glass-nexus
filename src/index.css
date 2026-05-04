@@ -84,6 +84,13 @@
     overflow: hidden;
   }
 
+  /* Admin editor card — clean white panel used across admin screens */
+  .neu-card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: 1rem;
+  }
+
   /* Stat card */
   .stat-card {
     background: hsl(210, 20%, 93%);
