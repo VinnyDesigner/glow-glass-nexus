@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import bahrainMapView from "@/assets/bahrain-map-view.png";
-import botanicalAtlas from "@/assets/botanical-atlas.jpg";
 
 // ============= Types =============
 
@@ -287,7 +286,7 @@ const IMG = {
   satelliteImagery: "https://images.unsplash.com/photo-1564053489984-317bbd824340?w=800&q=80",
   terrain: "https://images.unsplash.com/photo-1547234935-80c7145ec969?w=800&q=80",
   topographic: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&q=80",
-  vegetation: botanicalAtlas,
+  vegetation: "https://images.unsplash.com/photo-1597177884890-ed40ee93f0c6?w=800&q=80",
   greenspace: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80",
 
   // People / institutions
