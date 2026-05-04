@@ -576,6 +576,25 @@ export const useContentStore = create<ContentStore>()(
           merged.mapView = { ...merged.mapView, previewImage: defaultMapView.previewImage };
         }
         if (!persisted?.auth) merged.auth = defaultAuth;
+
+        // Backfill _ar label fields on footer links by id from defaults
+        const backfillById = (persistedArr: any[] | undefined, defaultArr: any[], arFields: string[]) => {
+          if (!persistedArr) return defaultArr;
+          return persistedArr.map((item) => {
+            const def = defaultArr.find((d) => d.id === item.id);
+            if (!def) return item;
+            const next = { ...item };
+            arFields.forEach((f) => { if (!next[f] && def[f]) next[f] = def[f]; });
+            return next;
+          });
+        };
+        if (merged.footer) {
+          merged.footer = {
+            ...merged.footer,
+            quickLinks: backfillById(merged.footer.quickLinks, defaultFooter.quickLinks, ["label_ar"]),
+            externalLinks: backfillById(merged.footer.externalLinks, defaultFooter.externalLinks, ["label_ar"]),
+          };
+        }
         return merged;
       },
     }
