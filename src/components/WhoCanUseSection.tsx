@@ -40,7 +40,7 @@ export default function WhoCanUseSection() {
 
       <div ref={ref} className="container mx-auto relative z-10">
         {/* Header */}
-        <div className={`text-center mb-20 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+        <div className={`text-center mb-8 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground" style={styles.heading}>
             {L(users.heading, users.heading_ar)}
           </h2>
