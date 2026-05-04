@@ -226,7 +226,7 @@ export default function Navbar() {
             </form>
 
             {searchOpen && dropdownOpen && query.trim() && (
-              <div className="absolute top-full mt-2 right-0 w-80 bg-card border border-border rounded-2xl shadow-lg overflow-hidden z-50">
+              <div className={`absolute top-full mt-2 ${language === "ar" ? "left-0" : "right-0"} w-80 bg-card border border-border rounded-2xl shadow-lg overflow-hidden z-50`}>
                 {previewHits.length === 0 ? (
                   <div className="p-4 text-sm text-muted-foreground text-center">{t("search.noResults")}</div>
                 ) : (
