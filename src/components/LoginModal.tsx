@@ -9,6 +9,7 @@ import { Lock, ShieldCheck, User as UserIcon, AlertCircle } from "lucide-react";
 import { useAuthStore, DEMO_CREDENTIALS, Role } from "@/stores/authStore";
 import { useContentStore } from "@/stores/contentStore";
 import { useT } from "@/lib/i18n";
+import { useUiStore } from "@/stores/uiStore";
 import { useToast } from "@/hooks/use-toast";
 
 interface LoginModalProps {
