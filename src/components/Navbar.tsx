@@ -158,7 +158,7 @@ export default function Navbar() {
         paddingBottom: scrolled ? '0.5rem' : '0.75rem',
       }}
     >
-      <div ref={containerRef} className="container mx-auto flex items-center gap-3 px-4 md:px-6">
+      <div ref={containerRef} className="container mx-auto flex items-center gap-3 px-6">
         <Link to="/" className="flex items-center gap-3 shrink-0">
           <img src={igaHeaderLogo} alt="Information & eGovernment Authority" className="h-9 md:h-11" />
         </Link>
