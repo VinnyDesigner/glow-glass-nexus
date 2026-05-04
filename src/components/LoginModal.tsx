@@ -58,6 +58,7 @@ export default function LoginModal({ open, onOpenChange, defaultRole = "user" }:
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
+        dir={dir}
         className="max-w-md p-0 overflow-hidden border-none bg-transparent shadow-none [&>button]:text-white [&>button]:bg-black/30 [&>button]:rounded-full [&>button]:p-1"
       >
         {/* Background image + blur layer (covers the full viewport behind the card) */}
