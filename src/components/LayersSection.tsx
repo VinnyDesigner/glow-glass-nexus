@@ -5,6 +5,7 @@ import { useLocalized, useT, useSectionStyles } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ArrowRight } from "lucide-react";
+import bahrainFallback from "@/assets/bahrain-map-view.png";
 
 function LayerCardItem({ card }: { card: LayerCardType }) {
   const L = useLocalized();
@@ -14,9 +15,13 @@ function LayerCardItem({ card }: { card: LayerCardType }) {
     <div className="group rounded-2xl overflow-hidden bg-card border border-border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-full flex flex-col">
       <div className="aspect-square overflow-hidden bg-muted">
         <img
-          src={card.image}
+          src={card.image || bahrainFallback}
           alt={title}
           loading="lazy"
+          onError={(e) => {
+            const img = e.currentTarget;
+            if (img.src !== bahrainFallback) img.src = bahrainFallback;
+          }}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>
