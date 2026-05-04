@@ -40,7 +40,6 @@ export default function MapViewSection() {
         </div>
 
         <div
-          className="max-w-5xl mx-auto"
           style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? "fadeBlurUp 0.6s ease-out 0.15s forwards" : "none" }}
         >
           <div className="clean-card overflow-hidden">
