@@ -232,15 +232,3 @@
 html {
   scroll-behavior: smooth;
 }
-
-/* RTL: flip directional arrow icons (lucide arrow-right / arrow-left / chevron-right / chevron-left / move-right / move-left) */
-[dir="rtl"] .lucide-arrow-right,
-[dir="rtl"] .lucide-arrow-left,
-[dir="rtl"] .lucide-chevron-right,
-[dir="rtl"] .lucide-chevron-left,
-[dir="rtl"] .lucide-move-right,
-[dir="rtl"] .lucide-move-left,
-[dir="rtl"] .lucide-arrow-up-right,
-[dir="rtl"] .lucide-arrow-down-right {
-  transform: scaleX(-1);
-}
