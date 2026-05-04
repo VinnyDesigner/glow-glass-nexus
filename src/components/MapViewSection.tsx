@@ -25,7 +25,7 @@ export default function MapViewSection() {
     <section id="map-view" className="section-padding py-[56px]">
       <div ref={ref} className="container mx-auto">
         <div
-          className="text-center max-w-3xl mx-auto mb-12"
+          className="text-center max-w-3xl mx-auto mb-8"
           style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? "fadeBlurUp 0.6s ease-out forwards" : "none" }}
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-4">
