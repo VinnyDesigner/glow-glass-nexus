@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useScrollAnimation } from "./useScrollAnimation";
 import { useContentStore } from "@/stores/contentStore";
 import { useLocalized, useSectionStyles } from "@/lib/i18n";
@@ -10,14 +10,73 @@ export default function DataServicesSection() {
   const { dataServices } = useContentStore();
   const L = useLocalized();
   const styles = useSectionStyles(dataServices);
-  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const trackRef = useRef<HTMLDivElement>(null);
+  const offsetRef = useRef(0); // negative = moves left
+  const halfWidthRef = useRef(0);
+  const pausedRef = useRef(false);
+  const [isPaused, setIsPaused] = useState(false);
 
   const duplicated = [...dataServices.entities, ...dataServices.entities];
 
-  const scroll = (dir: "left" | "right") => {
-    if (!scrollRef.current) return;
-    const amount = 220;
-    scrollRef.current.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
+  // Measure the width of one set (half of the duplicated track)
+  useEffect(() => {
+    const measure = () => {
+      if (trackRef.current) {
+        halfWidthRef.current = trackRef.current.scrollWidth / 2;
+      }
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (trackRef.current) ro.observe(trackRef.current);
+    window.addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [dataServices.entities.length]);
+
+  // Continuous animation loop
+  useEffect(() => {
+    let raf: number;
+    let last = performance.now();
+    const speed = 40; // px per second
+
+    const tick = (now: number) => {
+      const dt = (now - last) / 1000;
+      last = now;
+      if (!pausedRef.current && halfWidthRef.current > 0) {
+        offsetRef.current -= speed * dt;
+        // Wrap around in both directions
+        if (offsetRef.current <= -halfWidthRef.current) {
+          offsetRef.current += halfWidthRef.current;
+        } else if (offsetRef.current > 0) {
+          offsetRef.current -= halfWidthRef.current;
+        }
+        if (trackRef.current) {
+          trackRef.current.style.transform = `translate3d(${offsetRef.current}px, 0, 0)`;
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const nudge = (dir: "left" | "right") => {
+    const step = 240;
+    offsetRef.current += dir === "left" ? step : -step;
+    if (halfWidthRef.current > 0) {
+      if (offsetRef.current <= -halfWidthRef.current) offsetRef.current += halfWidthRef.current;
+      else if (offsetRef.current > 0) offsetRef.current -= halfWidthRef.current;
+    }
+    if (trackRef.current) {
+      trackRef.current.style.transition = "transform 0.5s ease-out";
+      trackRef.current.style.transform = `translate3d(${offsetRef.current}px, 0, 0)`;
+      window.setTimeout(() => {
+        if (trackRef.current) trackRef.current.style.transition = "";
+      }, 520);
+    }
   };
 
   return (
@@ -33,13 +92,22 @@ export default function DataServicesSection() {
             variant="outline"
             size="icon"
             className="absolute -left-4 z-10 h-10 w-10 rounded-full bg-card shadow-md border-border hover:bg-accent shrink-0"
-            onClick={() => scroll("left")}
+            onClick={() => nudge("left")}
+            aria-label="Scroll left"
           >
             <ChevronLeft className="h-5 w-5" />
           </Button>
 
-          <div className="overflow-hidden rounded-2xl mx-8">
-            <div ref={scrollRef} className="flex gap-6 animate-marquee hover:[animation-play-state:paused]">
+          <div
+            className="overflow-hidden rounded-2xl mx-8 w-full"
+            onMouseEnter={() => { pausedRef.current = true; setIsPaused(true); }}
+            onMouseLeave={() => { pausedRef.current = false; setIsPaused(false); }}
+          >
+            <div
+              ref={trackRef}
+              className="flex gap-6 will-change-transform"
+              style={{ width: "max-content" }}
+            >
               {duplicated.map((entity, i) => {
                 const name = L(entity.name, entity.name_ar);
                 return (
@@ -59,7 +127,8 @@ export default function DataServicesSection() {
             variant="outline"
             size="icon"
             className="absolute -right-4 z-10 h-10 w-10 rounded-full bg-card shadow-md border-border hover:bg-accent shrink-0"
-            onClick={() => scroll("right")}
+            onClick={() => nudge("right")}
+            aria-label="Scroll right"
           >
             <ChevronRight className="h-5 w-5" />
           </Button>
