@@ -88,7 +88,7 @@ export default function DataServicesSection() {
           <p className="max-w-2xl mx-auto mt-4 text-muted-foreground text-base leading-relaxed" style={styles.description}>{L(dataServices.description, dataServices.description_ar)}</p>
         </div>
 
-        <div dir="ltr" className="relative flex items-center">
+        <div className="relative flex items-center">
           <Button
             variant="outline"
             size="icon"
