@@ -5,6 +5,7 @@ import { useLocalized, useT, useSectionStyles } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ArrowRight } from "lucide-react";
+import bahrainFallback from "@/assets/bahrain-map-view.png";
 
 function LayerCardItem({ card }: { card: LayerCardType }) {
   const L = useLocalized();
