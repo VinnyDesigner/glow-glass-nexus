@@ -182,7 +182,9 @@ export default function Navbar() {
           <div ref={searchWrapRef} className="relative w-10 h-10">
             <form
               onSubmit={handleSearch}
-              className={`absolute right-0 top-0 z-20 flex items-center h-10 rounded-full border transition-[width,background-color,box-shadow] duration-300 ease-out overflow-hidden ${
+              className={`absolute top-0 z-20 flex items-center h-10 rounded-full border transition-[width,background-color,box-shadow] duration-300 ease-out overflow-hidden ${
+                language === "ar" ? "left-0" : "right-0"
+              } ${
                 searchOpen
                   ? "w-72 bg-background border-border shadow-[0_4px_16px_hsla(210,20%,50%,0.15)]"
                   : "w-10 bg-secondary/50 border-border"
@@ -224,7 +226,7 @@ export default function Navbar() {
             </form>
 
             {searchOpen && dropdownOpen && query.trim() && (
-              <div className="absolute top-full mt-2 right-0 w-80 bg-card border border-border rounded-2xl shadow-lg overflow-hidden z-50">
+              <div className={`absolute top-full mt-2 ${language === "ar" ? "left-0" : "right-0"} w-80 bg-card border border-border rounded-2xl shadow-lg overflow-hidden z-50`}>
                 {previewHits.length === 0 ? (
                   <div className="p-4 text-sm text-muted-foreground text-center">{t("search.noResults")}</div>
                 ) : (
