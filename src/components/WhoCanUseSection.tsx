@@ -29,7 +29,7 @@ export default function WhoCanUseSection() {
   const styles = useSectionStyles(users);
 
   return (
-    <section id="who-can-use" className="relative overflow-hidden section-padding py-[80px]">
+    <section id="who-can-use" className="relative overflow-hidden section-padding py-[56px]">
       {/* Background elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-10 right-10 w-80 h-80 rounded-full opacity-[0.06]"

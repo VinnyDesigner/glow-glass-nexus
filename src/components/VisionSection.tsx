@@ -21,7 +21,7 @@ export default function VisionSection() {
   const styles = useSectionStyles(vision);
 
   return (
-    <section id="vision" className="relative overflow-hidden section-padding py-[80px]">
+    <section id="vision" className="relative overflow-hidden section-padding py-[56px]">
       {/* Background blurred blobs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div

@@ -33,7 +33,7 @@ export default function NewsSection() {
   }, [news.items]);
 
   return (
-    <section id="news" className="section-padding py-[80px]">
+    <section id="news" className="section-padding py-[56px]">
       <div ref={ref} className="container mx-auto">
         <div
           className="text-center max-w-3xl mx-auto mb-12"
