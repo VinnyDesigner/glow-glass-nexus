@@ -20,6 +20,8 @@ interface LoginModalProps {
 
 export default function LoginModal({ open, onOpenChange, defaultRole = "user" }: LoginModalProps) {
   const t = useT();
+  const language = useUiStore((s) => s.language);
+  const dir = language === "ar" ? "rtl" : "ltr";
   const navigate = useNavigate();
   const login = useAuthStore((s) => s.login);
   const loginBackground = useContentStore((s) => s.auth.loginBackground);
