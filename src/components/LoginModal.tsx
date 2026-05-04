@@ -86,18 +86,17 @@ export default function LoginModal({ open, onOpenChange, defaultRole = "user" }:
               <TabsContent key={r} value={r} className="mt-0">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-1.5">
-                    <Label htmlFor={`u-${r}`} className="text-xs block">{t("auth.username")}</Label>
+                    <Label htmlFor={`u-${r}`} className="text-xs">{t("auth.username")}</Label>
                     <Input
                       id={`u-${r}`}
                       autoComplete="username"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       placeholder={DEMO_CREDENTIALS[r].username}
-                      className={dir === "rtl" ? "text-right" : "text-left"}
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor={`p-${r}`} className="text-xs block">{t("auth.password")}</Label>
+                    <Label htmlFor={`p-${r}`} className="text-xs">{t("auth.password")}</Label>
                     <Input
                       id={`p-${r}`}
                       type="password"
@@ -105,7 +104,6 @@ export default function LoginModal({ open, onOpenChange, defaultRole = "user" }:
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
-                      className={dir === "rtl" ? "text-right" : "text-left"}
                     />
                   </div>
 
