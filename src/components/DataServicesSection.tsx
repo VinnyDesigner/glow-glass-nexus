@@ -100,6 +100,7 @@ export default function DataServicesSection() {
           </Button>
 
           <div
+            dir="ltr"
             className="overflow-hidden rounded-2xl mx-8 w-full"
             onMouseEnter={() => { pausedRef.current = true; setIsPaused(true); }}
             onMouseLeave={() => { pausedRef.current = false; setIsPaused(false); }}
