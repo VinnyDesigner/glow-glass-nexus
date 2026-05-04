@@ -548,6 +548,14 @@ export const useContentStore = create<ContentStore>()(
         if (!persisted?.dataServices?.entities) {
           merged.dataServices = { ...defaultDataServices, ...(persisted?.dataServices || {}), entities: defaultDataServices.entities };
         }
+        // Backfill missing Arabic strings from defaults (for users with older persisted state)
+        if (merged.dataServices) {
+          merged.dataServices = {
+            ...merged.dataServices,
+            heading_ar: merged.dataServices.heading_ar || defaultDataServices.heading_ar,
+            description_ar: merged.dataServices.description_ar || defaultDataServices.description_ar,
+          };
+        }
         if (!persisted?.mapView) merged.mapView = defaultMapView;
         if (persisted?.mapView && OLD_MAP_HEADINGS.includes(persisted.mapView.heading)) {
           merged.mapView = { ...merged.mapView, heading: defaultMapView.heading, heading_ar: defaultMapView.heading_ar, description: defaultMapView.description, description_ar: defaultMapView.description_ar };
