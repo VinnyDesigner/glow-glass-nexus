@@ -526,7 +526,7 @@ export const useContentStore = create<ContentStore>()(
     }),
     {
       name: "bsdi-content",
-      version: 7,
+      version: 8,
       migrate: (persisted: any, version: number) => {
         if (persisted?.hero && version < 5) {
           persisted.hero.heroImages = [];
@@ -539,8 +539,25 @@ export const useContentStore = create<ContentStore>()(
           if (persisted?.vision) delete persisted.vision.cards;
         }
         if (version < 7) {
-          // Refresh layers cards so ADMINBOUNDRY uses Bahrain map image
           if (persisted?.layers) delete persisted.layers.cards;
+        }
+        if (version < 8) {
+          // Refresh all card imagery to Bahrain-specific images while keeping user text edits.
+          const remap = (arr: any[] | undefined, defaults: any[], key: string = "image") => {
+            if (!Array.isArray(arr)) return;
+            const byId = new Map(defaults.map((d) => [d.id, d]));
+            arr.forEach((c) => {
+              const d: any = byId.get(c.id);
+              if (d && d[key]) c[key] = d[key];
+            });
+          };
+          remap(persisted?.layers?.cards, defaultLayers.cards);
+          remap(persisted?.users?.cards, defaultUsers.cards);
+          remap(persisted?.vision?.cards, defaultVision.cards);
+          remap(persisted?.services?.cards, defaultServices.cards);
+          remap(persisted?.news?.items, defaultNews.items);
+          if (persisted?.mapView) persisted.mapView.previewImage = defaultMapView.previewImage;
+          if (persisted?.auth) persisted.auth.loginBackground = defaultAuth.loginBackground;
         }
         return persisted;
       },
