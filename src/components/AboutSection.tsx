@@ -56,7 +56,7 @@ export default function AboutSection() {
   const styles = useSectionStyles(about);
 
   return (
-    <section id="about" className="section-padding my-0 py-[80px]">
+    <section id="about" className="section-padding my-0 py-[56px]">
       <div ref={ref} className="container mx-auto">
         <div className="max-w-3xl mx-auto text-center" style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? 'fadeBlurUp 0.6s ease-out forwards' : 'none' }}>
           <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-foreground" style={styles.heading}>{L(about.heading, about.heading_ar)}</h2>

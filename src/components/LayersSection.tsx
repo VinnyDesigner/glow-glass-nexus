@@ -54,7 +54,7 @@ export default function LayersSection() {
   const previewCards = layers.cards.slice(0, 5);
 
   return (
-    <section id="layers" className="section-padding py-[80px]">
+    <section id="layers" className="section-padding py-[56px]">
       <div ref={ref} className="container mx-auto">
         <div
           className="text-center max-w-3xl mx-auto mb-12"

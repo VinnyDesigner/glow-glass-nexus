@@ -22,7 +22,7 @@ export default function MapViewSection() {
   };
 
   return (
-    <section id="map-view" className="section-padding py-[80px]">
+    <section id="map-view" className="section-padding py-[56px]">
       <div ref={ref} className="container mx-auto">
         <div
           className="text-center max-w-3xl mx-auto mb-12"
