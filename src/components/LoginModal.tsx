@@ -9,6 +9,7 @@ import { Lock, ShieldCheck, User as UserIcon, AlertCircle } from "lucide-react";
 import { useAuthStore, DEMO_CREDENTIALS, Role } from "@/stores/authStore";
 import { useContentStore } from "@/stores/contentStore";
 import { useT } from "@/lib/i18n";
+import { useUiStore } from "@/stores/uiStore";
 import { useToast } from "@/hooks/use-toast";
 
 interface LoginModalProps {
@@ -19,6 +20,8 @@ interface LoginModalProps {
 
 export default function LoginModal({ open, onOpenChange, defaultRole = "user" }: LoginModalProps) {
   const t = useT();
+  const language = useUiStore((s) => s.language);
+  const dir = language === "ar" ? "rtl" : "ltr";
   const navigate = useNavigate();
   const login = useAuthStore((s) => s.login);
   const loginBackground = useContentStore((s) => s.auth.loginBackground);
@@ -55,6 +58,7 @@ export default function LoginModal({ open, onOpenChange, defaultRole = "user" }:
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
+        dir={dir}
         className="max-w-md p-0 overflow-hidden border-none bg-transparent shadow-none [&>button]:text-white [&>button]:bg-black/30 [&>button]:rounded-full [&>button]:p-1"
       >
         {/* Background image + blur layer (covers the full viewport behind the card) */}
