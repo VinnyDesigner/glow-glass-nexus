@@ -545,6 +545,9 @@ export const useContentStore = create<ContentStore>()(
           const newItems = defaultNews.items.filter((i) => !persistedIds.has(i.id));
           merged.news = { ...defaultNews, ...persisted.news, items: [...persisted.news.items, ...newItems] };
         }
+        if (!persisted?.dataServices?.entities) {
+          merged.dataServices = { ...defaultDataServices, ...(persisted?.dataServices || {}), entities: defaultDataServices.entities };
+        }
         if (!persisted?.mapView) merged.mapView = defaultMapView;
         if (persisted?.mapView && OLD_MAP_HEADINGS.includes(persisted.mapView.heading)) {
           merged.mapView = { ...merged.mapView, heading: defaultMapView.heading, heading_ar: defaultMapView.heading_ar, description: defaultMapView.description, description_ar: defaultMapView.description_ar };

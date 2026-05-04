@@ -17,7 +17,8 @@ export default function DataServicesSection() {
   const pausedRef = useRef(false);
   const [isPaused, setIsPaused] = useState(false);
 
-  const duplicated = [...dataServices.entities, ...dataServices.entities];
+  const entities = dataServices.entities ?? [];
+  const duplicated = [...entities, ...entities];
 
   // Measure the width of one set (half of the duplicated track)
   useEffect(() => {
@@ -34,7 +35,7 @@ export default function DataServicesSection() {
       ro.disconnect();
       window.removeEventListener("resize", measure);
     };
-  }, [dataServices.entities.length]);
+  }, [entities.length]);
 
   // Continuous animation loop
   useEffect(() => {
