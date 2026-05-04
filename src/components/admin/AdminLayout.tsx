@@ -29,7 +29,6 @@ const tabs = [
   { id: "vision", label: "BSDI Vision", icon: Eye },
   { id: "users", label: "Who Can Use BSDI", icon: Users },
   { id: "data", label: "Data Services", icon: Building2 },
-  { id: "login", label: "Login Page", icon: LogIn },
   { id: "footer", label: "Footer", icon: FileText },
 ];
 
