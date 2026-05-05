@@ -22,10 +22,8 @@ export default function NewsSection() {
   const styles = useSectionStyles(news);
   const [open, setOpen] = useState(false);
 
-  // Priority preview selection: show only flagged items (max 4); fallback to latest 4
-  const sortedItems = useMemo(() => {
-    const priority = news.items.filter((i) => i.priorityPreview);
-    if (priority.length > 0) return priority.slice(0, 4);
+  // All news sorted newest first (for the "All News" popup)
+  const allSorted = useMemo(() => {
     return [...news.items].sort((a, b) => {
       const da = new Date(a.date).getTime();
       const db = new Date(b.date).getTime();
@@ -33,6 +31,13 @@ export default function NewsSection() {
       return db - da;
     });
   }, [news.items]);
+
+  // Priority preview selection: show only flagged items (max 4); fallback to latest 4
+  const sortedItems = useMemo(() => {
+    const priority = news.items.filter((i) => i.priorityPreview);
+    if (priority.length > 0) return priority.slice(0, 4);
+    return allSorted.slice(0, 4);
+  }, [news.items, allSorted]);
 
   return (
     <section id="news" className="section-padding py-[56px]">
