@@ -52,7 +52,7 @@ export default function ServicesSection() {
                 }}
               >
                 <div className="card-image" style={{ aspectRatio: '4/3' }}>
-                  <img src={serviceImages[i % serviceImages.length]} alt={L(service.title, service.title_ar)} className="w-full h-full object-cover" loading="lazy" width={1024} height={768} />
+                  <img src={service.image || serviceImages[i % serviceImages.length]} alt={L(service.title, service.title_ar)} className="w-full h-full object-cover" loading="lazy" width={1024} height={768} />
                 </div>
                 <div className="p-5 flex flex-col flex-1">
                   <h3 className="font-display text-base font-semibold text-foreground mb-1.5">{L(service.title, service.title_ar)}</h3>
