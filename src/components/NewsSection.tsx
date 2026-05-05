@@ -149,12 +149,12 @@ export default function NewsSection() {
 
           <ScrollArea className="max-h-[70vh]">
             <ul className="divide-y divide-border">
-              {sortedItems.length === 0 && (
+              {allSorted.length === 0 && (
                 <li className="px-6 py-10 text-center text-muted-foreground text-sm">
                   {t("news.empty")}
                 </li>
               )}
-              {sortedItems.map((item) => {
+              {allSorted.map((item) => {
                 const title = L(item.title, item.title_ar);
                 const excerpt = L(item.excerpt, item.excerpt_ar);
                 const hasLink = item.link && item.link !== "#";
