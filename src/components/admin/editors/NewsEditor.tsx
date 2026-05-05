@@ -17,8 +17,27 @@ export default function NewsEditor() {
   const [resetOpen, setResetOpen] = useState(false);
   const { toast } = useToast();
 
+  const MAX_PRIORITY = 4;
+  const priorityCount = useMemo(
+    () => draft.items.filter((i) => i.priorityPreview).length,
+    [draft.items],
+  );
+  const priorityLimitReached = priorityCount >= MAX_PRIORITY;
+
   const updateItem = (id: string, patch: Partial<NewsItem>) => {
     setDraft({ ...draft, items: draft.items.map((i) => (i.id === id ? { ...i, ...patch } : i)) });
+  };
+
+  const togglePriority = (id: string, current: boolean) => {
+    if (!current && priorityLimitReached) {
+      toast({
+        title: "Limit reached",
+        description: "You can select only 4 news items for landing preview.",
+        variant: "destructive",
+      });
+      return;
+    }
+    updateItem(id, { priorityPreview: !current });
   };
 
   const addItem = () => {
