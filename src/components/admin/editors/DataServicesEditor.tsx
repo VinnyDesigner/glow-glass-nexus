@@ -19,6 +19,8 @@ export default function DataServicesEditor() {
   const [editModal, setEditModal] = useState(false);
   const [editEntity, setEditEntity] = useState<{ id: string; name: string; logo: string; link: string } | null>(null);
   const [resetOpen, setResetOpen] = useState(false);
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
+  const [cropTarget, setCropTarget] = useState<"new" | "edit" | null>(null);
   const { toast } = useToast();
 
   const handleSave = () => {
