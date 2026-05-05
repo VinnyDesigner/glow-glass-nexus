@@ -279,6 +279,58 @@ export default function AboutEditor() {
                 </div>
               </div>
 
+              {/* Visualization Selector */}
+              <div className="space-y-3 border-t border-border pt-4">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Visualization Type</p>
+                <div className="border border-border rounded-xl p-3 bg-muted/30">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs text-muted-foreground">
+                      Selected: {selectedVizLabel || "None (Text Only)"}
+                    </span>
+                    <Button type="button" variant="outline" size="sm" className="gap-1.5" onClick={() => setVizPickerOpen(true)}>
+                      <BarChart3 size={14} /> Select Visualization
+                    </Button>
+                  </div>
+                  <div className="h-20 flex items-center justify-center bg-card rounded-lg">
+                    {editForm.visualizationType && editForm.visualizationType !== "none" && editForm.visualizationStyle ? (
+                      <div className="w-full px-3">
+                        <StatVisualization
+                          style={editForm.visualizationStyle as VizStyle}
+                          height={70}
+                          data={editForm.vizDataStr ? editForm.vizDataStr.split(",").map((s) => parseFloat(s.trim())).filter((n) => !isNaN(n)) : undefined}
+                          labels={editForm.vizLabelsStr ? editForm.vizLabelsStr.split(",").map((s) => s.trim()).filter(Boolean) : undefined}
+                        />
+                      </div>
+                    ) : (
+                      <span className="text-xs text-muted-foreground">No visualization · Text only</span>
+                    )}
+                  </div>
+                </div>
+
+                {editForm.visualizationType && editForm.visualizationType !== "none" && (
+                  <>
+                    <div>
+                      <Label className="text-xs">Data values (comma-separated)</Label>
+                      <Input
+                        value={editForm.vizDataStr || ""}
+                        onChange={(e) => setEditForm({ ...editForm, vizDataStr: e.target.value })}
+                        placeholder="10, 20, 30, 40"
+                        className="mt-1.5"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-xs">Labels (comma-separated, optional)</Label>
+                      <Input
+                        value={editForm.vizLabelsStr || ""}
+                        onChange={(e) => setEditForm({ ...editForm, vizLabelsStr: e.target.value })}
+                        placeholder="2019, 2020, 2021, 2022"
+                        className="mt-1.5"
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+
               <div className="flex gap-3 pt-2">
                 <Button onClick={saveEdit} className="flex-1" disabled={!editForm.target || !editForm.label}>
                   Update Card
@@ -291,7 +343,7 @@ export default function AboutEditor() {
             <div className="bg-muted/30 p-6 flex flex-col items-center justify-center border-l border-border min-h-[400px]">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Live Preview</p>
               <div
-                className="w-40 h-40 rounded-2xl flex flex-col items-center justify-center shadow-lg"
+                className="w-56 rounded-2xl flex flex-col items-center justify-center shadow-lg p-5"
                 style={{ backgroundColor: editForm.bgColor || "hsl(var(--card))" }}
               >
                 <div
@@ -305,12 +357,29 @@ export default function AboutEditor() {
                 >
                   {editForm.target || "0"}{editForm.suffix}
                 </div>
+                {editForm.visualizationType && editForm.visualizationType !== "none" && editForm.visualizationStyle && (
+                  <div className="w-full mt-3">
+                    <StatVisualization
+                      style={editForm.visualizationStyle as VizStyle}
+                      height={60}
+                      data={editForm.vizDataStr ? editForm.vizDataStr.split(",").map((s) => parseFloat(s.trim())).filter((n) => !isNaN(n)) : undefined}
+                      labels={editForm.vizLabelsStr ? editForm.vizLabelsStr.split(",").map((s) => s.trim()).filter(Boolean) : undefined}
+                    />
+                  </div>
+                )}
                 <div className="text-muted-foreground text-sm mt-2">{editForm.label || "Label"}</div>
               </div>
             </div>
           </div>
         </DialogContent>
       </Dialog>
+
+      <VisualizationPickerModal
+        open={vizPickerOpen}
+        onClose={() => setVizPickerOpen(false)}
+        value={{ type: editForm.visualizationType || "none", style: editForm.visualizationStyle }}
+        onApply={(v) => setEditForm({ ...editForm, visualizationType: v.type, visualizationStyle: v.style })}
+      />
 
       <ResetConfirmModal open={resetOpen} onClose={() => setResetOpen(false)} onConfirm={handleReset} />
     </div>
