@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { useContentStore, defaultAbout } from "@/stores/contentStore";
+import { useContentStore, defaultAbout, VisualizationType } from "@/stores/contentStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { Save, Plus, Trash2, Pencil, Bold, Italic, RotateCcw } from "lucide-react";
+import { Save, Plus, Trash2, Pencil, Bold, Italic, RotateCcw, BarChart3 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ResetConfirmModal from "../ResetConfirmModal";
 import { BilingualField } from "../BilingualField";
 import { SectionStyleControls } from "../SectionStyleControls";
+import StatVisualization, { VIZ_STYLES, VizStyle } from "@/components/StatVisualization";
+import VisualizationPickerModal from "../VisualizationPickerModal";
 
 interface StatEdit {
   target: string;
@@ -21,6 +23,10 @@ interface StatEdit {
   italic?: boolean;
   textColor?: string;
   bgColor?: string;
+  visualizationType?: VisualizationType;
+  visualizationStyle?: string;
+  vizDataStr?: string;
+  vizLabelsStr?: string;
 }
 
 export default function AboutEditor() {
