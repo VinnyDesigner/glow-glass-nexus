@@ -36,12 +36,18 @@ export interface UserCard {
   link?: string;
 }
 
+export type VisualizationType = "none" | "graph" | "chart" | "bar";
+
 export interface StatCard {
   id: string;
   target: string;
   suffix: string;
   label: string;
   label_ar?: string;
+  visualizationType?: VisualizationType;
+  visualizationStyle?: string; // e.g. "line_smooth", "bar_vertical"
+  vizData?: number[];
+  vizLabels?: string[];
 }
 
 export interface DataEntity {

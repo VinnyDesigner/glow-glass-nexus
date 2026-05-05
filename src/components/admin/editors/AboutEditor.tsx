@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { useContentStore, defaultAbout } from "@/stores/contentStore";
+import { useContentStore, defaultAbout, VisualizationType } from "@/stores/contentStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { Save, Plus, Trash2, Pencil, Bold, Italic, RotateCcw } from "lucide-react";
+import { Save, Plus, Trash2, Pencil, Bold, Italic, RotateCcw, BarChart3 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ResetConfirmModal from "../ResetConfirmModal";
 import { BilingualField } from "../BilingualField";
 import { SectionStyleControls } from "../SectionStyleControls";
+import StatVisualization, { VIZ_STYLES, VizStyle } from "@/components/StatVisualization";
+import VisualizationPickerModal from "../VisualizationPickerModal";
 
 interface StatEdit {
   target: string;
@@ -21,6 +23,10 @@ interface StatEdit {
   italic?: boolean;
   textColor?: string;
   bgColor?: string;
+  visualizationType?: VisualizationType;
+  visualizationStyle?: string;
+  vizDataStr?: string;
+  vizLabelsStr?: string;
 }
 
 export default function AboutEditor() {
@@ -31,6 +37,7 @@ export default function AboutEditor() {
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<StatEdit>({ target: "", suffix: "", label: "", label_ar: "" });
   const [resetOpen, setResetOpen] = useState(false);
+  const [vizPickerOpen, setVizPickerOpen] = useState(false);
   const { toast } = useToast();
 
   const handleSave = () => {
@@ -61,6 +68,10 @@ export default function AboutEditor() {
       italic: (s as any).italic || false,
       textColor: (s as any).textColor || "",
       bgColor: (s as any).bgColor || "",
+      visualizationType: s.visualizationType || "none",
+      visualizationStyle: s.visualizationStyle,
+      vizDataStr: s.vizData ? s.vizData.join(",") : "",
+      vizLabelsStr: s.vizLabels ? s.vizLabels.join(",") : "",
     });
     setEditIndex(i);
   };
@@ -68,7 +79,14 @@ export default function AboutEditor() {
   const saveEdit = () => {
     if (editIndex === null) return;
     const updated = [...draft.stats];
-    updated[editIndex] = { ...updated[editIndex], ...editForm };
+    const { vizDataStr, vizLabelsStr, ...rest } = editForm;
+    const vizData = vizDataStr
+      ? vizDataStr.split(",").map((s) => parseFloat(s.trim())).filter((n) => !isNaN(n))
+      : undefined;
+    const vizLabels = vizLabelsStr
+      ? vizLabelsStr.split(",").map((s) => s.trim()).filter(Boolean)
+      : undefined;
+    updated[editIndex] = { ...updated[editIndex], ...rest, vizData, vizLabels };
     setDraft({ ...draft, stats: updated });
     setEditIndex(null);
   };
@@ -78,6 +96,10 @@ export default function AboutEditor() {
     setEditForm((f) => ({ ...f, fontWeight: map[f.fontWeight || "normal"] || "normal" }));
   };
   const weightLabel = editForm.fontWeight === "300" ? "Light" : editForm.fontWeight === "bold" ? "Bold" : "Regular";
+
+  const selectedVizLabel = editForm.visualizationStyle
+    ? VIZ_STYLES.find((v) => v.id === editForm.visualizationStyle)?.label
+    : null;
 
   return (
     <div className="max-w-5xl space-y-8">
@@ -257,6 +279,58 @@ export default function AboutEditor() {
                 </div>
               </div>
 
+              {/* Visualization Selector */}
+              <div className="space-y-3 border-t border-border pt-4">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Visualization Type</p>
+                <div className="border border-border rounded-xl p-3 bg-muted/30">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs text-muted-foreground">
+                      Selected: {selectedVizLabel || "None (Text Only)"}
+                    </span>
+                    <Button type="button" variant="outline" size="sm" className="gap-1.5" onClick={() => setVizPickerOpen(true)}>
+                      <BarChart3 size={14} /> Select Visualization
+                    </Button>
+                  </div>
+                  <div className="h-20 flex items-center justify-center bg-card rounded-lg">
+                    {editForm.visualizationType && editForm.visualizationType !== "none" && editForm.visualizationStyle ? (
+                      <div className="w-full px-3">
+                        <StatVisualization
+                          style={editForm.visualizationStyle as VizStyle}
+                          height={70}
+                          data={editForm.vizDataStr ? editForm.vizDataStr.split(",").map((s) => parseFloat(s.trim())).filter((n) => !isNaN(n)) : undefined}
+                          labels={editForm.vizLabelsStr ? editForm.vizLabelsStr.split(",").map((s) => s.trim()).filter(Boolean) : undefined}
+                        />
+                      </div>
+                    ) : (
+                      <span className="text-xs text-muted-foreground">No visualization · Text only</span>
+                    )}
+                  </div>
+                </div>
+
+                {editForm.visualizationType && editForm.visualizationType !== "none" && (
+                  <>
+                    <div>
+                      <Label className="text-xs">Data values (comma-separated)</Label>
+                      <Input
+                        value={editForm.vizDataStr || ""}
+                        onChange={(e) => setEditForm({ ...editForm, vizDataStr: e.target.value })}
+                        placeholder="10, 20, 30, 40"
+                        className="mt-1.5"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-xs">Labels (comma-separated, optional)</Label>
+                      <Input
+                        value={editForm.vizLabelsStr || ""}
+                        onChange={(e) => setEditForm({ ...editForm, vizLabelsStr: e.target.value })}
+                        placeholder="2019, 2020, 2021, 2022"
+                        className="mt-1.5"
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+
               <div className="flex gap-3 pt-2">
                 <Button onClick={saveEdit} className="flex-1" disabled={!editForm.target || !editForm.label}>
                   Update Card
@@ -269,7 +343,7 @@ export default function AboutEditor() {
             <div className="bg-muted/30 p-6 flex flex-col items-center justify-center border-l border-border min-h-[400px]">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Live Preview</p>
               <div
-                className="w-40 h-40 rounded-2xl flex flex-col items-center justify-center shadow-lg"
+                className="w-56 rounded-2xl flex flex-col items-center justify-center shadow-lg p-5"
                 style={{ backgroundColor: editForm.bgColor || "hsl(var(--card))" }}
               >
                 <div
@@ -283,12 +357,29 @@ export default function AboutEditor() {
                 >
                   {editForm.target || "0"}{editForm.suffix}
                 </div>
+                {editForm.visualizationType && editForm.visualizationType !== "none" && editForm.visualizationStyle && (
+                  <div className="w-full mt-3">
+                    <StatVisualization
+                      style={editForm.visualizationStyle as VizStyle}
+                      height={60}
+                      data={editForm.vizDataStr ? editForm.vizDataStr.split(",").map((s) => parseFloat(s.trim())).filter((n) => !isNaN(n)) : undefined}
+                      labels={editForm.vizLabelsStr ? editForm.vizLabelsStr.split(",").map((s) => s.trim()).filter(Boolean) : undefined}
+                    />
+                  </div>
+                )}
                 <div className="text-muted-foreground text-sm mt-2">{editForm.label || "Label"}</div>
               </div>
             </div>
           </div>
         </DialogContent>
       </Dialog>
+
+      <VisualizationPickerModal
+        open={vizPickerOpen}
+        onClose={() => setVizPickerOpen(false)}
+        value={{ type: editForm.visualizationType || "none", style: editForm.visualizationStyle }}
+        onApply={(v) => setEditForm({ ...editForm, visualizationType: v.type, visualizationStyle: v.style })}
+      />
 
       <ResetConfirmModal open={resetOpen} onClose={() => setResetOpen(false)} onConfirm={handleReset} />
     </div>

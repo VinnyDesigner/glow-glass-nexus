@@ -3,6 +3,7 @@ import { useContentStore } from "@/stores/contentStore";
 import { useUiStore } from "@/stores/uiStore";
 import { toArabicDigits, useSectionStyles } from "@/lib/i18n";
 import { useEffect, useState, useRef } from "react";
+import StatVisualization, { VizStyle } from "./StatVisualization";
 
 function AnimatedCounter({ target, suffix = "", label }: { target: string; suffix?: string; label: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -65,11 +66,29 @@ export default function AboutSection() {
         </div>
 
         <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto mt-12" style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? 'fadeBlurUp 0.6s ease-out 0.2s forwards' : 'none' }}>
-          {about.stats.map((stat) => (
-            <div key={stat.id} className="stat-card rounded-2xl p-8 text-center">
-              <AnimatedCounter target={stat.target} suffix={stat.suffix} label={L(stat.label, stat.label_ar)} />
-            </div>
-          ))}
+          {about.stats.map((stat) => {
+            const hasViz = stat.visualizationType && stat.visualizationType !== "none" && stat.visualizationStyle;
+            return (
+              <div key={stat.id} className="stat-card rounded-2xl p-8 text-center">
+                {hasViz ? (
+                  <div className="space-y-3">
+                    <div className="font-display text-2xl md:text-3xl font-bold text-primary">
+                      {stat.target}{stat.suffix}
+                    </div>
+                    <StatVisualization
+                      style={stat.visualizationStyle as VizStyle}
+                      data={stat.vizData}
+                      labels={stat.vizLabels}
+                      height={70}
+                    />
+                    <div className="text-muted-foreground text-sm font-medium">{L(stat.label, stat.label_ar)}</div>
+                  </div>
+                ) : (
+                  <AnimatedCounter target={stat.target} suffix={stat.suffix} label={L(stat.label, stat.label_ar)} />
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
