@@ -221,6 +221,71 @@ export default function LayersEditor() {
                 placeholder="https://..."
               />
             </div>
+            <BilingualField
+              label="Detailed Description"
+              multiline rows={3}
+              value={editForm.detailedDescription || ""}
+              valueAr={editForm.detailedDescription_ar || ""}
+              onChange={(v) => setEditForm({ ...editForm, detailedDescription: v })}
+              onChangeAr={(v) => setEditForm({ ...editForm, detailedDescription_ar: v })}
+              placeholder="Full multi-line description shown in the details popup"
+            />
+            <BilingualField
+              label="Category"
+              value={editForm.category || ""}
+              valueAr={editForm.category_ar || ""}
+              onChange={(v) => setEditForm({ ...editForm, category: v })}
+              onChangeAr={(v) => setEditForm({ ...editForm, category_ar: v })}
+              placeholder="Infrastructure"
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <Label>Last Updated</Label>
+                <Input
+                  type="date"
+                  value={editForm.lastUpdated || ""}
+                  onChange={(e) => setEditForm({ ...editForm, lastUpdated: e.target.value })}
+                  className="mt-1.5"
+                />
+              </div>
+              <div>
+                <Label>Source</Label>
+                <Input
+                  value={editForm.source || ""}
+                  onChange={(e) => setEditForm({ ...editForm, source: e.target.value })}
+                  className="mt-1.5"
+                  placeholder="BSDI"
+                />
+              </div>
+            </div>
+            <div>
+              <Label>Tags (comma separated)</Label>
+              <Input
+                value={(editForm.tags || []).join(", ")}
+                onChange={(e) => setEditForm({ ...editForm, tags: e.target.value.split(",").map((t) => t.trim()).filter(Boolean) })}
+                className="mt-1.5"
+                placeholder="Address, Location, GIS"
+              />
+            </div>
+            <div>
+              <Label>Tags (Arabic, comma separated)</Label>
+              <Input
+                value={(editForm.tags_ar || []).join("، ")}
+                onChange={(e) => setEditForm({ ...editForm, tags_ar: e.target.value.split(/[,،]/).map((t) => t.trim()).filter(Boolean) })}
+                className="mt-1.5"
+                dir="rtl"
+                placeholder="عنوان، موقع، نظم معلومات جغرافية"
+              />
+            </div>
+            <div>
+              <Label>Map Layer ID (optional)</Label>
+              <Input
+                value={editForm.mapLayerId || ""}
+                onChange={(e) => setEditForm({ ...editForm, mapLayerId: e.target.value })}
+                className="mt-1.5"
+                placeholder="addresses_layer"
+              />
+            </div>
             <div className="flex gap-3 pt-2">
               <Button
                 onClick={saveCard}
