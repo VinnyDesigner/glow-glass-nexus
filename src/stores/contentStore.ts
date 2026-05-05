@@ -192,6 +192,15 @@ export interface LayerCard {
   description_ar?: string;
   image: string;
   link?: string;
+  detailedDescription?: string;
+  detailedDescription_ar?: string;
+  category?: string;
+  category_ar?: string;
+  lastUpdated?: string;
+  source?: string;
+  tags?: string[];
+  tags_ar?: string[];
+  mapLayerId?: string;
 }
 
 export interface LayersContent extends SectionStyles {
