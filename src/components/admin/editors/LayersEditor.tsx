@@ -37,7 +37,7 @@ export default function LayersEditor() {
   };
 
   const openAdd = () => {
-    setEditForm({ id: "", title: "", title_ar: "", description: "", description_ar: "", image: "", link: "" });
+    setEditForm({ id: "", title: "", title_ar: "", description: "", description_ar: "", image: "", link: "", detailedDescription: "", detailedDescription_ar: "", category: "", category_ar: "", lastUpdated: "", source: "", tags: [], tags_ar: [], mapLayerId: "" });
     setModalMode("add");
     setEditIndex(-1);
   };
