@@ -37,6 +37,7 @@ export default function AboutEditor() {
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<StatEdit>({ target: "", suffix: "", label: "", label_ar: "" });
   const [resetOpen, setResetOpen] = useState(false);
+  const [vizPickerOpen, setVizPickerOpen] = useState(false);
   const { toast } = useToast();
 
   const handleSave = () => {
@@ -67,6 +68,10 @@ export default function AboutEditor() {
       italic: (s as any).italic || false,
       textColor: (s as any).textColor || "",
       bgColor: (s as any).bgColor || "",
+      visualizationType: s.visualizationType || "none",
+      visualizationStyle: s.visualizationStyle,
+      vizDataStr: s.vizData ? s.vizData.join(",") : "",
+      vizLabelsStr: s.vizLabels ? s.vizLabels.join(",") : "",
     });
     setEditIndex(i);
   };
@@ -74,7 +79,14 @@ export default function AboutEditor() {
   const saveEdit = () => {
     if (editIndex === null) return;
     const updated = [...draft.stats];
-    updated[editIndex] = { ...updated[editIndex], ...editForm };
+    const { vizDataStr, vizLabelsStr, ...rest } = editForm;
+    const vizData = vizDataStr
+      ? vizDataStr.split(",").map((s) => parseFloat(s.trim())).filter((n) => !isNaN(n))
+      : undefined;
+    const vizLabels = vizLabelsStr
+      ? vizLabelsStr.split(",").map((s) => s.trim()).filter(Boolean)
+      : undefined;
+    updated[editIndex] = { ...updated[editIndex], ...rest, vizData, vizLabels };
     setDraft({ ...draft, stats: updated });
     setEditIndex(null);
   };
@@ -84,6 +96,10 @@ export default function AboutEditor() {
     setEditForm((f) => ({ ...f, fontWeight: map[f.fontWeight || "normal"] || "normal" }));
   };
   const weightLabel = editForm.fontWeight === "300" ? "Light" : editForm.fontWeight === "bold" ? "Bold" : "Regular";
+
+  const selectedVizLabel = editForm.visualizationStyle
+    ? VIZ_STYLES.find((v) => v.id === editForm.visualizationStyle)?.label
+    : null;
 
   return (
     <div className="max-w-5xl space-y-8">
