@@ -559,7 +559,7 @@ export const useContentStore = create<ContentStore>()(
     }),
     {
       name: "bsdi-content",
-      version: 7,
+      version: 8,
       migrate: (persisted: any, version: number) => {
         if (persisted?.hero && version < 5) {
           persisted.hero.heroImages = [];
@@ -572,8 +572,11 @@ export const useContentStore = create<ContentStore>()(
           if (persisted?.vision) delete persisted.vision.cards;
         }
         if (version < 7) {
-          // Refresh layers cards so ADMINBOUNDRY uses Bahrain map image
           if (persisted?.layers) delete persisted.layers.cards;
+        }
+        if (version < 8) {
+          // Refresh footer to include new fields (authority info, legal links, expanded quick links)
+          if (persisted?.footer) delete persisted.footer;
         }
         return persisted;
       },
