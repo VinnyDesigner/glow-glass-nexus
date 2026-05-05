@@ -45,10 +45,19 @@ export default function DataServicesEditor() {
     const reader = new FileReader();
     reader.onload = (ev) => {
       const result = ev.target?.result as string;
-      if (target === "new") setNewEntity((prev) => ({ ...prev, logo: result }));
-      else if (editEntity) setEditEntity((prev) => prev ? { ...prev, logo: result } : prev);
+      setCropSrc(result);
+      setCropTarget(target);
     };
     reader.readAsDataURL(file);
+    // reset so re-uploading same file fires onChange again
+    e.target.value = "";
+  };
+
+  const handleCropConfirm = (cropped: string) => {
+    if (cropTarget === "new") setNewEntity((prev) => ({ ...prev, logo: cropped }));
+    else if (cropTarget === "edit" && editEntity) setEditEntity((prev) => prev ? { ...prev, logo: cropped } : prev);
+    setCropSrc(null);
+    setCropTarget(null);
   };
 
   const openEdit = (entity: typeof editEntity) => {
