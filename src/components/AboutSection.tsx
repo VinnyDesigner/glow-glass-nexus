@@ -3,6 +3,7 @@ import { useContentStore } from "@/stores/contentStore";
 import { useUiStore } from "@/stores/uiStore";
 import { toArabicDigits, useSectionStyles } from "@/lib/i18n";
 import { useEffect, useState, useRef } from "react";
+import StatVisualization, { VizStyle } from "./StatVisualization";
 
 function AnimatedCounter({ target, suffix = "", label }: { target: string; suffix?: string; label: string }) {
   const ref = useRef<HTMLDivElement>(null);
