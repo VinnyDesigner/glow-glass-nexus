@@ -212,6 +212,14 @@ export default function DataServicesEditor() {
       </Dialog>
 
       <ResetConfirmModal open={resetOpen} onClose={() => setResetOpen(false)} onConfirm={handleReset} />
+
+      <ImageCropper
+        open={!!cropSrc}
+        imageSrc={cropSrc || ""}
+        aspect={1}
+        onClose={() => { setCropSrc(null); setCropTarget(null); }}
+        onConfirm={handleCropConfirm}
+      />
     </div>
   );
 }
