@@ -81,6 +81,7 @@ export interface NewsItem {
   date: string;
   image: string;
   link?: string;
+  priorityPreview?: boolean;
 }
 
 export interface NewsContent {

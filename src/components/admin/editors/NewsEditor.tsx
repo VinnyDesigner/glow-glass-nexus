@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useContentStore, NewsItem, defaultNews } from "@/stores/contentStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Save, Plus, Trash2, ImagePlus, RotateCcw } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Save, Plus, Trash2, ImagePlus, RotateCcw, Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ResetConfirmModal from "../ResetConfirmModal";
 import { BilingualField } from "../BilingualField";
@@ -15,8 +17,27 @@ export default function NewsEditor() {
   const [resetOpen, setResetOpen] = useState(false);
   const { toast } = useToast();
 
+  const MAX_PRIORITY = 4;
+  const priorityCount = useMemo(
+    () => draft.items.filter((i) => i.priorityPreview).length,
+    [draft.items],
+  );
+  const priorityLimitReached = priorityCount >= MAX_PRIORITY;
+
   const updateItem = (id: string, patch: Partial<NewsItem>) => {
     setDraft({ ...draft, items: draft.items.map((i) => (i.id === id ? { ...i, ...patch } : i)) });
+  };
+
+  const togglePriority = (id: string, current: boolean) => {
+    if (!current && priorityLimitReached) {
+      toast({
+        title: "Limit reached",
+        description: "You can select only 4 news items for landing preview.",
+        variant: "destructive",
+      });
+      return;
+    }
+    updateItem(id, { priorityPreview: !current });
   };
 
   const addItem = () => {
@@ -86,9 +107,29 @@ export default function NewsEditor() {
         />
       </div>
 
+      <div className="flex items-center justify-between p-4 bg-card rounded-2xl border border-border">
+        <div className="flex items-center gap-2 text-sm">
+          <Star size={16} className="text-primary" />
+          <span className="font-semibold text-foreground">Priority Preview</span>
+          <span className="text-muted-foreground">— shown on landing page (max 4)</span>
+        </div>
+        <span className={`text-sm font-semibold ${priorityLimitReached ? "text-primary" : "text-muted-foreground"}`}>
+          Selected: {priorityCount} / {MAX_PRIORITY}
+        </span>
+      </div>
+
+      <TooltipProvider delayDuration={200}>
       <div className="space-y-4">
-        {draft.items.map((item) => (
-          <div key={item.id} className="p-5 bg-card rounded-2xl border border-border space-y-3">
+        {draft.items.map((item) => {
+          const isChecked = !!item.priorityPreview;
+          const isDisabled = !isChecked && priorityLimitReached;
+          return (
+          <div
+            key={item.id}
+            className={`p-5 bg-card rounded-2xl border space-y-3 transition-all ${
+              isChecked ? "border-primary ring-1 ring-primary/30" : "border-border"
+            }`}
+          >
             <div className="flex items-start gap-4">
               <div className="relative w-32 h-24 rounded-lg overflow-hidden border border-border shrink-0 group">
                 <img src={item.image} alt="" className="w-full h-full object-cover" />
@@ -96,6 +137,11 @@ export default function NewsEditor() {
                   <ImagePlus size={18} className="text-white opacity-0 group-hover:opacity-100" />
                   <input type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files?.[0] && handleImage(item.id, e.target.files[0])} />
                 </label>
+                {isChecked && (
+                  <span className="absolute top-1 left-1 bg-primary text-primary-foreground text-[10px] font-semibold px-1.5 py-0.5 rounded">
+                    Priority
+                  </span>
+                )}
               </div>
               <div className="flex-1 space-y-3 min-w-0">
                 <BilingualField
@@ -116,17 +162,38 @@ export default function NewsEditor() {
                     <Input value={item.link || ""} onChange={(e) => updateItem(item.id, { link: e.target.value })} placeholder="https://..." className="mt-1" />
                   </div>
                 </div>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <label
+                      className={`inline-flex items-center gap-2 select-none transition-opacity ${
+                        isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                      }`}
+                    >
+                      <Checkbox
+                        checked={isChecked}
+                        disabled={isDisabled}
+                        onCheckedChange={() => togglePriority(item.id, isChecked)}
+                      />
+                      <span className="text-sm font-medium text-foreground">Priority Preview</span>
+                    </label>
+                  </TooltipTrigger>
+                  {isDisabled && (
+                    <TooltipContent>Maximum 4 priority previews allowed</TooltipContent>
+                  )}
+                </Tooltip>
               </div>
               <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)} className="text-muted-foreground hover:text-destructive">
                 <Trash2 size={16} />
               </Button>
             </div>
           </div>
-        ))}
+          );
+        })}
         <Button variant="outline" onClick={addItem} className="gap-2">
           <Plus size={16} /> Add News Item
         </Button>
       </div>
+      </TooltipProvider>
 
       <div className="flex items-center gap-3">
         <Button onClick={handleSave} size="lg" className="gap-2">
