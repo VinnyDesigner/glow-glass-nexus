@@ -188,6 +188,16 @@ export interface FooterContent {
   quickLinks: QuickLink[];
   externalLinks: QuickLink[];
   socialLinks: SocialLink[];
+  authorityTitle?: string;
+  authorityTitle_ar?: string;
+  address?: string;
+  address_ar?: string;
+  phone?: string;
+  phoneCaption?: string;
+  phoneCaption_ar?: string;
+  copyrightText?: string;
+  copyrightText_ar?: string;
+  legalLinks?: QuickLink[];
 }
 
 export interface LayerCard {
