@@ -188,6 +188,16 @@ export interface FooterContent {
   quickLinks: QuickLink[];
   externalLinks: QuickLink[];
   socialLinks: SocialLink[];
+  authorityTitle?: string;
+  authorityTitle_ar?: string;
+  address?: string;
+  address_ar?: string;
+  phone?: string;
+  phoneCaption?: string;
+  phoneCaption_ar?: string;
+  copyrightText?: string;
+  copyrightText_ar?: string;
+  legalLinks?: QuickLink[];
 }
 
 export interface LayerCard {
@@ -413,9 +423,34 @@ export const defaultDataServices: DataServicesContent = {
 };
 
 export const defaultFooter: FooterContent = {
+  authorityTitle: "Information & eGovernment Authority",
+  authorityTitle_ar: "هيئة المعلومات والحكومة الإلكترونية",
+  address: "P.O. Box 33305,\nManama - Kingdom of Bahrain",
+  address_ar: "ص.ب 33305،\nالمنامة - مملكة البحرين",
+  phone: "8000 8001",
+  phoneCaption: "(Government Services Contact Center)",
+  phoneCaption_ar: "(مركز الاتصال للخدمات الحكومية)",
+  copyrightText: "© 2026 Information & eGovernment Authority, Bahrain.",
+  copyrightText_ar: "© 2026 هيئة المعلومات والحكومة الإلكترونية، البحرين.",
+  legalLinks: [
+    { id: "lg1", label: "TERMS OF USE", label_ar: "شروط الاستخدام", href: "#" },
+    { id: "lg2", label: "PRIVACY POLICY", label_ar: "سياسة الخصوصية", href: "#" },
+    { id: "lg3", label: "DISCLAIMER", label_ar: "إخلاء المسؤولية", href: "#" },
+  ],
   quickLinks: [
-    { id: "ql1", label: "Dataset Request", label_ar: "طلب مجموعة بيانات", href: "#" },
-    { id: "ql2", label: "Open Data Policy", label_ar: "سياسة البيانات المفتوحة", href: "#" },
+    { id: "ql1", label: "Chief Executive Message", label_ar: "كلمة الرئيس التنفيذي", href: "#" },
+    { id: "ql2", label: "Vision & Mission", label_ar: "الرؤية والرسالة", href: "#" },
+    { id: "ql3", label: "Our Strategy", label_ar: "استراتيجيتنا", href: "#" },
+    { id: "ql4", label: "Operations & Governance", label_ar: "العمليات والحوكمة", href: "#" },
+    { id: "ql5", label: "Digital Transformation", label_ar: "التحول الرقمي", href: "#" },
+    { id: "ql6", label: "Statistics & Population", label_ar: "الإحصاءات والسكان", href: "#" },
+    { id: "ql7", label: "eParticipation", label_ar: "المشاركة الإلكترونية", href: "#" },
+    { id: "ql8", label: "Emerging Technologies", label_ar: "التقنيات الناشئة", href: "#" },
+    { id: "ql9", label: "Digital Twinning Overview", label_ar: "نظرة عامة على التوأمة الرقمية", href: "#" },
+    { id: "ql10", label: "Photo Gallery", label_ar: "معرض الصور", href: "#" },
+    { id: "ql11", label: "Conferences", label_ar: "المؤتمرات", href: "#" },
+    { id: "ql12", label: "Contact", label_ar: "اتصل بنا", href: "#" },
+    { id: "ql13", label: "Sitemap", label_ar: "خريطة الموقع", href: "#" },
   ],
   externalLinks: [
     { id: "el1", label: "GCC Statistical Center", label_ar: "المركز الإحصائي الخليجي", href: "https://gccstat.org" },
@@ -524,7 +559,7 @@ export const useContentStore = create<ContentStore>()(
     }),
     {
       name: "bsdi-content",
-      version: 7,
+      version: 8,
       migrate: (persisted: any, version: number) => {
         if (persisted?.hero && version < 5) {
           persisted.hero.heroImages = [];
@@ -537,8 +572,11 @@ export const useContentStore = create<ContentStore>()(
           if (persisted?.vision) delete persisted.vision.cards;
         }
         if (version < 7) {
-          // Refresh layers cards so ADMINBOUNDRY uses Bahrain map image
           if (persisted?.layers) delete persisted.layers.cards;
+        }
+        if (version < 8) {
+          // Refresh footer to include new fields (authority info, legal links, expanded quick links)
+          if (persisted?.footer) delete persisted.footer;
         }
         return persisted;
       },
