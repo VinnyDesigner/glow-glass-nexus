@@ -7,6 +7,7 @@ import { Save, Plus, Trash2, ImagePlus, Pencil, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ResetConfirmModal from "../ResetConfirmModal";
+import ImageCropper from "../ImageCropper";
 import { BilingualField } from "../BilingualField";
 import { SectionStyleControls } from "../SectionStyleControls";
 
@@ -18,6 +19,8 @@ export default function DataServicesEditor() {
   const [editModal, setEditModal] = useState(false);
   const [editEntity, setEditEntity] = useState<{ id: string; name: string; logo: string; link: string } | null>(null);
   const [resetOpen, setResetOpen] = useState(false);
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
+  const [cropTarget, setCropTarget] = useState<"new" | "edit" | null>(null);
   const { toast } = useToast();
 
   const handleSave = () => {
@@ -42,10 +45,19 @@ export default function DataServicesEditor() {
     const reader = new FileReader();
     reader.onload = (ev) => {
       const result = ev.target?.result as string;
-      if (target === "new") setNewEntity((prev) => ({ ...prev, logo: result }));
-      else if (editEntity) setEditEntity((prev) => prev ? { ...prev, logo: result } : prev);
+      setCropSrc(result);
+      setCropTarget(target);
     };
     reader.readAsDataURL(file);
+    // reset so re-uploading same file fires onChange again
+    e.target.value = "";
+  };
+
+  const handleCropConfirm = (cropped: string) => {
+    if (cropTarget === "new") setNewEntity((prev) => ({ ...prev, logo: cropped }));
+    else if (cropTarget === "edit" && editEntity) setEditEntity((prev) => prev ? { ...prev, logo: cropped } : prev);
+    setCropSrc(null);
+    setCropTarget(null);
   };
 
   const openEdit = (entity: typeof editEntity) => {
@@ -200,6 +212,14 @@ export default function DataServicesEditor() {
       </Dialog>
 
       <ResetConfirmModal open={resetOpen} onClose={() => setResetOpen(false)} onConfirm={handleReset} />
+
+      <ImageCropper
+        open={!!cropSrc}
+        imageSrc={cropSrc || ""}
+        aspect={1}
+        onClose={() => { setCropSrc(null); setCropTarget(null); }}
+        onConfirm={handleCropConfirm}
+      />
     </div>
   );
 }
