@@ -106,15 +106,6 @@ export default function NewsEditor() {
                   onChangeAr={(v) => updateItem(item.id, { title_ar: v })}
                   placeholder="Title"
                 />
-                <BilingualField
-                  label="Excerpt"
-                  multiline rows={2}
-                  value={item.excerpt}
-                  valueAr={item.excerpt_ar || ""}
-                  onChange={(v) => updateItem(item.id, { excerpt: v })}
-                  onChangeAr={(v) => updateItem(item.id, { excerpt_ar: v })}
-                  placeholder="Excerpt"
-                />
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <Label className="text-xs">Date (e.g. Apr 22, 2026)</Label>

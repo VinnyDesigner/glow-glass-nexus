@@ -51,35 +51,54 @@ export default function NewsSection() {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? "fadeBlurUp 0.6s ease-out 0.15s forwards" : "none" }}
         >
-          {sortedItems.slice(0, 4).map((item) => {
+          {sortedItems.slice(0, 4).map((item, i) => {
             const title = L(item.title, item.title_ar);
-            const excerpt = L(item.excerpt, item.excerpt_ar);
             const card = (
-              <article className="clean-card h-full flex flex-col !rounded-3xl">
-                <div className="card-image aspect-[16/10] !rounded-2xl">
+              <div
+                className="group relative rounded-2xl overflow-hidden h-full"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  animation: isVisible ? `fadeBlurUp 0.6s ease-out ${i * 0.12}s forwards` : "none",
+                }}
+              >
+                <div
+                  className="relative h-[380px] md:h-[420px] rounded-2xl overflow-hidden transition-transform duration-400 ease-out hover:scale-[1.02] hover:-translate-y-1"
+                  style={{
+                    boxShadow: "0 8px 32px hsla(210,20%,50%,0.12), 0 2px 8px hsla(210,20%,50%,0.06)",
+                  }}
+                >
                   <img
                     src={item.image}
                     alt={title}
                     loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  <div
+                    className="absolute bottom-0 left-0 right-0 p-5"
+                    style={{
+                      background:
+                        "linear-gradient(to top, hsla(0,0%,100%,0.9) 0%, hsla(0,0%,100%,0.75) 60%, hsla(0,0%,100%,0) 100%)",
+                      backdropFilter: "blur(12px)",
+                      WebkitBackdropFilter: "blur(12px)",
+                    }}
+                  >
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
+                      <Calendar size={13} />
+                      <span>{fmtDate(item.date)}</span>
+                    </div>
+                    <h3 className="font-display text-base md:text-lg font-semibold text-secondary-foreground leading-snug">
+                      {title}
+                    </h3>
+                  </div>
+                  <div
+                    className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
+                    style={{
+                      border: "1px solid hsla(348, 83%, 40%, 0.25)",
+                      boxShadow: "0 0 24px hsla(348, 83%, 40%, 0.08)",
+                    }}
                   />
                 </div>
-                <div className="p-4 flex-1 flex flex-col">
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
-                    <Calendar size={13} />
-                    <span>{fmtDate(item.date)}</span>
-                  </div>
-                  <h3 className="font-display text-[15px] font-semibold text-foreground leading-snug">
-                    {title}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed line-clamp-2 flex-1">
-                    {excerpt}
-                  </p>
-                  <span className="view-details-link mt-4 text-sm">
-                    {t("news.readMore")} <ArrowRight size={14} />
-                  </span>
-                </div>
-              </article>
+              </div>
             );
             if (item.link && item.link !== "#") {
               return (
