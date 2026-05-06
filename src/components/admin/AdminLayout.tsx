@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   LayoutDashboard, Eye, Globe, Info, Grid3X3, Users, Building2, FileText, Layers,
-  ChevronLeft, Save, ExternalLink, Newspaper, MapPin, LogIn, LogOut
+  ChevronLeft, Save, ExternalLink, Newspaper, MapPin, LogIn, LogOut, Cpu
 } from "lucide-react";
 import dashLogo from "@/assets/dashLogo.png";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import LayersEditor from "./editors/LayersEditor";
 import NewsEditor from "./editors/NewsEditor";
 import MapViewEditor from "./editors/MapViewEditor";
 import LoginEditor from "./editors/LoginEditor";
+import TechnologiesEditor from "./editors/TechnologiesEditor";
 
 const tabs = [
   { id: "hero", label: "Hero Section", icon: LayoutDashboard },
@@ -28,6 +29,7 @@ const tabs = [
   { id: "services", label: "What BSDI Provides", icon: Grid3X3 },
   { id: "vision", label: "BSDI Vision", icon: Eye },
   { id: "users", label: "Who Can Use BSDI", icon: Users },
+  { id: "technologies", label: "Technologies", icon: Cpu },
   { id: "data", label: "Data Services", icon: Building2 },
   { id: "footer", label: "Footer", icon: FileText },
 ];
@@ -46,6 +48,7 @@ export default function AdminLayout() {
       case "mapview": return <MapViewEditor />;
       case "services": return <ServicesEditor />;
       case "users": return <UsersEditor />;
+      case "technologies": return <TechnologiesEditor />;
       case "layers": return <LayersEditor />;
       case "data": return <DataServicesEditor />;
       case "login": return <LoginEditor />;
