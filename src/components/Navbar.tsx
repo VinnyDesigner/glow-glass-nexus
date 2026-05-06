@@ -267,10 +267,19 @@ export default function Navbar() {
                 onClick={() => setUserMenuOpen((v) => !v)}
                 className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs xl:text-sm font-semibold border border-border bg-secondary/50 hover:bg-secondary text-foreground"
               >
-                <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-[10px] font-bold">
-                  {user.name.charAt(0)}
-                </span>
-                <span className="hidden xl:inline truncate max-w-[100px]">{user.name}</span>
+                {(() => {
+                  const displayName = language === "ar"
+                    ? (user.role === "admin" ? "المشرف" : "المستخدم")
+                    : user.name;
+                  return (
+                    <>
+                      <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-[10px] font-bold">
+                        {displayName.charAt(0)}
+                      </span>
+                      <span className="hidden xl:inline truncate max-w-[100px]">{displayName}</span>
+                    </>
+                  );
+                })()}
                 <ChevronDown size={14} />
               </button>
               {userMenuOpen && (
