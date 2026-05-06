@@ -97,7 +97,7 @@ export default function LayersSection() {
           ))}
         </div>
 
-        {layers.cards.length > 5 && (
+        {layers.cards.length > previewCards.length && (
           <div className="flex justify-center mt-10">
             <Button onClick={() => setOpen(true)} size="lg" className="gap-2">
               {t("common.viewAllLayers")} <ArrowRight size={18} />
