@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useContentStore, defaultLayers, type LayerCard } from "@/stores/contentStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Save, Plus, Trash2, Pencil, RotateCcw } from "lucide-react";
+import { Save, Plus, Trash2, Pencil, RotateCcw, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ResetConfirmModal from "../ResetConfirmModal";
 import { BilingualField } from "../BilingualField";
 import { SectionStyleControls } from "../SectionStyleControls";
+import { PreviewSlotSelector, applySlotChange, type PreviewSlot } from "../PreviewSlotSelector";
 
 export default function LayersEditor() {
   const { layers, updateLayers } = useContentStore();
