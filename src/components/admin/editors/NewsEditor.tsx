@@ -3,13 +3,12 @@ import { useContentStore, NewsItem, defaultNews } from "@/stores/contentStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Save, Plus, Trash2, ImagePlus, RotateCcw, Star } from "lucide-react";
+import { Save, Plus, Trash2, ImagePlus, RotateCcw, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ResetConfirmModal from "../ResetConfirmModal";
 import { BilingualField } from "../BilingualField";
 import { SectionStyleControls } from "../SectionStyleControls";
+import { PreviewSlotSelector, applySlotChange, type PreviewSlot } from "../PreviewSlotSelector";
 
 export default function NewsEditor() {
   const { news, updateNews } = useContentStore();
@@ -17,27 +16,17 @@ export default function NewsEditor() {
   const [resetOpen, setResetOpen] = useState(false);
   const { toast } = useToast();
 
-  const MAX_PRIORITY = 4;
-  const priorityCount = useMemo(
-    () => draft.items.filter((i) => i.priorityPreview).length,
+  const assignedCount = useMemo(
+    () => draft.items.filter((i) => i.previewSlot != null).length,
     [draft.items],
   );
-  const priorityLimitReached = priorityCount >= MAX_PRIORITY;
 
   const updateItem = (id: string, patch: Partial<NewsItem>) => {
     setDraft({ ...draft, items: draft.items.map((i) => (i.id === id ? { ...i, ...patch } : i)) });
   };
 
-  const togglePriority = (id: string, current: boolean) => {
-    if (!current && priorityLimitReached) {
-      toast({
-        title: "Limit reached",
-        description: "You can select only 4 news items for landing preview.",
-        variant: "destructive",
-      });
-      return;
-    }
-    updateItem(id, { priorityPreview: !current });
+  const handleSlotChange = (id: string, slot: PreviewSlot) => {
+    setDraft({ ...draft, items: applySlotChange(draft.items, id, slot) });
   };
 
   const addItem = () => {
@@ -54,6 +43,7 @@ export default function NewsEditor() {
           date: new Date().toLocaleDateString(),
           image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
           link: "#",
+          previewSlot: null,
         },
       ],
     });
@@ -109,91 +99,79 @@ export default function NewsEditor() {
 
       <div className="flex items-center justify-between p-4 bg-card rounded-2xl border border-border">
         <div className="flex items-center gap-2 text-sm">
-          <Star size={16} className="text-primary" />
-          <span className="font-semibold text-foreground">Priority Preview</span>
-          <span className="text-muted-foreground">— shown on landing page (max 4)</span>
+          <Sparkles size={16} className="text-primary" />
+          <span className="font-semibold text-foreground">Landing Page Preview Slots</span>
+          <span className="text-muted-foreground">— assign cards to Preview 1-4</span>
         </div>
-        <span className={`text-sm font-semibold ${priorityLimitReached ? "text-primary" : "text-muted-foreground"}`}>
-          Selected: {priorityCount} / {MAX_PRIORITY}
+        <span className="text-sm font-semibold text-muted-foreground">
+          Assigned: {assignedCount} / 4
         </span>
       </div>
 
-      <TooltipProvider delayDuration={200}>
       <div className="space-y-4">
         {draft.items.map((item) => {
-          const isChecked = !!item.priorityPreview;
-          const isDisabled = !isChecked && priorityLimitReached;
+          const slot = (item.previewSlot ?? null) as PreviewSlot;
+          const isOnLanding = slot != null;
           return (
-          <div
-            key={item.id}
-            className={`p-5 bg-card rounded-2xl border space-y-3 transition-all ${
-              isChecked ? "border-primary ring-1 ring-primary/30" : "border-border"
-            }`}
-          >
-            <div className="flex items-start gap-4">
-              <div className="relative w-32 h-24 rounded-lg overflow-hidden border border-border shrink-0 group">
-                <img src={item.image} alt="" className="w-full h-full object-cover" />
-                <label className="absolute inset-0 bg-black/0 group-hover:bg-black/50 flex items-center justify-center cursor-pointer transition-colors">
-                  <ImagePlus size={18} className="text-white opacity-0 group-hover:opacity-100" />
-                  <input type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files?.[0] && handleImage(item.id, e.target.files[0])} />
-                </label>
-                {isChecked && (
-                  <span className="absolute top-1 left-1 bg-primary text-primary-foreground text-[10px] font-semibold px-1.5 py-0.5 rounded">
-                    Priority
-                  </span>
-                )}
-              </div>
-              <div className="flex-1 space-y-3 min-w-0">
-                <BilingualField
-                  label="Title"
-                  value={item.title}
-                  valueAr={item.title_ar || ""}
-                  onChange={(v) => updateItem(item.id, { title: v })}
-                  onChangeAr={(v) => updateItem(item.id, { title_ar: v })}
-                  placeholder="Title"
-                />
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <Label className="text-xs">Date (e.g. Apr 22, 2026)</Label>
-                    <Input value={item.date} onChange={(e) => updateItem(item.id, { date: e.target.value })} placeholder="Apr 22, 2026" className="mt-1" />
+            <div
+              key={item.id}
+              className={`p-5 bg-card rounded-2xl border space-y-3 transition-all ${
+                isOnLanding ? "border-primary ring-1 ring-primary/30" : "border-border"
+              }`}
+            >
+              <div className="flex items-start gap-4">
+                <div className="relative w-32 h-24 rounded-lg overflow-hidden border border-border shrink-0 group">
+                  <img src={item.image} alt="" className="w-full h-full object-cover" />
+                  <label className="absolute inset-0 bg-black/0 group-hover:bg-black/50 flex items-center justify-center cursor-pointer transition-colors">
+                    <ImagePlus size={18} className="text-white opacity-0 group-hover:opacity-100" />
+                    <input type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files?.[0] && handleImage(item.id, e.target.files[0])} />
+                  </label>
+                  {isOnLanding && (
+                    <span className="absolute top-1 left-1 text-[10px] font-semibold px-1.5 py-0.5 rounded bg-gradient-to-r from-primary to-primary/70 text-primary-foreground shadow">
+                      Preview {slot}
+                    </span>
+                  )}
+                </div>
+                <div className="flex-1 space-y-3 min-w-0">
+                  <BilingualField
+                    label="Title"
+                    value={item.title}
+                    valueAr={item.title_ar || ""}
+                    onChange={(v) => updateItem(item.id, { title: v })}
+                    onChangeAr={(v) => updateItem(item.id, { title_ar: v })}
+                    placeholder="Title"
+                  />
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <Label className="text-xs">Date (e.g. Apr 22, 2026)</Label>
+                      <Input value={item.date} onChange={(e) => updateItem(item.id, { date: e.target.value })} placeholder="Apr 22, 2026" className="mt-1" />
+                    </div>
+                    <div>
+                      <Label className="text-xs">Link</Label>
+                      <Input value={item.link || ""} onChange={(e) => updateItem(item.id, { link: e.target.value })} placeholder="https://..." className="mt-1" />
+                    </div>
                   </div>
-                  <div>
-                    <Label className="text-xs">Link</Label>
-                    <Input value={item.link || ""} onChange={(e) => updateItem(item.id, { link: e.target.value })} placeholder="https://..." className="mt-1" />
+                  <div className="max-w-xs">
+                    <PreviewSlotSelector
+                      items={draft.items.map((i) => ({ id: i.id, title: i.title, previewSlot: i.previewSlot ?? null }))}
+                      currentId={item.id}
+                      currentTitle={item.title}
+                      value={slot}
+                      onChange={(s) => handleSlotChange(item.id, s)}
+                    />
                   </div>
                 </div>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <label
-                      className={`inline-flex items-center gap-2 select-none transition-opacity ${
-                        isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
-                      }`}
-                    >
-                      <Checkbox
-                        checked={isChecked}
-                        disabled={isDisabled}
-                        onCheckedChange={() => togglePriority(item.id, isChecked)}
-                      />
-                      <span className="text-sm font-medium text-foreground">Priority Preview</span>
-                    </label>
-                  </TooltipTrigger>
-                  {isDisabled && (
-                    <TooltipContent>Maximum 4 priority previews allowed</TooltipContent>
-                  )}
-                </Tooltip>
+                <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)} className="text-muted-foreground hover:text-destructive">
+                  <Trash2 size={16} />
+                </Button>
               </div>
-              <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)} className="text-muted-foreground hover:text-destructive">
-                <Trash2 size={16} />
-              </Button>
             </div>
-          </div>
           );
         })}
         <Button variant="outline" onClick={addItem} className="gap-2">
           <Plus size={16} /> Add News Item
         </Button>
       </div>
-      </TooltipProvider>
 
       <div className="flex items-center gap-3">
         <Button onClick={handleSave} size="lg" className="gap-2">

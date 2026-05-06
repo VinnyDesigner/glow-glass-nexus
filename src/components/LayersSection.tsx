@@ -52,7 +52,12 @@ export default function LayersSection() {
   const [selectedLayer, setSelectedLayer] = useState<LayerCardType | null>(null);
   const styles = useSectionStyles(layers);
 
-  const previewCards = layers.cards.slice(0, 5);
+  const previewCards = (() => {
+    const bySlot = [1, 2, 3, 4]
+      .map((s) => layers.cards.find((c) => c.previewSlot === s))
+      .filter(Boolean) as typeof layers.cards;
+    return bySlot.length > 0 ? bySlot : layers.cards.slice(0, 4);
+  })();
 
   const handleCardClick = (c: LayerCardType) => setSelectedLayer(c);
 
@@ -84,7 +89,7 @@ export default function LayersSection() {
         </div>
 
         <div
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6"
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"
           style={{ opacity: isVisible ? 1 : 0, animation: isVisible ? "fadeBlurUp 0.6s ease-out 0.15s forwards" : "none" }}
         >
           {previewCards.map((card) => (
@@ -92,7 +97,7 @@ export default function LayersSection() {
           ))}
         </div>
 
-        {layers.cards.length > 5 && (
+        {layers.cards.length > previewCards.length && (
           <div className="flex justify-center mt-10">
             <Button onClick={() => setOpen(true)} size="lg" className="gap-2">
               {t("common.viewAllLayers")} <ArrowRight size={18} />

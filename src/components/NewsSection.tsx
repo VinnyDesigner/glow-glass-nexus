@@ -32,8 +32,13 @@ export default function NewsSection() {
     });
   }, [news.items]);
 
-  // Priority preview selection: show only flagged items (max 4); fallback to latest 4
+  // Preview slots: show only items with previewSlot 1..4 in order
   const sortedItems = useMemo(() => {
+    const bySlot = [1, 2, 3, 4]
+      .map((s) => news.items.find((i) => i.previewSlot === s))
+      .filter(Boolean) as typeof news.items;
+    if (bySlot.length > 0) return bySlot;
+    // Backward compat fallback
     const priority = news.items.filter((i) => i.priorityPreview);
     if (priority.length > 0) return priority.slice(0, 4);
     return allSorted.slice(0, 4);
