@@ -592,6 +592,7 @@ export const useContentStore = create<ContentStore>()(
       layers: defaultLayers,
       news: defaultNews,
       mapView: defaultMapView,
+      technologies: defaultTechnologies,
       auth: defaultAuth,
       updateHero: (data) => set((s) => ({ hero: { ...s.hero, ...data } })),
       updateVision: (data) => set((s) => ({ vision: { ...s.vision, ...data } })),
@@ -603,11 +604,12 @@ export const useContentStore = create<ContentStore>()(
       updateLayers: (data) => set((s) => ({ layers: { ...s.layers, ...data } })),
       updateNews: (data) => set((s) => ({ news: { ...s.news, ...data } })),
       updateMapView: (data) => set((s) => ({ mapView: { ...s.mapView, ...data } })),
+      updateTechnologies: (data) => set((s) => ({ technologies: { ...s.technologies, ...data } })),
       updateAuth: (data) => set((s) => ({ auth: { ...s.auth, ...data } })),
     }),
     {
       name: "bsdi-content",
-      version: 10,
+      version: 11,
       migrate: (persisted: any, version: number) => {
         if (persisted?.hero && version < 5) {
           persisted.hero.heroImages = [];
@@ -632,6 +634,9 @@ export const useContentStore = create<ContentStore>()(
           // Reset news + layers so previewSlot defaults take effect
           if (persisted?.news) delete persisted.news.items;
           if (persisted?.layers) delete persisted.layers.cards;
+        }
+        if (version < 11) {
+          if (persisted?.technologies) delete persisted.technologies;
         }
         return persisted;
       },
@@ -665,6 +670,9 @@ export const useContentStore = create<ContentStore>()(
           merged.mapView = { ...merged.mapView, previewImage: defaultMapView.previewImage };
         }
         if (!persisted?.auth) merged.auth = defaultAuth;
+        if (!persisted?.technologies?.cards) {
+          merged.technologies = { ...defaultTechnologies, ...(persisted?.technologies || {}), cards: defaultTechnologies.cards };
+        }
         return merged;
       },
     }
