@@ -52,7 +52,12 @@ export default function LayersSection() {
   const [selectedLayer, setSelectedLayer] = useState<LayerCardType | null>(null);
   const styles = useSectionStyles(layers);
 
-  const previewCards = layers.cards.slice(0, 5);
+  const previewCards = (() => {
+    const bySlot = [1, 2, 3, 4]
+      .map((s) => layers.cards.find((c) => c.previewSlot === s))
+      .filter(Boolean) as typeof layers.cards;
+    return bySlot.length > 0 ? bySlot : layers.cards.slice(0, 4);
+  })();
 
   const handleCardClick = (c: LayerCardType) => setSelectedLayer(c);
 
