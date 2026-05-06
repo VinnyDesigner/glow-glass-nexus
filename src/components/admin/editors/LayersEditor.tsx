@@ -273,3 +273,89 @@ export default function LayersEditor() {
     </div>
   );
 }
+
+interface ListProps {
+  cards: LayerCard[];
+  onChange: (cards: LayerCard[]) => void;
+  onEdit: (i: number) => void;
+  onAdd: () => void;
+}
+
+function LayersCardList({ cards, onChange, onEdit, onAdd }: ListProps) {
+  const assignedCount = useMemo(() => cards.filter((c) => c.previewSlot != null).length, [cards]);
+  const handleSlot = (id: string, slot: PreviewSlot) => {
+    onChange(applySlotChange(cards, id, slot));
+  };
+  const deleteCard = (id: string) => onChange(cards.filter((c) => c.id !== id));
+
+  return (
+    <div className="neu-card p-6 space-y-4">
+      <div className="flex items-center justify-between">
+        <h3 className="font-display text-lg font-semibold">
+          Layer Cards ({cards.length})
+        </h3>
+        <div className="flex items-center gap-3">
+          <span className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground">
+            <Sparkles size={12} className="text-primary" /> Landing slots: {assignedCount}/4
+          </span>
+          <Button variant="outline" size="sm" className="gap-2" onClick={onAdd}>
+            <Plus size={14} /> Add Layer
+          </Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {cards.map((card, i) => {
+          const slot = (card.previewSlot ?? null) as PreviewSlot;
+          const onLanding = slot != null;
+          return (
+            <div
+              key={card.id}
+              className={`p-3 rounded-xl border space-y-3 ${onLanding ? "border-primary ring-1 ring-primary/30 bg-card" : "border-border"}`}
+            >
+              <div className="flex items-center gap-3">
+                {card.image && (
+                  <div className="relative shrink-0">
+                    <img src={card.image} alt="" className="w-12 h-12 rounded-lg object-cover" />
+                    {onLanding && (
+                      <span className="absolute -top-1 -left-1 text-[9px] font-semibold px-1 py-0.5 rounded bg-gradient-to-r from-primary to-primary/70 text-primary-foreground shadow">
+                        P{slot}
+                      </span>
+                    )}
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-sm truncate">{card.title}</p>
+                  <p className="text-xs text-muted-foreground truncate">{card.link || "No link"}</p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => onEdit(i)}
+                  className="shrink-0 h-8 w-8 rounded-full"
+                >
+                  <Pencil size={14} />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => deleteCard(card.id)}
+                  className="shrink-0 text-destructive hover:text-destructive"
+                >
+                  <Trash2 size={16} />
+                </Button>
+              </div>
+              <PreviewSlotSelector
+                items={cards.map((c) => ({ id: c.id, title: c.title, previewSlot: c.previewSlot ?? null }))}
+                currentId={card.id}
+                currentTitle={card.title}
+                value={slot}
+                onChange={(s) => handleSlot(card.id, s)}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
