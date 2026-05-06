@@ -73,7 +73,7 @@ export default function AboutSection() {
                 {hasViz ? (
                   <div className="space-y-3">
                     <div className="font-display text-2xl md:text-3xl font-bold text-primary">
-                      {stat.target}{stat.suffix}
+                      {language === "ar" ? toArabicDigits(stat.target) : stat.target}{stat.suffix}
                     </div>
                     <StatVisualization
                       style={stat.visualizationStyle as VizStyle}
