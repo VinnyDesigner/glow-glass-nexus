@@ -229,6 +229,29 @@ export interface LayersContent extends SectionStyles {
   cards: LayerCard[];
 }
 
+export interface TechnologyCard {
+  id: string;
+  title: string;
+  title_ar?: string;
+  description: string;
+  description_ar?: string;
+  icon: string;
+  category: string;
+  category_ar?: string;
+  tags?: string[];
+  tags_ar?: string[];
+  link?: string;
+  previewSlot?: null | 1 | 2 | 3 | 4;
+}
+
+export interface TechnologiesContent extends SectionStyles {
+  heading: string;
+  heading_ar?: string;
+  description: string;
+  description_ar?: string;
+  cards: TechnologyCard[];
+}
+
 export interface AuthContent {
   loginBackground: string;
 }
@@ -244,6 +267,7 @@ interface ContentStore {
   layers: LayersContent;
   news: NewsContent;
   mapView: MapViewContent;
+  technologies: TechnologiesContent;
   auth: AuthContent;
   updateHero: (data: Partial<HeroContent>) => void;
   updateVision: (data: Partial<VisionContent>) => void;
@@ -255,6 +279,7 @@ interface ContentStore {
   updateLayers: (data: Partial<LayersContent>) => void;
   updateNews: (data: Partial<NewsContent>) => void;
   updateMapView: (data: Partial<MapViewContent>) => void;
+  updateTechnologies: (data: Partial<TechnologiesContent>) => void;
   updateAuth: (data: Partial<AuthContent>) => void;
 }
 
