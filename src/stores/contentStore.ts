@@ -218,6 +218,7 @@ export interface LayerCard {
   tags?: string[];
   tags_ar?: string[];
   mapLayerId?: string;
+  previewSlot?: null | 1 | 2 | 3 | 4;
 }
 
 export interface LayersContent extends SectionStyles {
