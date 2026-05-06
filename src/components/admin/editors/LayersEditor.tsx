@@ -130,13 +130,13 @@ export default function LayersEditor() {
 
       {/* Add/Edit Layer Modal */}
       <Dialog open={editIndex !== null} onOpenChange={() => setEditIndex(null)}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
+        <DialogContent className="max-w-2xl p-0 gap-0 max-h-[90vh] overflow-hidden flex flex-col">
+          <DialogHeader className="sticky top-0 z-10 px-6 py-4 border-b border-border bg-background/80 backdrop-blur-md">
             <DialogTitle className="font-display">
               {modalMode === "add" ? "Add Layer Card" : "Edit Layer Card"}
             </DialogTitle>
           </DialogHeader>
-          <div className="space-y-4">
+          <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
             <BilingualField
               label="Title"
               value={editForm.title}
@@ -249,18 +249,18 @@ export default function LayersEditor() {
                 placeholder="addresses_layer"
               />
             </div>
-            <div className="flex gap-3 pt-2">
-              <Button
-                onClick={saveCard}
-                className="flex-1"
-                disabled={!editForm.title || !editForm.image}
-              >
-                {modalMode === "add" ? "Add Card" : "Update Card"}
-              </Button>
-              <Button variant="outline" onClick={() => setEditIndex(null)}>
-                Cancel
-              </Button>
-            </div>
+          </div>
+          <div className="sticky bottom-0 z-10 flex gap-3 px-6 py-4 border-t border-border bg-background/80 backdrop-blur-md">
+            <Button
+              onClick={saveCard}
+              className="flex-1"
+              disabled={!editForm.title || !editForm.image}
+            >
+              {modalMode === "add" ? "Add Card" : "Update Card"}
+            </Button>
+            <Button variant="outline" onClick={() => setEditIndex(null)}>
+              Cancel
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
