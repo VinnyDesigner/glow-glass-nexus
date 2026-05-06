@@ -561,7 +561,7 @@ export const useContentStore = create<ContentStore>()(
     }),
     {
       name: "bsdi-content",
-      version: 9,
+      version: 10,
       migrate: (persisted: any, version: number) => {
         if (persisted?.hero && version < 5) {
           persisted.hero.heroImages = [];
@@ -580,8 +580,12 @@ export const useContentStore = create<ContentStore>()(
           if (persisted?.footer) delete persisted.footer;
         }
         if (version < 9) {
-          // Refresh About section to ensure Arabic translations are present
           if (persisted?.about) delete persisted.about;
+        }
+        if (version < 10) {
+          // Reset news + layers so previewSlot defaults take effect
+          if (persisted?.news) delete persisted.news.items;
+          if (persisted?.layers) delete persisted.layers.cards;
         }
         return persisted;
       },
