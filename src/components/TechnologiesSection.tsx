@@ -11,10 +11,11 @@ import { ArrowRight, ExternalLink, Search, Sparkles } from "lucide-react";
 
 function TechCard({ card }: { card: TechnologyCard }) {
   const L = useLocalized();
+  const { language } = useUiStore();
   const title = L(card.title, card.title_ar);
   const description = L(card.description, card.description_ar);
   const category = L(card.category, card.category_ar);
-  const tags = (useUiStore.getState().language === "ar" ? card.tags_ar : card.tags) || [];
+  const tags = ((language === "ar" ? card.tags_ar : card.tags) || []) as string[];
 
   const Wrapper: any = card.link ? "a" : "div";
   const wrapperProps = card.link
