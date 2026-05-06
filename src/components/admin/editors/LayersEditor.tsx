@@ -107,49 +107,12 @@ export default function LayersEditor() {
         />
       </div>
 
-      <div className="neu-card p-6 space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="font-display text-lg font-semibold">
-            Layer Cards ({draft.cards.length})
-          </h3>
-          <Button variant="outline" size="sm" className="gap-2" onClick={openAdd}>
-            <Plus size={14} /> Add Layer
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {draft.cards.map((card, i) => (
-            <div
-              key={card.id}
-              className="flex items-center gap-3 p-3 border border-border rounded-xl"
-            >
-              {card.image && (
-                <img src={card.image} alt="" className="w-12 h-12 rounded-lg object-cover shrink-0" />
-              )}
-              <div className="flex-1 min-w-0">
-                <p className="font-medium text-sm truncate">{card.title}</p>
-                <p className="text-xs text-muted-foreground truncate">{card.link || "No link"}</p>
-              </div>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => openEdit(i)}
-                className="shrink-0 h-8 w-8 rounded-full"
-              >
-                <Pencil size={14} />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => deleteCard(card.id)}
-                className="shrink-0 text-destructive hover:text-destructive"
-              >
-                <Trash2 size={16} />
-              </Button>
-            </div>
-          ))}
-        </div>
-      </div>
+      <LayersCardList
+        cards={draft.cards}
+        onChange={(cards) => setDraft({ ...draft, cards })}
+        onEdit={openEdit}
+        onAdd={openAdd}
+      />
 
       <div className="flex items-center gap-3">
         <Button onClick={handleSave} className="gap-2" size="lg">
