@@ -559,7 +559,7 @@ export const useContentStore = create<ContentStore>()(
     }),
     {
       name: "bsdi-content",
-      version: 8,
+      version: 9,
       migrate: (persisted: any, version: number) => {
         if (persisted?.hero && version < 5) {
           persisted.hero.heroImages = [];
@@ -575,8 +575,11 @@ export const useContentStore = create<ContentStore>()(
           if (persisted?.layers) delete persisted.layers.cards;
         }
         if (version < 8) {
-          // Refresh footer to include new fields (authority info, legal links, expanded quick links)
           if (persisted?.footer) delete persisted.footer;
+        }
+        if (version < 9) {
+          // Refresh About section to ensure Arabic translations are present
+          if (persisted?.about) delete persisted.about;
         }
         return persisted;
       },
