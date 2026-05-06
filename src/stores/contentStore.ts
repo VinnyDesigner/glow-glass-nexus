@@ -229,6 +229,29 @@ export interface LayersContent extends SectionStyles {
   cards: LayerCard[];
 }
 
+export interface TechnologyCard {
+  id: string;
+  title: string;
+  title_ar?: string;
+  description: string;
+  description_ar?: string;
+  icon: string;
+  category: string;
+  category_ar?: string;
+  tags?: string[];
+  tags_ar?: string[];
+  link?: string;
+  previewSlot?: null | 1 | 2 | 3 | 4;
+}
+
+export interface TechnologiesContent extends SectionStyles {
+  heading: string;
+  heading_ar?: string;
+  description: string;
+  description_ar?: string;
+  cards: TechnologyCard[];
+}
+
 export interface AuthContent {
   loginBackground: string;
 }
@@ -244,6 +267,7 @@ interface ContentStore {
   layers: LayersContent;
   news: NewsContent;
   mapView: MapViewContent;
+  technologies: TechnologiesContent;
   auth: AuthContent;
   updateHero: (data: Partial<HeroContent>) => void;
   updateVision: (data: Partial<VisionContent>) => void;
@@ -255,6 +279,7 @@ interface ContentStore {
   updateLayers: (data: Partial<LayersContent>) => void;
   updateNews: (data: Partial<NewsContent>) => void;
   updateMapView: (data: Partial<MapViewContent>) => void;
+  updateTechnologies: (data: Partial<TechnologiesContent>) => void;
   updateAuth: (data: Partial<AuthContent>) => void;
 }
 
@@ -527,6 +552,27 @@ export const defaultMapView: MapViewContent = {
   previewImage: IMG.bahrainMap,
 };
 
+export const defaultTechnologies: TechnologiesContent = {
+  heading: "Technologies",
+  heading_ar: "التقنيات",
+  description: "Powering BSDI with modern GIS platforms, cloud infrastructure, analytics, AI, and enterprise technologies.",
+  description_ar: "تشغيل BSDI بمنصات نظم المعلومات الجغرافية الحديثة والبنية السحابية والتحليلات والذكاء الاصطناعي وتقنيات المؤسسات.",
+  cards: [
+    { id: "t1", previewSlot: 1, title: "ArcGIS Enterprise", title_ar: "ArcGIS Enterprise", description: "Enterprise GIS platform for publishing and managing spatial services.", description_ar: "منصة نظم معلومات جغرافية مؤسسية لنشر وإدارة الخدمات المكانية.", icon: "https://cdn.simpleicons.org/arcgis/0079C1", category: "GIS", category_ar: "نظم معلومات جغرافية", tags: ["Enterprise", "GIS"], tags_ar: ["مؤسسي", "نظم معلومات جغرافية"], link: "" },
+    { id: "t2", previewSlot: 2, title: "ArcGIS Pro", title_ar: "ArcGIS Pro", description: "Desktop application for GIS data creation, editing, and analysis.", description_ar: "تطبيق سطح المكتب لإنشاء بيانات نظم المعلومات الجغرافية وتحريرها وتحليلها.", icon: "https://cdn.simpleicons.org/arcgis/0079C1", category: "GIS", category_ar: "نظم معلومات جغرافية", tags: ["Desktop", "Analysis"], tags_ar: ["سطح المكتب", "تحليل"], link: "" },
+    { id: "t3", previewSlot: 3, title: "PostgreSQL + PostGIS", title_ar: "PostgreSQL + PostGIS", description: "Spatial database for storing and managing geospatial data.", description_ar: "قاعدة بيانات مكانية لتخزين وإدارة البيانات الجغرافية.", icon: "https://cdn.simpleicons.org/postgresql/4169E1", category: "Database", category_ar: "قاعدة بيانات", tags: ["Spatial", "SQL"], tags_ar: ["مكاني", "SQL"], link: "" },
+    { id: "t4", previewSlot: 4, title: "React", title_ar: "React", description: "Frontend framework for building responsive web applications.", description_ar: "إطار عمل واجهة أمامية لبناء تطبيقات ويب متجاوبة.", icon: "https://cdn.simpleicons.org/react/61DAFB", category: "Frontend", category_ar: "واجهة أمامية", tags: ["UI", "Web"], tags_ar: ["واجهة", "ويب"], link: "" },
+    { id: "t5", title: "FME", title_ar: "FME", description: "Data integration and transformation workflows for multiple systems.", description_ar: "تكامل البيانات وتحويلها عبر أنظمة متعددة.", icon: "https://cdn.simpleicons.org/safe/0091EA", category: "Integration", category_ar: "تكامل", tags: ["ETL", "Integration"], tags_ar: ["ETL", "تكامل"], link: "" },
+    { id: "t6", title: "REST APIs", title_ar: "واجهات REST", description: "Integration layer for system communication and data exchange.", description_ar: "طبقة تكامل لتواصل الأنظمة وتبادل البيانات.", icon: "https://cdn.simpleicons.org/openapiinitiative/6BA539", category: "APIs", category_ar: "واجهات برمجة", tags: ["REST", "Integration"], tags_ar: ["REST", "تكامل"], link: "" },
+    { id: "t7", title: "Dashboard & Reporting", title_ar: "لوحات ومعلومات", description: "Interactive dashboards for monitoring project activities and KPIs.", description_ar: "لوحات تفاعلية لمراقبة أنشطة المشاريع ومؤشرات الأداء.", icon: "https://cdn.simpleicons.org/grafana/F46800", category: "Analytics", category_ar: "تحليلات", tags: ["Dashboards", "KPIs"], tags_ar: ["لوحات", "مؤشرات"], link: "" },
+    { id: "t8", title: "Spatial Analytics", title_ar: "التحليلات المكانية", description: "GIS-based analysis and visualization of spatial information.", description_ar: "تحليل وتصور المعلومات المكانية باستخدام نظم المعلومات الجغرافية.", icon: "https://cdn.simpleicons.org/qgis/589632", category: "Analytics", category_ar: "تحليلات", tags: ["Spatial", "GIS"], tags_ar: ["مكاني", "GIS"], link: "" },
+    { id: "t9", title: "GeoAI", title_ar: "الذكاء الجغرافي", description: "AI-assisted spatial analysis and image interpretation.", description_ar: "تحليل مكاني وتفسير صور بمساعدة الذكاء الاصطناعي.", icon: "https://cdn.simpleicons.org/tensorflow/FF6F00", category: "AI", category_ar: "ذكاء اصطناعي", tags: ["AI", "ML"], tags_ar: ["ذكاء اصطناعي", "تعلم آلي"], link: "" },
+    { id: "t10", title: "AWS Cloud", title_ar: "سحابة AWS", description: "Cloud infrastructure hosting and deployment environment.", description_ar: "بيئة استضافة ونشر للبنية السحابية.", icon: "https://cdn.simpleicons.org/amazonaws/FF9900", category: "Cloud", category_ar: "سحابة", tags: ["Cloud", "Hosting"], tags_ar: ["سحابة", "استضافة"], link: "" },
+    { id: "t11", title: "Role-Based Access", title_ar: "وصول قائم على الأدوار", description: "Secure access control and user permission management.", description_ar: "تحكم آمن في الوصول وإدارة صلاحيات المستخدمين.", icon: "https://cdn.simpleicons.org/keycloak/4D4D4D", category: "Security", category_ar: "أمان", tags: ["Auth", "Security"], tags_ar: ["مصادقة", "أمان"], link: "" },
+    { id: "t12", title: "Web GIS Services", title_ar: "خدمات Web GIS", description: "Web-based access to maps, layers, and geospatial services.", description_ar: "وصول عبر الويب للخرائط والطبقات والخدمات الجغرافية.", icon: "https://cdn.simpleicons.org/leaflet/199900", category: "GIS", category_ar: "نظم معلومات جغرافية", tags: ["Web", "Maps"], tags_ar: ["ويب", "خرائط"], link: "" },
+  ],
+};
+
 export const defaultAuth: AuthContent = {
   loginBackground: IMG.loginBg,
 };
@@ -546,6 +592,7 @@ export const useContentStore = create<ContentStore>()(
       layers: defaultLayers,
       news: defaultNews,
       mapView: defaultMapView,
+      technologies: defaultTechnologies,
       auth: defaultAuth,
       updateHero: (data) => set((s) => ({ hero: { ...s.hero, ...data } })),
       updateVision: (data) => set((s) => ({ vision: { ...s.vision, ...data } })),
@@ -557,11 +604,12 @@ export const useContentStore = create<ContentStore>()(
       updateLayers: (data) => set((s) => ({ layers: { ...s.layers, ...data } })),
       updateNews: (data) => set((s) => ({ news: { ...s.news, ...data } })),
       updateMapView: (data) => set((s) => ({ mapView: { ...s.mapView, ...data } })),
+      updateTechnologies: (data) => set((s) => ({ technologies: { ...s.technologies, ...data } })),
       updateAuth: (data) => set((s) => ({ auth: { ...s.auth, ...data } })),
     }),
     {
       name: "bsdi-content",
-      version: 10,
+      version: 11,
       migrate: (persisted: any, version: number) => {
         if (persisted?.hero && version < 5) {
           persisted.hero.heroImages = [];
@@ -586,6 +634,9 @@ export const useContentStore = create<ContentStore>()(
           // Reset news + layers so previewSlot defaults take effect
           if (persisted?.news) delete persisted.news.items;
           if (persisted?.layers) delete persisted.layers.cards;
+        }
+        if (version < 11) {
+          if (persisted?.technologies) delete persisted.technologies;
         }
         return persisted;
       },
@@ -619,6 +670,9 @@ export const useContentStore = create<ContentStore>()(
           merged.mapView = { ...merged.mapView, previewImage: defaultMapView.previewImage };
         }
         if (!persisted?.auth) merged.auth = defaultAuth;
+        if (!persisted?.technologies?.cards) {
+          merged.technologies = { ...defaultTechnologies, ...(persisted?.technologies || {}), cards: defaultTechnologies.cards };
+        }
         return merged;
       },
     }
