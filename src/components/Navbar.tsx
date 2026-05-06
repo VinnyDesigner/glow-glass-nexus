@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { Search, X, LogOut, ShieldCheck, ChevronDown } from "lucide-react";
-import igaHeaderLogo from "@/assets/iga-header-logo.png";
+import igaHeaderLogoEn from "@/assets/iga-header-logo-en.png";
+import igaHeaderLogoAr from "@/assets/iga-header-logo-ar.png";
 import { useUiStore } from "@/stores/uiStore";
 import { useContentStore } from "@/stores/contentStore";
 import { useAuthStore } from "@/stores/authStore";
@@ -160,7 +161,7 @@ export default function Navbar() {
     >
       <div ref={containerRef} className="w-full flex items-center gap-3 pl-6 pr-6">
         <Link to="/" className="flex items-center gap-3 shrink-0">
-          <img src={igaHeaderLogo} alt="Information & eGovernment Authority" className="h-9 md:h-11" />
+          <img src={language === "ar" ? igaHeaderLogoAr : igaHeaderLogoEn} alt="Information & eGovernment Authority" className="h-9 md:h-11" />
         </Link>
 
         {/* Desktop nav links */}
