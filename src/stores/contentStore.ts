@@ -88,6 +88,7 @@ export interface NewsItem {
   image: string;
   link?: string;
   priorityPreview?: boolean;
+  previewSlot?: null | 1 | 2 | 3 | 4;
 }
 
 export interface NewsContent {
