@@ -8,6 +8,7 @@ import DataServicesSection from "@/components/DataServicesSection";
 import LayersSection from "@/components/LayersSection";
 import NewsSection from "@/components/NewsSection";
 import MapViewSection from "@/components/MapViewSection";
+import TechnologiesSection from "@/components/TechnologiesSection";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -24,6 +25,7 @@ const Index = () => {
         <ServicesSection />
         <VisionSection />
         <WhoCanUseSection />
+        <TechnologiesSection />
         <DataServicesSection />
       </div>
 
