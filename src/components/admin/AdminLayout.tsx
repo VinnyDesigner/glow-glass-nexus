@@ -63,10 +63,10 @@ export default function AdminLayout() {
     <div dir="ltr" className="h-screen bg-background flex overflow-hidden">
       {/* Sidebar */}
       <aside className="w-64 border-r border-sidebar-border flex flex-col shrink-0" style={{ background: 'linear-gradient(180deg, hsl(215 50% 22%) 0%, hsl(215 50% 14%) 100%)' }}>
-        <div className="p-5 border-b border-sidebar-border flex items-center gap-3">
-          <img src={dashLogo} alt="BSDI Logo" className="h-10 w-auto" />
+        <div className="px-5 pt-8 pb-10 border-b border-sidebar-border flex items-center justify-center">
+          <img src={dashLogo} alt="BSDI Logo" className="h-28 w-auto" />
         </div>
-        <nav className="flex-1 p-3 space-y-1">
+        <nav className="flex-1 p-3 pt-6 space-y-1">
           {tabs.map((tab) => (
             <button
               key={tab.id}
