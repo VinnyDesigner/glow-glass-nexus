@@ -68,42 +68,24 @@ export default function NewsSection() {
                   animation: isVisible ? `fadeBlurUp 0.6s ease-out ${i * 0.12}s forwards` : "none",
                 }}
               >
-                <div
-                  className="relative h-[380px] md:h-[420px] rounded-2xl overflow-hidden transition-transform duration-400 ease-out hover:scale-[1.02] hover:-translate-y-1"
-                  style={{
-                    boxShadow: "0 8px 32px hsla(210,20%,50%,0.12), 0 2px 8px hsla(210,20%,50%,0.06)",
-                  }}
-                >
-                  <img
-                    src={item.image}
-                    alt={title}
-                    loading="lazy"
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                  <div
-                    className="absolute bottom-0 left-0 right-0 p-5"
-                    style={{
-                      background:
-                        "linear-gradient(to top, hsla(0,0%,100%,0.9) 0%, hsla(0,0%,100%,0.75) 60%, hsla(0,0%,100%,0) 100%)",
-                      backdropFilter: "blur(12px)",
-                      WebkitBackdropFilter: "blur(12px)",
-                    }}
-                  >
+                <div className="relative h-[300px] md:h-[320px] rounded-2xl overflow-hidden bg-card flex flex-col transition-transform duration-400 ease-out hover:scale-[1.02] hover:-translate-y-1">
+                  <div className="h-[60%] w-full overflow-hidden">
+                    <img
+                      src={item.image}
+                      alt={title}
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex-1 p-4 flex flex-col justify-center">
                     <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
                       <Calendar size={13} />
                       <span>{fmtDate(item.date)}</span>
                     </div>
-                    <h3 className="font-display text-base md:text-lg font-semibold text-secondary-foreground leading-snug">
+                    <h3 className="font-display text-base md:text-lg font-semibold text-foreground leading-snug line-clamp-2">
                       {title}
                     </h3>
                   </div>
-                  <div
-                    className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
-                    style={{
-                      border: "1px solid hsla(348, 83%, 40%, 0.25)",
-                      boxShadow: "0 0 24px hsla(348, 83%, 40%, 0.08)",
-                    }}
-                  />
                 </div>
               </div>
             );
