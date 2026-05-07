@@ -25,28 +25,28 @@ function TechCard({ card }: { card: TechnologyCard }) {
   return (
     <Wrapper
       {...wrapperProps}
-      className="group relative h-full rounded-2xl p-5 flex flex-col gap-3 bg-card border border-border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/40 overflow-hidden"
+      className="group relative h-full rounded-2xl flex flex-col bg-card border border-border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/40 overflow-hidden"
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ background: "radial-gradient(600px circle at 50% 0%, hsl(var(--primary) / 0.08), transparent 60%)" }}
-      />
-      <div className="flex items-start justify-between gap-3 relative">
-        <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center shrink-0 overflow-hidden border border-border">
-          {card.icon ? (
-            <img src={card.icon} alt={title} className="w-8 h-8 object-contain" loading="lazy" />
-          ) : (
-            <Sparkles size={20} className="text-primary" />
-          )}
-        </div>
+      <div className="relative w-full aspect-[4/3] bg-muted overflow-hidden">
+        {card.icon ? (
+          <img
+            src={card.icon}
+            alt={title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <Sparkles size={36} className="text-primary" />
+          </div>
+        )}
         {category && (
-          <Badge variant="secondary" className="text-[10px] uppercase tracking-wide">
+          <Badge variant="secondary" className="absolute top-2 right-2 text-[10px] uppercase tracking-wide">
             {category}
           </Badge>
         )}
       </div>
-      <div className="relative flex-1 flex flex-col">
+      <div className="relative flex-1 flex flex-col p-4">
         <h3 className="font-display text-base font-semibold text-foreground line-clamp-1">{title}</h3>
         <p className="mt-1 text-sm text-muted-foreground leading-snug line-clamp-3">{description}</p>
         {tags.length > 0 && (
