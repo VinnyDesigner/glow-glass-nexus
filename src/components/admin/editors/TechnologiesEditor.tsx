@@ -309,6 +309,17 @@ export default function TechnologiesEditor() {
       </Dialog>
 
       <ResetConfirmModal open={resetOpen} onClose={() => setResetOpen(false)} onConfirm={handleReset} />
+
+      <ImageCropper
+        open={!!cropSrc}
+        imageSrc={cropSrc || ""}
+        aspect={4 / 3}
+        onClose={() => setCropSrc(null)}
+        onConfirm={(dataUrl) => {
+          setEditForm((f) => ({ ...f, icon: dataUrl }));
+          setCropSrc(null);
+        }}
+      />
     </div>
   );
 }
