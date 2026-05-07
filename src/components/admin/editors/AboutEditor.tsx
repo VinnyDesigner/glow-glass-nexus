@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 import { Save, Plus, Trash2, Pencil, Bold, Italic, RotateCcw, BarChart3 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -264,6 +265,41 @@ export default function AboutEditor() {
               <div>
                 <Label>Label (AR · العربية)</Label>
                 <Input dir="rtl" value={editForm.label_ar || ""} onChange={(e) => setEditForm({ ...editForm, label_ar: e.target.value })} className="mt-1.5" style={{ fontFamily: "'Cairo','Tajawal',sans-serif" }} />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label>Icon (Lucide name)</Label>
+                  <Input value={editForm.icon || ""} onChange={(e) => setEditForm({ ...editForm, icon: e.target.value })} placeholder="Building2, Layers, ShieldCheck..." className="mt-1.5" />
+                </div>
+                <div>
+                  <Label>Trend %</Label>
+                  <div className="flex gap-2 mt-1.5">
+                    <Input
+                      type="number"
+                      value={editForm.trend ?? ""}
+                      onChange={(e) => setEditForm({ ...editForm, trend: e.target.value === "" ? undefined : parseFloat(e.target.value) })}
+                      placeholder="18"
+                      className="flex-1"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setEditForm({ ...editForm, trendDirection: editForm.trendDirection === "down" ? "up" : "down" })}
+                    >
+                      {editForm.trendDirection === "down" ? "▼ Down" : "▲ Up"}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <Label>Description (EN)</Label>
+                <Input value={editForm.description || ""} onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} placeholder="Short description shown under the value" className="mt-1.5" />
+              </div>
+              <div>
+                <Label>Description (AR · العربية)</Label>
+                <Input dir="rtl" value={editForm.description_ar || ""} onChange={(e) => setEditForm({ ...editForm, description_ar: e.target.value })} className="mt-1.5" style={{ fontFamily: "'Cairo','Tajawal',sans-serif" }} />
               </div>
 
               <div className="space-y-3 border-t border-border pt-4">
