@@ -35,6 +35,7 @@ export default function TechnologiesEditor() {
   const [modalMode, setModalMode] = useState<"add" | "edit">("add");
   const [resetOpen, setResetOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleSave = () => {
