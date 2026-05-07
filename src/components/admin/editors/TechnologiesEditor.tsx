@@ -251,7 +251,7 @@ export default function TechnologiesEditor() {
               placeholder="GIS"
             />
             <div>
-              <Label>Icon / Logo URL</Label>
+              <Label>Image URL</Label>
               <Input
                 value={editForm.icon}
                 onChange={(e) => setEditForm({ ...editForm, icon: e.target.value })}
@@ -259,12 +259,12 @@ export default function TechnologiesEditor() {
                 placeholder="https://..."
               />
               <div className="mt-2">
-                <Label className="text-xs text-muted-foreground">Or upload an icon</Label>
+                <Label className="text-xs text-muted-foreground">Or upload an image (you'll be able to crop it)</Label>
                 <Input type="file" accept="image/*" onChange={handleIconUpload} className="mt-1" />
               </div>
               {editForm.icon && (
-                <div className="mt-3 w-20 h-20 rounded-lg bg-muted border border-border flex items-center justify-center overflow-hidden">
-                  <img src={editForm.icon} alt="preview" className="w-14 h-14 object-contain" />
+                <div className="mt-3 w-40 aspect-[4/3] rounded-lg bg-muted border border-border overflow-hidden">
+                  <img src={editForm.icon} alt="preview" className="w-full h-full object-cover" />
                 </div>
               )}
             </div>
