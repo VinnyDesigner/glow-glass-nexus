@@ -67,9 +67,10 @@ export default function TechnologiesEditor() {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
-      setEditForm((f) => ({ ...f, icon: (ev.target?.result as string) || "" }));
+      setCropSrc((ev.target?.result as string) || null);
     };
     reader.readAsDataURL(file);
+    e.target.value = "";
   };
 
   const saveCard = () => {
