@@ -170,8 +170,8 @@ export default function TechnologiesEditor() {
               >
                 <div className="flex items-center gap-3">
                   <div className="relative shrink-0">
-                    <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center overflow-hidden border border-border">
-                      {card.icon ? <img src={card.icon} alt="" className="w-8 h-8 object-contain" /> : <Sparkles size={16} className="text-primary" />}
+                    <div className="w-16 h-16 rounded-lg bg-muted flex items-center justify-center overflow-hidden border border-border">
+                      {card.icon ? <img src={card.icon} alt="" className="w-full h-full object-cover" /> : <Sparkles size={18} className="text-primary" />}
                     </div>
                     {onLanding && (
                       <span className="absolute -top-1 -left-1 text-[9px] font-semibold px-1 py-0.5 rounded bg-gradient-to-r from-primary to-primary/70 text-primary-foreground shadow">
