@@ -763,6 +763,7 @@ export const useContentStore = create<ContentStore>()(
         if (!persisted?.services?.cards) merged.services = { ...defaultServices, ...(persisted?.services || {}), cards: defaultServices.cards };
         if (!persisted?.users?.cards) merged.users = { ...defaultUsers, ...(persisted?.users || {}), cards: defaultUsers.cards };
         if (!persisted?.layers?.cards) merged.layers = { ...defaultLayers, ...(persisted?.layers || {}), cards: defaultLayers.cards };
+        if (!persisted?.about?.stats) merged.about = { ...defaultAbout, ...(persisted?.about || {}), stats: defaultAbout.stats };
         if (!persisted?.news?.items) {
           merged.news = { ...defaultNews, ...(persisted?.news || {}), items: defaultNews.items };
         } else {
