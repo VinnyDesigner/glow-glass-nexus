@@ -6,7 +6,7 @@ import { useUiStore } from "@/stores/uiStore";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Calendar, Database, Tag, MapPin, ExternalLink } from "lucide-react";
+import { ArrowRight, Calendar, Database, Tag, MapPin, ExternalLink, FileType, Globe, RefreshCw, Layers as LayersIcon, Building2, Info, Sparkles } from "lucide-react";
 
 function LayerCardItem({ card, onClick }: { card: LayerCardType; onClick: (c: LayerCardType) => void }) {
   const L = useLocalized();
@@ -63,13 +63,25 @@ export default function LayersSection() {
 
   const labels = {
     shortDesc: isAr ? "وصف موجز" : "Short description",
-    details: isAr ? "تفاصيل" : "Details",
+    details: isAr ? "تفاصيل" : "Detailed Information",
+    overview: isAr ? "نظرة عامة على البيانات" : "Dataset Overview",
+    spatial: isAr ? "المعلومات المكانية" : "Spatial Information",
+    usage: isAr ? "الاستخدامات والتطبيقات" : "Usage & Applications",
+    related: isAr ? "طبقات ذات صلة" : "Related Layers",
+    metadata: isAr ? "البيانات الوصفية الرئيسية" : "Key Attributes",
     category: isAr ? "الفئة" : "Category",
-    lastUpdated: isAr ? "آخر تحديث" : "Last updated",
+    lastUpdated: isAr ? "آخر تحديث" : "Last Updated",
     source: isAr ? "المصدر" : "Source",
+    sourceAuthority: isAr ? "الجهة المصدرة" : "Source Authority",
+    coverage: isAr ? "نطاق التغطية" : "Coverage Area",
+    format: isAr ? "صيغة البيانات" : "Format",
+    crs: isAr ? "نظام الإحداثيات" : "Coordinate System",
+    frequency: isAr ? "تكرار التحديث" : "Update Frequency",
+    dataType: isAr ? "نوع البيانات" : "Data Type",
     tags: isAr ? "الوسوم" : "Tags",
     viewInMap: isAr ? "عرض على الخريطة" : "View in Map",
-    open: isAr ? "فتح الرابط" : "Open link",
+    open: isAr ? "فتح الرابط" : "Open Link",
+    close: isAr ? "إغلاق" : "Close",
     hint: isAr ? "اضغط لعرض التفاصيل" : "Click to view details",
   };
 
