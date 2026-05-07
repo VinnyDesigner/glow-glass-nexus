@@ -671,7 +671,7 @@ export const useContentStore = create<ContentStore>()(
     }),
     {
       name: "bsdi-content",
-      version: 11,
+      version: 12,
       migrate: (persisted: any, version: number) => {
         if (persisted?.hero && version < 5) {
           persisted.hero.heroImages = [];
@@ -699,6 +699,10 @@ export const useContentStore = create<ContentStore>()(
         }
         if (version < 11) {
           if (persisted?.technologies) delete persisted.technologies;
+        }
+        if (version < 12) {
+          // Reset layers so new GIS metadata defaults take effect
+          if (persisted?.layers) delete persisted.layers.cards;
         }
         return persisted;
       },
