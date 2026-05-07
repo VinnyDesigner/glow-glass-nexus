@@ -359,6 +359,11 @@ export default function AboutEditor() {
                           height={70}
                           data={editForm.vizDataStr ? editForm.vizDataStr.split(",").map((s) => parseFloat(s.trim())).filter((n) => !isNaN(n)) : undefined}
                           labels={editForm.vizLabelsStr ? editForm.vizLabelsStr.split(",").map((s) => s.trim()).filter(Boolean) : undefined}
+                          useBrandColors={editForm.useBrandColors !== false}
+                          colors={editForm.colorsStr ? editForm.colorsStr.split(",").map((s) => s.trim()).filter(Boolean) : undefined}
+                          legendEnabled={editForm.legendEnabled}
+                          tooltipEnabled={editForm.tooltipEnabled !== false}
+                          animationEnabled={editForm.animationEnabled !== false}
                         />
                       </div>
                     ) : (
@@ -386,6 +391,37 @@ export default function AboutEditor() {
                         placeholder="2019, 2020, 2021, 2022"
                         className="mt-1.5"
                       />
+                    </div>
+
+                    <div className="border border-border rounded-xl p-3 space-y-3 bg-muted/20">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Chart Options</p>
+                      <div className="flex items-center justify-between">
+                        <Label className="text-xs cursor-pointer">Use Brand Colors</Label>
+                        <Switch checked={editForm.useBrandColors !== false} onCheckedChange={(v) => setEditForm({ ...editForm, useBrandColors: v })} />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Label className="text-xs cursor-pointer">Show Legend</Label>
+                        <Switch checked={!!editForm.legendEnabled} onCheckedChange={(v) => setEditForm({ ...editForm, legendEnabled: v })} />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Label className="text-xs cursor-pointer">Show Tooltip</Label>
+                        <Switch checked={editForm.tooltipEnabled !== false} onCheckedChange={(v) => setEditForm({ ...editForm, tooltipEnabled: v })} />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Label className="text-xs cursor-pointer">Animations</Label>
+                        <Switch checked={editForm.animationEnabled !== false} onCheckedChange={(v) => setEditForm({ ...editForm, animationEnabled: v })} />
+                      </div>
+                      {!editForm.useBrandColors && (
+                        <div>
+                          <Label className="text-xs">Custom colors (hex, comma-separated)</Label>
+                          <Input
+                            value={editForm.colorsStr || ""}
+                            onChange={(e) => setEditForm({ ...editForm, colorsStr: e.target.value })}
+                            placeholder="#FF3B30, #0B2545, #13B5EA"
+                            className="mt-1.5"
+                          />
+                        </div>
+                      )}
                     </div>
                   </>
                 )}
@@ -424,6 +460,11 @@ export default function AboutEditor() {
                       height={60}
                       data={editForm.vizDataStr ? editForm.vizDataStr.split(",").map((s) => parseFloat(s.trim())).filter((n) => !isNaN(n)) : undefined}
                       labels={editForm.vizLabelsStr ? editForm.vizLabelsStr.split(",").map((s) => s.trim()).filter(Boolean) : undefined}
+                      useBrandColors={editForm.useBrandColors !== false}
+                      colors={editForm.colorsStr ? editForm.colorsStr.split(",").map((s) => s.trim()).filter(Boolean) : undefined}
+                      legendEnabled={editForm.legendEnabled}
+                      tooltipEnabled={editForm.tooltipEnabled !== false}
+                      animationEnabled={editForm.animationEnabled !== false}
                     />
                   </div>
                 )}
