@@ -73,8 +73,8 @@ export default function NewsSection() {
                   animation: isVisible ? `fadeBlurUp 0.6s ease-out ${i * 0.12}s forwards` : "none",
                 }}
               >
-                <div className="relative h-[300px] md:h-[320px] rounded-2xl overflow-hidden bg-card flex flex-col transition-transform duration-400 ease-out hover:scale-[1.02] hover:-translate-y-1">
-                  <div className="h-[60%] w-full overflow-hidden">
+                <div className="relative h-[260px] md:h-[275px] rounded-2xl overflow-hidden bg-card flex flex-col transition-transform duration-400 ease-out hover:scale-[1.02] hover:-translate-y-1">
+                  <div className="h-[72%] w-full overflow-hidden">
                     <img
                       src={item.image}
                       alt={title}
@@ -82,12 +82,12 @@ export default function NewsSection() {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="flex-1 p-4 flex flex-col justify-center">
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
-                      <Calendar size={13} />
+                  <div className="flex-1 px-3 py-2 flex flex-col justify-center">
+                    <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground mb-1">
+                      <Calendar size={11} />
                       <span>{fmtDate(item.date)}</span>
                     </div>
-                    <h3 className="font-display text-base md:text-lg font-semibold text-foreground leading-snug line-clamp-2">
+                    <h3 className="font-display text-xs md:text-sm font-semibold text-foreground leading-snug line-clamp-2">
                       {title}
                     </h3>
                   </div>
