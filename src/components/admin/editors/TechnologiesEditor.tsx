@@ -10,6 +10,7 @@ import ResetConfirmModal from "../ResetConfirmModal";
 import { BilingualField } from "../BilingualField";
 import { SectionStyleControls } from "../SectionStyleControls";
 import { PreviewSlotSelector, applySlotChange, type PreviewSlot } from "../PreviewSlotSelector";
+import ImageCropper from "../ImageCropper";
 
 const emptyCard: TechnologyCard = {
   id: "",
@@ -34,6 +35,7 @@ export default function TechnologiesEditor() {
   const [modalMode, setModalMode] = useState<"add" | "edit">("add");
   const [resetOpen, setResetOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleSave = () => {
@@ -65,9 +67,10 @@ export default function TechnologiesEditor() {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
-      setEditForm((f) => ({ ...f, icon: (ev.target?.result as string) || "" }));
+      setCropSrc((ev.target?.result as string) || null);
     };
     reader.readAsDataURL(file);
+    e.target.value = "";
   };
 
   const saveCard = () => {
@@ -167,8 +170,8 @@ export default function TechnologiesEditor() {
               >
                 <div className="flex items-center gap-3">
                   <div className="relative shrink-0">
-                    <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center overflow-hidden border border-border">
-                      {card.icon ? <img src={card.icon} alt="" className="w-8 h-8 object-contain" /> : <Sparkles size={16} className="text-primary" />}
+                    <div className="w-16 h-16 rounded-lg bg-muted flex items-center justify-center overflow-hidden border border-border">
+                      {card.icon ? <img src={card.icon} alt="" className="w-full h-full object-cover" /> : <Sparkles size={18} className="text-primary" />}
                     </div>
                     {onLanding && (
                       <span className="absolute -top-1 -left-1 text-[9px] font-semibold px-1 py-0.5 rounded bg-gradient-to-r from-primary to-primary/70 text-primary-foreground shadow">
@@ -248,7 +251,7 @@ export default function TechnologiesEditor() {
               placeholder="GIS"
             />
             <div>
-              <Label>Icon / Logo URL</Label>
+              <Label>Image URL</Label>
               <Input
                 value={editForm.icon}
                 onChange={(e) => setEditForm({ ...editForm, icon: e.target.value })}
@@ -256,12 +259,12 @@ export default function TechnologiesEditor() {
                 placeholder="https://..."
               />
               <div className="mt-2">
-                <Label className="text-xs text-muted-foreground">Or upload an icon</Label>
+                <Label className="text-xs text-muted-foreground">Or upload an image (you'll be able to crop it)</Label>
                 <Input type="file" accept="image/*" onChange={handleIconUpload} className="mt-1" />
               </div>
               {editForm.icon && (
-                <div className="mt-3 w-20 h-20 rounded-lg bg-muted border border-border flex items-center justify-center overflow-hidden">
-                  <img src={editForm.icon} alt="preview" className="w-14 h-14 object-contain" />
+                <div className="mt-3 w-40 aspect-[4/3] rounded-lg bg-muted border border-border overflow-hidden">
+                  <img src={editForm.icon} alt="preview" className="w-full h-full object-cover" />
                 </div>
               )}
             </div>
@@ -306,6 +309,17 @@ export default function TechnologiesEditor() {
       </Dialog>
 
       <ResetConfirmModal open={resetOpen} onClose={() => setResetOpen(false)} onConfirm={handleReset} />
+
+      <ImageCropper
+        open={!!cropSrc}
+        imageSrc={cropSrc || ""}
+        aspect={4 / 3}
+        onClose={() => setCropSrc(null)}
+        onConfirm={(dataUrl) => {
+          setEditForm((f) => ({ ...f, icon: dataUrl }));
+          setCropSrc(null);
+        }}
+      />
     </div>
   );
 }
