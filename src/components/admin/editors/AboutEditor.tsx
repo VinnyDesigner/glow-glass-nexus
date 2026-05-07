@@ -27,6 +27,17 @@ interface StatEdit {
   visualizationStyle?: string;
   vizDataStr?: string;
   vizLabelsStr?: string;
+  // New fields
+  icon?: string;
+  description?: string;
+  description_ar?: string;
+  trend?: number;
+  trendDirection?: "up" | "down";
+  useBrandColors?: boolean;
+  colorsStr?: string;
+  legendEnabled?: boolean;
+  tooltipEnabled?: boolean;
+  animationEnabled?: boolean;
 }
 
 export default function AboutEditor() {
@@ -72,6 +83,16 @@ export default function AboutEditor() {
       visualizationStyle: s.visualizationStyle,
       vizDataStr: s.vizData ? s.vizData.join(",") : "",
       vizLabelsStr: s.vizLabels ? s.vizLabels.join(",") : "",
+      icon: (s as any).icon || "",
+      description: (s as any).description || "",
+      description_ar: (s as any).description_ar || "",
+      trend: (s as any).trend ?? undefined,
+      trendDirection: (s as any).trendDirection || "up",
+      useBrandColors: (s as any).useBrandColors !== false,
+      colorsStr: (s as any).colors ? (s as any).colors.join(",") : "",
+      legendEnabled: (s as any).legendEnabled || false,
+      tooltipEnabled: (s as any).tooltipEnabled !== false,
+      animationEnabled: (s as any).animationEnabled !== false,
     });
     setEditIndex(i);
   };
@@ -79,14 +100,17 @@ export default function AboutEditor() {
   const saveEdit = () => {
     if (editIndex === null) return;
     const updated = [...draft.stats];
-    const { vizDataStr, vizLabelsStr, ...rest } = editForm;
+    const { vizDataStr, vizLabelsStr, colorsStr, ...rest } = editForm;
     const vizData = vizDataStr
       ? vizDataStr.split(",").map((s) => parseFloat(s.trim())).filter((n) => !isNaN(n))
       : undefined;
     const vizLabels = vizLabelsStr
       ? vizLabelsStr.split(",").map((s) => s.trim()).filter(Boolean)
       : undefined;
-    updated[editIndex] = { ...updated[editIndex], ...rest, vizData, vizLabels };
+    const colors = colorsStr
+      ? colorsStr.split(",").map((s) => s.trim()).filter(Boolean)
+      : undefined;
+    updated[editIndex] = { ...updated[editIndex], ...rest, vizData, vizLabels, colors };
     setDraft({ ...draft, stats: updated });
     setEditIndex(null);
   };
