@@ -10,6 +10,7 @@ import ResetConfirmModal from "../ResetConfirmModal";
 import { BilingualField } from "../BilingualField";
 import { SectionStyleControls } from "../SectionStyleControls";
 import { PreviewSlotSelector, applySlotChange, type PreviewSlot } from "../PreviewSlotSelector";
+import ImageCropper from "../ImageCropper";
 
 const emptyCard: TechnologyCard = {
   id: "",
