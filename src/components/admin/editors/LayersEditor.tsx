@@ -249,6 +249,71 @@ export default function LayersEditor() {
                 placeholder="addresses_layer"
               />
             </div>
+
+            {/* GIS Metadata */}
+            <div className="pt-4 border-t border-border space-y-3">
+              <h4 className="font-display text-sm font-semibold text-foreground">GIS Metadata</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <Label>Data Format</Label>
+                  <Input value={editForm.dataFormat || ""} onChange={(e) => setEditForm({ ...editForm, dataFormat: e.target.value })} className="mt-1.5" placeholder="GeoJSON / Shapefile" />
+                </div>
+                <div>
+                  <Label>Coordinate System</Label>
+                  <Input value={editForm.coordinateSystem || ""} onChange={(e) => setEditForm({ ...editForm, coordinateSystem: e.target.value })} className="mt-1.5" placeholder="WGS 84" />
+                </div>
+              </div>
+              <BilingualField
+                label="Coverage Area"
+                value={editForm.coverageArea || ""}
+                valueAr={editForm.coverageArea_ar || ""}
+                onChange={(v) => setEditForm({ ...editForm, coverageArea: v })}
+                onChangeAr={(v) => setEditForm({ ...editForm, coverageArea_ar: v })}
+                placeholder="Kingdom of Bahrain"
+              />
+              <BilingualField
+                label="Update Frequency"
+                value={editForm.updateFrequency || ""}
+                valueAr={editForm.updateFrequency_ar || ""}
+                onChange={(v) => setEditForm({ ...editForm, updateFrequency: v })}
+                onChangeAr={(v) => setEditForm({ ...editForm, updateFrequency_ar: v })}
+                placeholder="Monthly"
+              />
+              <BilingualField
+                label="Data Type"
+                value={editForm.dataType || ""}
+                valueAr={editForm.dataType_ar || ""}
+                onChange={(v) => setEditForm({ ...editForm, dataType: v })}
+                onChangeAr={(v) => setEditForm({ ...editForm, dataType_ar: v })}
+                placeholder="Point / Polygon / Line"
+              />
+              <BilingualField
+                label="Source Authority"
+                value={editForm.sourceAuthority || ""}
+                valueAr={editForm.sourceAuthority_ar || ""}
+                onChange={(v) => setEditForm({ ...editForm, sourceAuthority: v })}
+                onChangeAr={(v) => setEditForm({ ...editForm, sourceAuthority_ar: v })}
+                placeholder="BSDI"
+              />
+              <BilingualField
+                label="Usage & Applications"
+                multiline rows={3}
+                value={editForm.usageApplications || ""}
+                valueAr={editForm.usageApplications_ar || ""}
+                onChange={(v) => setEditForm({ ...editForm, usageApplications: v })}
+                onChangeAr={(v) => setEditForm({ ...editForm, usageApplications_ar: v })}
+                placeholder="Navigation, utility services, planning..."
+              />
+              <div>
+                <Label>Related Layers (comma separated titles)</Label>
+                <Input
+                  value={(editForm.relatedLayers || []).join(", ")}
+                  onChange={(e) => setEditForm({ ...editForm, relatedLayers: e.target.value.split(",").map((t) => t.trim()).filter(Boolean) })}
+                  className="mt-1.5"
+                  placeholder="BUILDINGS, ADMINBOUNDRY"
+                />
+              </div>
+            </div>
           </div>
           <div className="sticky bottom-0 z-10 flex gap-3 px-6 py-4 border-t border-border bg-background/80 backdrop-blur-md">
             <Button

@@ -219,6 +219,20 @@ export interface LayerCard {
   tags_ar?: string[];
   mapLayerId?: string;
   previewSlot?: null | 1 | 2 | 3 | 4;
+  // Extended GIS metadata
+  dataFormat?: string;
+  coordinateSystem?: string;
+  coverageArea?: string;
+  coverageArea_ar?: string;
+  updateFrequency?: string;
+  updateFrequency_ar?: string;
+  dataType?: string;
+  dataType_ar?: string;
+  sourceAuthority?: string;
+  sourceAuthority_ar?: string;
+  usageApplications?: string;
+  usageApplications_ar?: string;
+  relatedLayers?: string[];
 }
 
 export interface LayersContent extends SectionStyles {
@@ -498,10 +512,58 @@ export const defaultLayers: LayersContent = {
   description: "Explore the spatial datasets and thematic layers powering Bahrain's geospatial intelligence.",
   description_ar: "استكشف مجموعات البيانات المكانية والطبقات الموضوعية التي تشغّل الذكاء الجغرافي للبحرين.",
   cards: [
-    { id: "l1", previewSlot: 1, title: "ADDRESSES", title_ar: "العناوين", description: "Standardized address points across Bahrain.", description_ar: "نقاط عناوين موحّدة في جميع أنحاء البحرين.", image: IMG.addresses, link: "#" },
-    { id: "l2", previewSlot: 2, title: "ADMINBOUNDRY", title_ar: "الحدود الإدارية", description: "Administrative boundaries and governorate divisions.", description_ar: "الحدود الإدارية وتقسيمات المحافظات.", image: IMG.adminBoundary, link: "#" },
-    { id: "l3", previewSlot: 3, title: "APPROVED_ZONES", title_ar: "المناطق المعتمدة", description: "Officially approved planning and development zones.", description_ar: "مناطق التخطيط والتطوير المعتمدة رسمياً.", image: IMG.zones, link: "#" },
-    { id: "l4", previewSlot: 4, title: "BACA", title_ar: "هيئة الثقافة والآثار", description: "Bahrain Authority for Culture & Antiquities sites.", description_ar: "مواقع هيئة البحرين للثقافة والآثار.", image: IMG.heritage, link: "#" },
+    { id: "l1", previewSlot: 1, title: "ADDRESSES", title_ar: "العناوين", description: "Standardized address points across Bahrain.", description_ar: "نقاط عناوين موحّدة في جميع أنحاء البحرين.", image: IMG.addresses, link: "#",
+      detailedDescription: "Standardized national address points across Bahrain used for navigation, utility services, emergency response, and municipal operations. Includes building numbers, street names, block identifiers, and geographic coordinates for accurate spatial referencing and location intelligence.",
+      detailedDescription_ar: "نقاط العناوين الوطنية الموحدة عبر البحرين والمستخدمة للتنقل وخدمات المرافق والاستجابة للطوارئ والعمليات البلدية. تتضمن أرقام المباني وأسماء الشوارع ومعرفات المجمعات والإحداثيات الجغرافية لمرجعية مكانية دقيقة.",
+      category: "Infrastructure", category_ar: "البنية التحتية", lastUpdated: "2025-09-01", source: "BSDI",
+      tags: ["Address", "Location", "GIS"], tags_ar: ["عنوان", "موقع", "نظم معلومات جغرافية"],
+      dataFormat: "GeoJSON / Shapefile", coordinateSystem: "WGS 84",
+      coverageArea: "Kingdom of Bahrain", coverageArea_ar: "مملكة البحرين",
+      updateFrequency: "Monthly", updateFrequency_ar: "شهرياً",
+      dataType: "Point", dataType_ar: "نقطة",
+      sourceAuthority: "BSDI", sourceAuthority_ar: "البنية التحتية للبيانات المكانية",
+      usageApplications: "Navigation, utility billing, emergency dispatch, municipal services, e-government delivery.",
+      usageApplications_ar: "التنقل، وفوترة المرافق، وإرسال الطوارئ، والخدمات البلدية، وتقديم الحكومة الإلكترونية.",
+      relatedLayers: ["BUILDINGS", "BUS ROUTE", "ADMINBOUNDRY"] },
+    { id: "l2", previewSlot: 2, title: "ADMINBOUNDRY", title_ar: "الحدود الإدارية", description: "Administrative boundaries and governorate divisions.", description_ar: "الحدود الإدارية وتقسيمات المحافظات.", image: IMG.adminBoundary, link: "#",
+      detailedDescription: "Administrative boundary dataset representing governorates, municipalities, districts, and planning sectors across Bahrain. Supports governance, land management, demographic analysis, and regional planning workflows within GIS systems.",
+      detailedDescription_ar: "مجموعة بيانات الحدود الإدارية التي تمثل المحافظات والبلديات والمناطق وقطاعات التخطيط في البحرين. تدعم الحوكمة وإدارة الأراضي والتحليل الديموغرافي وسير عمل التخطيط الإقليمي.",
+      category: "Governance", category_ar: "الحوكمة", lastUpdated: "2025-08-15", source: "BSDI",
+      tags: ["Boundary", "Governorate", "Planning"], tags_ar: ["حدود", "محافظة", "تخطيط"],
+      dataFormat: "GeoJSON / Shapefile", coordinateSystem: "WGS 84",
+      coverageArea: "Kingdom of Bahrain", coverageArea_ar: "مملكة البحرين",
+      updateFrequency: "Quarterly", updateFrequency_ar: "ربع سنوي",
+      dataType: "Polygon", dataType_ar: "مضلع",
+      sourceAuthority: "BSDI", sourceAuthority_ar: "البنية التحتية للبيانات المكانية",
+      usageApplications: "Administrative governance, demographics, land-use planning, electoral districting, statistical aggregation.",
+      usageApplications_ar: "الحوكمة الإدارية، والتركيبة السكانية، وتخطيط استخدام الأراضي، والتقسيم الانتخابي، والتجميع الإحصائي.",
+      relatedLayers: ["APPROVED_ZONES", "ADDRESSES"] },
+    { id: "l3", previewSlot: 3, title: "APPROVED_ZONES", title_ar: "المناطق المعتمدة", description: "Officially approved planning and development zones.", description_ar: "مناطق التخطيط والتطوير المعتمدة رسمياً.", image: IMG.zones, link: "#",
+      detailedDescription: "Officially approved zoning and planning areas designated for residential, commercial, industrial, and mixed-use developments. Helps urban planners and authorities monitor land-use regulations and future development strategies.",
+      detailedDescription_ar: "مناطق التخطيط المعتمدة رسمياً والمخصصة للتطوير السكني والتجاري والصناعي ومتعدد الاستخدامات. تساعد مخططي المدن والسلطات في رصد لوائح استخدام الأراضي واستراتيجيات التطوير المستقبلية.",
+      category: "Urban Planning", category_ar: "التخطيط العمراني", lastUpdated: "2025-07-20", source: "BSDI",
+      tags: ["Zoning", "Land Use", "Planning"], tags_ar: ["تقسيم مناطق", "استخدام الأراضي", "تخطيط"],
+      dataFormat: "GeoJSON / Shapefile", coordinateSystem: "WGS 84",
+      coverageArea: "Kingdom of Bahrain", coverageArea_ar: "مملكة البحرين",
+      updateFrequency: "Quarterly", updateFrequency_ar: "ربع سنوي",
+      dataType: "Polygon", dataType_ar: "مضلع",
+      sourceAuthority: "BSDI", sourceAuthority_ar: "البنية التحتية للبيانات المكانية",
+      usageApplications: "Urban development, regulatory compliance, investment planning, infrastructure rollout.",
+      usageApplications_ar: "التنمية العمرانية، والامتثال التنظيمي، وتخطيط الاستثمار، ونشر البنية التحتية.",
+      relatedLayers: ["ADMINBOUNDRY", "BUILDINGS"] },
+    { id: "l4", previewSlot: 4, title: "BACA", title_ar: "هيئة الثقافة والآثار", description: "Bahrain Authority for Culture & Antiquities sites.", description_ar: "مواقع هيئة البحرين للثقافة والآثار.", image: IMG.heritage, link: "#",
+      detailedDescription: "Spatial dataset containing Bahrain Authority for Culture & Antiquities locations including heritage sites, museums, archaeological zones, and cultural landmarks. Supports tourism planning, preservation activities, and public cultural awareness initiatives.",
+      detailedDescription_ar: "مجموعة بيانات مكانية تحتوي على مواقع هيئة البحرين للثقافة والآثار بما في ذلك المواقع التراثية والمتاحف والمناطق الأثرية والمعالم الثقافية. تدعم تخطيط السياحة وأنشطة الحفظ ومبادرات التوعية الثقافية.",
+      category: "Culture & Heritage", category_ar: "الثقافة والتراث", lastUpdated: "2025-06-10", source: "BACA",
+      tags: ["Heritage", "Culture", "Tourism"], tags_ar: ["تراث", "ثقافة", "سياحة"],
+      dataFormat: "GeoJSON / Shapefile", coordinateSystem: "WGS 84",
+      coverageArea: "Kingdom of Bahrain", coverageArea_ar: "مملكة البحرين",
+      updateFrequency: "Annually", updateFrequency_ar: "سنوياً",
+      dataType: "Point / Polygon", dataType_ar: "نقطة / مضلع",
+      sourceAuthority: "Bahrain Authority for Culture & Antiquities", sourceAuthority_ar: "هيئة البحرين للثقافة والآثار",
+      usageApplications: "Tourism, heritage conservation, cultural programs, education, archaeological research.",
+      usageApplications_ar: "السياحة، والحفاظ على التراث، والبرامج الثقافية، والتعليم، والأبحاث الأثرية.",
+      relatedLayers: ["BUILDINGS", "ADMINBOUNDRY"] },
     { id: "l5", title: "BBU", title_ar: "جامعة بيان البحرين", description: "Bahrain Bayan University campus and facilities.", description_ar: "حرم ومرافق جامعة بيان البحرين.", image: IMG.university, link: "#" },
     { id: "l6", title: "BIX", title_ar: "نقطة تبادل الإنترنت", description: "Bahrain Internet Exchange node locations.", description_ar: "مواقع عقد تبادل الإنترنت في البحرين.", image: IMG.serverNetwork, link: "#" },
     { id: "l7", title: "BOTANICAL_ATLAS", title_ar: "الأطلس النباتي", description: "Native flora and botanical reference data.", description_ar: "بيانات الغطاء النباتي المحلي والمرجعية النباتية.", image: IMG.vegetation, link: "#" },
@@ -609,7 +671,7 @@ export const useContentStore = create<ContentStore>()(
     }),
     {
       name: "bsdi-content",
-      version: 11,
+      version: 12,
       migrate: (persisted: any, version: number) => {
         if (persisted?.hero && version < 5) {
           persisted.hero.heroImages = [];
@@ -637,6 +699,10 @@ export const useContentStore = create<ContentStore>()(
         }
         if (version < 11) {
           if (persisted?.technologies) delete persisted.technologies;
+        }
+        if (version < 12) {
+          // Reset layers so new GIS metadata defaults take effect
+          if (persisted?.layers) delete persisted.layers.cards;
         }
         return persisted;
       },

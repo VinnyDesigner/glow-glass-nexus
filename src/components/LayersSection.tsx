@@ -6,7 +6,7 @@ import { useUiStore } from "@/stores/uiStore";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Calendar, Database, Tag, MapPin, ExternalLink } from "lucide-react";
+import { ArrowRight, Calendar, Database, Tag, MapPin, ExternalLink, FileType, Globe, RefreshCw, Layers as LayersIcon, Building2, Info, Sparkles } from "lucide-react";
 
 function LayerCardItem({ card, onClick }: { card: LayerCardType; onClick: (c: LayerCardType) => void }) {
   const L = useLocalized();
@@ -63,13 +63,25 @@ export default function LayersSection() {
 
   const labels = {
     shortDesc: isAr ? "وصف موجز" : "Short description",
-    details: isAr ? "تفاصيل" : "Details",
+    details: isAr ? "تفاصيل" : "Detailed Information",
+    overview: isAr ? "نظرة عامة على البيانات" : "Dataset Overview",
+    spatial: isAr ? "المعلومات المكانية" : "Spatial Information",
+    usage: isAr ? "الاستخدامات والتطبيقات" : "Usage & Applications",
+    related: isAr ? "طبقات ذات صلة" : "Related Layers",
+    metadata: isAr ? "البيانات الوصفية الرئيسية" : "Key Attributes",
     category: isAr ? "الفئة" : "Category",
-    lastUpdated: isAr ? "آخر تحديث" : "Last updated",
+    lastUpdated: isAr ? "آخر تحديث" : "Last Updated",
     source: isAr ? "المصدر" : "Source",
+    sourceAuthority: isAr ? "الجهة المصدرة" : "Source Authority",
+    coverage: isAr ? "نطاق التغطية" : "Coverage Area",
+    format: isAr ? "صيغة البيانات" : "Format",
+    crs: isAr ? "نظام الإحداثيات" : "Coordinate System",
+    frequency: isAr ? "تكرار التحديث" : "Update Frequency",
+    dataType: isAr ? "نوع البيانات" : "Data Type",
     tags: isAr ? "الوسوم" : "Tags",
     viewInMap: isAr ? "عرض على الخريطة" : "View in Map",
-    open: isAr ? "فتح الرابط" : "Open link",
+    open: isAr ? "فتح الرابط" : "Open Link",
+    close: isAr ? "إغلاق" : "Close",
     hint: isAr ? "اضغط لعرض التفاصيل" : "Click to view details",
   };
 
@@ -121,71 +133,94 @@ export default function LayersSection() {
         </DialogContent>
       </Dialog>
 
-      {/* Layer details modal */}
+      {/* Layer details modal — modern glassmorphism GIS dashboard */}
       <Dialog open={!!selectedLayer} onOpenChange={(o) => !o && setSelectedLayer(null)}>
-        <DialogContent className="max-w-2xl p-0 overflow-hidden max-h-[90vh] sm:rounded-2xl">
+        <DialogContent className="max-w-3xl p-0 overflow-hidden max-h-[92vh] sm:rounded-3xl border border-white/40 bg-white/70 backdrop-blur-2xl shadow-[0_30px_80px_-30px_rgba(0,0,0,0.3)]">
           {selectedLayer && (
-            <div className="flex flex-col max-h-[90vh]">
-              <div className="relative w-full aspect-[16/8] bg-muted shrink-0">
+            <div className="flex flex-col max-h-[92vh] animate-in fade-in zoom-in-95 duration-300">
+              {/* Hero image */}
+              <div className="relative w-full aspect-[16/7] bg-muted shrink-0 overflow-hidden">
                 <img
                   src={selectedLayer.image}
                   alt={L(selectedLayer.title, selectedLayer.title_ar)}
                   className="w-full h-full object-cover"
                 />
-              </div>
-              <div className="overflow-y-auto p-6 space-y-4">
-                <div>
-                  <h3 className="font-display text-2xl font-bold text-foreground">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+                  {(selectedLayer.category || selectedLayer.category_ar) && (
+                    <Badge className="mb-2 bg-primary text-primary-foreground border-0">
+                      {L(selectedLayer.category || "", selectedLayer.category_ar)}
+                    </Badge>
+                  )}
+                  <h3 className="font-display text-2xl md:text-3xl font-bold drop-shadow-md">
                     {L(selectedLayer.title, selectedLayer.title_ar)}
                   </h3>
                   {selectedLayer.description && (
-                    <p className="mt-2 text-sm text-muted-foreground">
+                    <p className="mt-1 text-sm text-white/90 line-clamp-2">
                       {L(selectedLayer.description, selectedLayer.description_ar)}
                     </p>
                   )}
                 </div>
+              </div>
 
+              {/* Body */}
+              <div className="overflow-y-auto p-6 space-y-6">
+                {/* Dataset Overview */}
                 {(selectedLayer.detailedDescription || selectedLayer.detailedDescription_ar) && (
-                  <div>
-                    <h4 className="text-sm font-semibold text-foreground mb-1">{labels.details}</h4>
+                  <section>
+                    <h4 className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
+                      <Info size={15} className="text-primary" /> {labels.overview}
+                    </h4>
                     <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
                       {L(selectedLayer.detailedDescription || "", selectedLayer.detailedDescription_ar)}
                     </p>
-                  </div>
+                  </section>
                 )}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                  {(selectedLayer.category || selectedLayer.category_ar) && (
-                    <div className="flex items-start gap-2">
-                      <Database size={16} className="text-primary mt-0.5 shrink-0" />
-                      <div>
-                        <div className="text-xs text-muted-foreground">{labels.category}</div>
-                        <div className="text-sm font-medium">{L(selectedLayer.category || "", selectedLayer.category_ar)}</div>
-                      </div>
-                    </div>
-                  )}
-                  {selectedLayer.lastUpdated && (
-                    <div className="flex items-start gap-2">
-                      <Calendar size={16} className="text-primary mt-0.5 shrink-0" />
-                      <div>
-                        <div className="text-xs text-muted-foreground">{labels.lastUpdated}</div>
-                        <div className="text-sm font-medium">{selectedLayer.lastUpdated}</div>
-                      </div>
-                    </div>
-                  )}
-                  {selectedLayer.source && (
-                    <div className="flex items-start gap-2">
-                      <MapPin size={16} className="text-primary mt-0.5 shrink-0" />
-                      <div>
-                        <div className="text-xs text-muted-foreground">{labels.source}</div>
-                        <div className="text-sm font-medium">{selectedLayer.source}</div>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                {/* Spatial Information / Key Attributes grid */}
+                <section>
+                  <h4 className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
+                    <LayersIcon size={15} className="text-primary" /> {labels.spatial}
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {[
+                      { icon: FileType, label: labels.format, value: selectedLayer.dataFormat },
+                      { icon: Globe, label: labels.crs, value: selectedLayer.coordinateSystem },
+                      { icon: MapPin, label: labels.coverage, value: L(selectedLayer.coverageArea || "", selectedLayer.coverageArea_ar) },
+                      { icon: Database, label: labels.dataType, value: L(selectedLayer.dataType || "", selectedLayer.dataType_ar) },
+                      { icon: RefreshCw, label: labels.frequency, value: L(selectedLayer.updateFrequency || "", selectedLayer.updateFrequency_ar) },
+                      { icon: Calendar, label: labels.lastUpdated, value: selectedLayer.lastUpdated },
+                      { icon: Building2, label: labels.sourceAuthority, value: L(selectedLayer.sourceAuthority || selectedLayer.source || "", selectedLayer.sourceAuthority_ar) },
+                    ].filter((m) => m.value).map((m, i) => {
+                      const Icon = m.icon;
+                      return (
+                        <div key={i} className="flex items-start gap-2.5 p-3 rounded-xl bg-white/60 border border-white/50 backdrop-blur-sm">
+                          <Icon size={15} className="text-primary mt-0.5 shrink-0" />
+                          <div className="min-w-0">
+                            <div className="text-[10px] uppercase tracking-wide text-muted-foreground font-medium">{m.label}</div>
+                            <div className="text-sm font-medium text-foreground truncate">{m.value}</div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </section>
 
+                {/* Usage & Applications */}
+                {(selectedLayer.usageApplications || selectedLayer.usageApplications_ar) && (
+                  <section>
+                    <h4 className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
+                      <Sparkles size={15} className="text-primary" /> {labels.usage}
+                    </h4>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {L(selectedLayer.usageApplications || "", selectedLayer.usageApplications_ar)}
+                    </p>
+                  </section>
+                )}
+
+                {/* Tags */}
                 {((isAr ? selectedLayer.tags_ar : selectedLayer.tags) || []).length > 0 && (
-                  <div>
+                  <section>
                     <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-2">
                       <Tag size={13} /> {labels.tags}
                     </div>
@@ -194,11 +229,42 @@ export default function LayersSection() {
                         <Badge key={i} variant="secondary" className="text-xs">{tg}</Badge>
                       ))}
                     </div>
-                  </div>
+                  </section>
+                )}
+
+                {/* Related Layers */}
+                {(selectedLayer.relatedLayers || []).length > 0 && (
+                  <section>
+                    <h4 className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
+                      <LayersIcon size={15} className="text-primary" /> {labels.related}
+                    </h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      {selectedLayer.relatedLayers!.map((relTitle) => {
+                        const rel = layers.cards.find((c) => c.title === relTitle);
+                        if (!rel) return (
+                          <div key={relTitle} className="px-3 py-2 rounded-lg bg-white/50 border border-white/50 text-xs font-medium text-muted-foreground">
+                            {relTitle}
+                          </div>
+                        );
+                        return (
+                          <button
+                            key={rel.id}
+                            type="button"
+                            onClick={() => setSelectedLayer(rel)}
+                            className="flex items-center gap-2 px-2 py-2 rounded-lg bg-white/60 border border-white/50 hover:border-primary hover:bg-white/80 transition-all text-left"
+                          >
+                            <img src={rel.image} alt="" className="w-8 h-8 rounded object-cover shrink-0" />
+                            <span className="text-xs font-medium text-foreground truncate">{L(rel.title, rel.title_ar)}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </section>
                 )}
               </div>
 
-              <div className="border-t border-border p-4 flex flex-wrap gap-2 justify-end bg-card shrink-0">
+              {/* Action footer */}
+              <div className="border-t border-white/50 p-4 flex flex-wrap gap-2 justify-end bg-white/60 backdrop-blur-md shrink-0">
                 {selectedLayer.link && selectedLayer.link !== "#" && (
                   <Button variant="outline" asChild>
                     <a href={selectedLayer.link} target="_blank" rel="noopener noreferrer" className="gap-2">
