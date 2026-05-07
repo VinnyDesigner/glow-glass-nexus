@@ -712,7 +712,7 @@ export const useContentStore = create<ContentStore>()(
     }),
     {
       name: "bsdi-content",
-      version: 12,
+      version: 13,
       migrate: (persisted: any, version: number) => {
         if (persisted?.hero && version < 5) {
           persisted.hero.heroImages = [];
@@ -744,6 +744,10 @@ export const useContentStore = create<ContentStore>()(
         if (version < 12) {
           // Reset layers so new GIS metadata defaults take effect
           if (persisted?.layers) delete persisted.layers.cards;
+        }
+        if (version < 13) {
+          // Reset about stats so new richer KPI defaults take effect
+          if (persisted?.about) delete persisted.about.stats;
         }
         return persisted;
       },
